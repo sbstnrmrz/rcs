@@ -6,6 +6,7 @@ public class Player {
     public Vector2 initialPos;
     public Rectangle rect;
     public Rectangle hitbox;
+
     public float speed;
     public Vector2 velocity;
     public float angle;
@@ -17,6 +18,10 @@ public class Player {
     public int spellCooldown = 60;
     public int spellCount = 5;
     public int maxSpells = 5;
+
+    public bool invencibility = false;
+    public int invencibilityFrames = 40;
+    public int invencibilityFramesCounter = 40;
 
     public Player(Vector2 pos) {
         this.pos = pos;
@@ -63,10 +68,17 @@ public class Player {
             // cambiar el arraylist por un array fijo para performance?
             spells.Add(new Spell(Util.GetRectCenter(rect), spellSpeed, angle));
         }
-    }
+
+         if (invencibility && invencibilityFramesCounter >= 0) {
+            invencibilityFramesCounter--;
+        } else {
+            invencibilityFramesCounter = invencibilityFrames;
+            invencibility = false;
+        }
+   }
 
     public void Draw() {
-        Raylib.DrawRectanglePro(rect, new Vector2(0, 0), 0, Color.Blue);
+        Raylib.DrawRectanglePro(rect, new Vector2(0, 0), 0, invencibility ? Color.DarkPurple : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
     }
 }

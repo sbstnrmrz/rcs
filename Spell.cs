@@ -5,6 +5,7 @@ public class Spell {
     public Vector2 position;     
     public Vector2 initialPosition;     
     public float speed;
+    public int radius = 8;
     public Rectangle hitbox;
     public Vector2 velocity;
     public float angle;
@@ -13,7 +14,7 @@ public class Spell {
     public Spell(Vector2 initialPosition, float speed, float angle) {
         this.initialPosition = initialPosition; 
         this.position = initialPosition; 
-        this.velocity = new Vector2(speed, speed);
+        this.velocity = new Vector2(speed);
         this.angle = angle;
     }
 
