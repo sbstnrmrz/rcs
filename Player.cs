@@ -13,11 +13,18 @@ public class Player {
     public float rotation;
 
     public List<Spell> spells;
-    public int spellSpeed = 5;
+    public int spellSpeed = 1;
     public int spellFrames = 1;
     public int spellCooldown = 60;
     public int spellCount = 5;
     public int maxSpells = 5;
+
+    public List<Arrow> arrows;
+    public int arrowSpeed = 5;
+    public int arrowFrames = 1;
+    public int arrowCooldown = 60;
+    public int arrowCount = 5;
+    public int maxArrows = 5;
 
     public bool invencibility = false;
     public int invencibilityFrames = 40;
@@ -29,6 +36,7 @@ public class Player {
         this.rect = new Rectangle(pos.X, pos.Y, 32, 32);
         this.hitbox = this.rect;
         this.spells = [];
+        this.arrows = [];
         this.speed = 5;
     }
 
@@ -67,6 +75,7 @@ public class Player {
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             // cambiar el arraylist por un array fijo para performance?
             spells.Add(new Spell(Util.GetRectCenter(rect), spellSpeed, angle));
+//          arrows.Add(new Arrow(rect.Position, spellSpeed, angle));
         }
 
          if (invencibility && invencibilityFramesCounter >= 0) {
@@ -78,7 +87,7 @@ public class Player {
    }
 
     public void Draw() {
-        Raylib.DrawRectanglePro(rect, new Vector2(0, 0), 0, invencibility ? Color.DarkPurple : Color.Red);
+        Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.DarkPurple : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
     }
 }
