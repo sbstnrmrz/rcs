@@ -5,7 +5,7 @@ public class EnemyMelee : Enemy {
     public Vector2 predictedPlayerPos; 
 
     public EnemyMelee(Vector2 initialPos) : base(initialPos) {
-        this.speed = 4;
+        this.speed = 3;
     }
 
     public override void Update(Player player, float deltaTime) {

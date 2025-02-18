@@ -7,12 +7,15 @@ public class Spell {
     public float speed;
     public int radius = 8;
     public Rectangle hitbox;
-    public Vector2 velocity;
+    public Vector2 rectSize = new Vector2(16*2, 22*2);
+    public Vector2 velocity = Vector2.Zero;
+    public Vector2 dirVec = Vector2.Zero;
     public float angle;
     public Texture2D texture;
     public int maxAnimationFrames = 0;
-    public int animationFrame = 0;
-    public int animationFrameCounter = 0;
+    public int spriteCount = 0;
+    public int animationFrames = 0;
+    public int currentSprite = 0;
 
     public Spell(Vector2 initialpos, float speed, float angle) {
         this.initialPos = initialpos; 
@@ -21,28 +24,22 @@ public class Spell {
         this.angle = angle;
     }
 
-    public void Update(float deltaTime) {
-        Vector2 dirVec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+    public virtual void Update(float deltaTime) {
+        dirVec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
         pos += dirVec * velocity;
-
-//      if (animationFrameCounter > 0 && animationFrameCounter % 7 == 0) {
-//          animationFrame;
-//      }
-//      animationFrameCounter++;
     }
 
-    public void Draw() {
-        Vector2 rectSize = new Vector2(16*2, 22*2);
-//      Raylib.DrawRectanglePro(new Rectangle(pos.X, pos.Y, rectSize.X, rectSize.Y), 
-//                              new Vector2(rectSize.X*0.5f, rectSize.Y*0.5f), 
-//                              float.RadiansToDegrees(angle)+90, 
-//                              Color.DarkBlue); 
+    public virtual void Draw() {
+        Raylib.DrawRectanglePro(new Rectangle(pos.X + 25 * dirVec.X, pos.Y + 25 * dirVec.Y, rectSize.X, rectSize.Y),
+                                new Vector2(rectSize.X*0.5f, rectSize.Y*0.5f),
+                                float.RadiansToDegrees(angle)+90,
+                                Color.DarkBlue);
         Raylib.DrawTexturePro(Textures.fireball,
-                              new Rectangle(0, 0, 16, 22),
-                              new Rectangle(pos.X, pos.Y, rectSize.X, rectSize.Y), 
+                              new Rectangle(currentSprite * 17, 0, 16, 22),
+                              new Rectangle(pos.X + 25 * dirVec.X, pos.Y + 25 * dirVec.Y, rectSize.X, rectSize.Y), 
                               new Vector2(rectSize.X*0.5f, rectSize.Y*0.8f), 
                               float.RadiansToDegrees(angle)-90, 
                               Color.White); 
-        Raylib.DrawCircleV(pos, 8, Color.Violet);
+        Raylib.DrawCircleV(pos + 25 * dirVec, 8, Color.Violet);
     }
 }
