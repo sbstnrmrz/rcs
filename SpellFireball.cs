@@ -1,8 +1,8 @@
 using Raylib_cs;
 using System.Numerics;
 
-public class Fireball : Spell {
-    public Fireball(Vector2 initialpos, float speed, float angle) : base(initialpos, speed, angle) {
+public class SpellFireball : Spell {
+    public SpellFireball(Vector2 initialpos, float speed, float angle) : base(initialpos, speed, angle) {
         this.texture = Textures.fireball;
         this.spriteCount = 7; 
     }

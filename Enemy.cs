@@ -30,16 +30,7 @@ public class Enemy {
         angle = (float)Math.Atan2(opposite, adjacent);
     }
 
-
     public virtual void Draw() {
         Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, Color.Lime);
     }
-
-//  public List<Spell> spells;
-//  public int spellSpeed = 5;
-//  public int spellFrames = 1;
-//  public int spellCooldown = 60;
-//  public int spellCount = 5;
-//  public int maxSpells = 5;
-
 }

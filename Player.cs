@@ -74,11 +74,12 @@ public class Player {
         
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             // cambiar el arraylist por un array fijo para performance?
-            spells.Add(new Fireball(Util.GetRectCenter(rect), spellSpeed, angle));
+            SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
+//          spells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
 //          arrows.Add(new Arrow(rect.Position, spellSpeed, angle));
         }
 
-         if (invencibility && invencibilityFramesCounter >= 0) {
+        if (invencibility && invencibilityFramesCounter >= 0) {
             invencibilityFramesCounter--;
         } else {
             invencibilityFramesCounter = invencibilityFrames;
