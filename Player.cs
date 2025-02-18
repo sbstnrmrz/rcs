@@ -6,6 +6,7 @@ public class Player {
     public Vector2 initialPos;
     public Rectangle rect;
     public Rectangle hitbox;
+    public Vector2 pointer;
 
     public float speed;
     public Vector2 velocity;
@@ -13,18 +14,11 @@ public class Player {
     public float rotation;
 
     public List<Spell> spells;
-    public int spellSpeed = 1;
+    public int spellSpeed = 5;
     public int spellFrames = 1;
     public int spellCooldown = 60;
     public int spellCount = 5;
     public int maxSpells = 5;
-
-    public List<Arrow> arrows;
-    public int arrowSpeed = 5;
-    public int arrowFrames = 1;
-    public int arrowCooldown = 60;
-    public int arrowCount = 5;
-    public int maxArrows = 5;
 
     public bool invencibility = false;
     public int invencibilityFrames = 40;
@@ -36,12 +30,11 @@ public class Player {
         this.rect = new Rectangle(pos.X, pos.Y, 32, 32);
         this.hitbox = this.rect;
         this.spells = [];
-        this.arrows = [];
         this.speed = 5;
     }
 
     public void Update(float deltaTime) {
-        Vector2 mousePos = Raylib.GetMousePosition();
+        pointer = Raylib.GetMousePosition();
         velocity = Vector2.Zero;
 
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
@@ -65,8 +58,8 @@ public class Player {
         } 
         pos += velocity;
 
-        float opposite = mousePos.Y - Util.GetRectCenter(rect).Y;
-        float adjacent = mousePos.X - Util.GetRectCenter(rect).X;
+        float opposite = pointer.Y - Util.GetRectCenter(rect).Y;
+        float adjacent = pointer.X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
 
         rect.Position = pos;
@@ -90,5 +83,8 @@ public class Player {
     public void Draw() {
         Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.DarkPurple : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
+        // pointer
+        Raylib.DrawLineV(Util.GetRectCenter(rect), pointer, Color.Black);
+        Raylib.DrawCircleV(pointer, 8, Color.Black);
     }
 }

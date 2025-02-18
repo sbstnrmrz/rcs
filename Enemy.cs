@@ -8,6 +8,7 @@ public class Enemy {
     public Rectangle hitbox;
     public Vector2 targetPos;
 
+    public float hp = 0;
     public float speed = 3;
     public Vector2 velocity;
     public float angle = 0;

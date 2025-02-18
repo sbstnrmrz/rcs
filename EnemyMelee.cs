@@ -5,6 +5,7 @@ public class EnemyMelee : Enemy {
     public Vector2 predictedPlayerPos; 
 
     public EnemyMelee(Vector2 initialPos) : base(initialPos) {
+        this.hp = 100;
         this.speed = 3;
     }
 

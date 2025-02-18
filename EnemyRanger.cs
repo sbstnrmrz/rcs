@@ -9,6 +9,7 @@ public class EnemyRanger : Enemy {
     public Vector2 predictedPlayerPos; 
 
     public EnemyRanger(Vector2 initialPos) : base(initialPos) {
+        this.hp = 100;
         projectiles = [];
     }
 
