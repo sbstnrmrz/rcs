@@ -43,7 +43,7 @@ public class EnemyRanger : Enemy {
             spell.Update(0);
         }
 
-
+        hitbox = rect;
     }
     public override void Draw() {
         base.Draw();

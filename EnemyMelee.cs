@@ -35,6 +35,7 @@ public class EnemyMelee : Enemy {
         } 
         pos += velocity;
         rect.Position = pos;
+        hitbox = rect;
 
         base.Update(player, deltaTime);
     }

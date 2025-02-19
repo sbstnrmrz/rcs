@@ -11,37 +11,33 @@ class Program {
         UInt64 frames = 0;
         float frameTime = 0f;
         Rectangle rect = new Rectangle(100, 100, 32, 32);
-        float f = 0f;
         Player player = new Player(new Vector2(100, 100));
-        Rectangle enemy1 = new Rectangle(400, 300, 32, 32);
-        List<Enemy> enemies = [];
-        List<Projectile> projectiles = [];
-        EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
+
 //      enemies.Add(new EnemyRanger(new Vector2(winWidth-32, 0)));
 //      enemies.Add(new EnemyRanger(new Vector2(0, winHeight-32)));
 //      enemies.Add(new EnemyRanger(new Vector2(winWidth-32, winHeight-32)));
+        EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
         EnemyManager.enemies.Add(new EnemyMelee(new Vector2(500, 500)));
-        List<Spell> playerSpells = [];
-        List<Spell> enemySpells = [];
 
         while (!Raylib.WindowShouldClose()) {
             frameTime = Raylib.GetFrameTime();
             Vector2 mousePos = Raylib.GetMousePosition();
 
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.White);
+            Raylib.ClearBackground(Color.SkyBlue);
 
 //          float distanceToPlayer = Vector2.Distance(Util.GetRectCenter(player.rect), Util.GetRectCenter(enemy));
 //          float timeToTarget = (float)Math.Floor(distanceToPlayer / 10f); 
 //          Vector2 predictedPlayerPos = Util.GetRectCenter(player.rect) + player.velocity * timeToTarget;
 
-            f += 1f;
-
+            // UPDATE
             player.Update(0);
             EnemyManager.Update(player);
             SpellManager.UpdatePlayerSpells();
             SpellManager.UpdateEnemySpells();
+            CollisionManager.Update(player);
 
+            // DRAW
             player.Draw();
             EnemyManager.Draw();
             SpellManager.DrawPlayerSpells();

@@ -7,7 +7,9 @@ public class Player {
     public Rectangle rect;
     public Rectangle hitbox;
     public Vector2 pointer;
+    public string pointerID = "cross";
 
+    public float hp = 100;
     public float speed;
     public Vector2 velocity;
     public float angle;
@@ -67,7 +69,7 @@ public class Player {
         
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             // cambiar el arraylist por un array fijo para performance?
-            SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
+            SpellManager.playerSpells.Add(new SpellWaterball(Util.GetRectCenter(rect), spellSpeed, angle));
 //          spells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
 //          arrows.Add(new Arrow(rect.Position, spellSpeed, angle));
         }
@@ -86,5 +88,15 @@ public class Player {
         // pointer
         Raylib.DrawLineV(Util.GetRectCenter(rect), pointer, Color.Black);
         Raylib.DrawCircleV(pointer, 8, Color.Black);
+        Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
+//      Raylib.DrawTexturePro(Textures.pointers,
+//                            new Rectangle((float)Textures.pointersInfo.GetTextureInfo(pointerID).x,
+//                                          (float)Textures.pointersInfo.GetTextureInfo(pointerID).y,
+//                                          (float)Textures.pointersInfo.GetTextureInfo(pointerID).width,
+//                                          (float)Textures.pointersInfo.GetTextureInfo(pointerID).height),
+//                            new Rectangle(),
+//                                          
+//                            );
+        
     }
 }

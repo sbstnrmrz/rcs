@@ -37,12 +37,12 @@ public class Spell {
 //                              new Vector2(rectSize.X*0.5f, rectSize.Y*0.5f),
 //                              float.RadiansToDegrees(angle)+90,
 //                              Color.DarkBlue);
-        Raylib.DrawTexturePro(Textures.fireball,
+        Raylib.DrawTexturePro(texture,
                               new Rectangle(currentSprite * 17, 0, 16, 22),
                               new Rectangle(pos.X, pos.Y, rectSize.X, rectSize.Y), 
                               new Vector2(rectSize.X*0.5f, rectSize.Y*0.8f), 
                               float.RadiansToDegrees(angle)-90, 
                               Color.White); 
-        Raylib.DrawCircleV(pos, hitboxRadius, Color.Violet);
+//      Raylib.DrawCircleV(pos, hitboxRadius, Color.Violet);
     }
 }

@@ -1,0 +1,30 @@
+{
+    "circle": {
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "width": 16,
+        "height": 16
+    },
+    "circle_filled": {
+        "x": 16,
+        "y": 0,
+        "rotation": 0,
+        "width": 16,
+        "height": 16
+    },
+    "cross": {
+        "x": 0,
+        "y": 16,
+        "rotation": 0,
+        "width": 16,
+        "height": 16
+    },
+    "square": {
+        "x": 16,
+        "y": 16,
+        "rotation": 0,
+        "width": 16,
+        "height": 16
+    }
+}
