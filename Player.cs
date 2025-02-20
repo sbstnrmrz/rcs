@@ -69,7 +69,7 @@ public class Player {
         
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             // cambiar el arraylist por un array fijo para performance?
-            SpellManager.playerSpells.Add(new SpellWaterball(Util.GetRectCenter(rect), spellSpeed, angle));
+            SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle));
 //          spells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
 //          arrows.Add(new Arrow(rect.Position, spellSpeed, angle));
         }

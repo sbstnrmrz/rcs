@@ -6,7 +6,10 @@ public static class CollisionManager {
         for (int i = SpellManager.enemySpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.enemySpells[i];
             if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, player.hitbox)) {
-                player.hp--;
+                if (!player.invencibility) {
+                    player.hp--;
+                }
+
                 SpellManager.enemySpells.RemoveAt(i);
             }
         }
@@ -19,6 +22,9 @@ public static class CollisionManager {
                     }
                     if (spell is SpellWaterball) {
                         enemy.hp -= 1 * spell.currentSprite < 4 ? (spell.currentSprite+1) : 5;
+                    }
+                    if (spell is SpellIceshard) {
+                        enemy.hp--;
                     }
                     SpellManager.playerSpells.RemoveAt(i);
                 }
