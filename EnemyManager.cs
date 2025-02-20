@@ -7,9 +7,9 @@ public static class EnemyManager {
         for (int i = enemies.Count-1; i >= 0; i--) {
             Enemy enemy = enemies[i];
             enemy.Update(player, 0);
-            if (Raylib.CheckCollisionRecs(enemy.rect, player.rect)) {
-                player.invencibility = true;
-            }
+//          if (Raylib.CheckCollisionRecs(enemy.rect, player.rect)) {
+//              player.invencibility = true;
+//          }
             if (enemy.hp <= 0) {
                 enemies.RemoveAt(i); 
             }

@@ -20,3 +20,4 @@
 /Users/sebass/Programming/rcs/bin/Debug/net8.0/runtimes/win-x86/native/raylib.dll
 /Users/sebass/Programming/rcs/obj/Debug/net8.0/rcs.csproj.AssemblyReference.cache
 /Users/sebass/Programming/rcs/obj/Debug/net8.0/rcs.csproj.Up2Date
+/Users/sebass/Programming/rcs/obj/Debug/net8.0/rcs.sourcelink.json

@@ -97,6 +97,12 @@ public class Player {
 //                            new Rectangle(),
 //                                          
 //                            );
-        
+    }
+
+    public void GetDamage(float damage) {
+        if (!invencibility) {
+            invencibility = true;
+            hp -= damage;
+        }
     }
 }
