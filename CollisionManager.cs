@@ -44,6 +44,18 @@ public static class CollisionManager {
         }
 
         foreach (Enemy enemy in EnemyManager.enemies) {
+            if (enemy.pos.X < 0) {
+                enemy.pos.X = 0;
+            }
+            if (enemy.pos.X+player.rect.Width > Raylib.GetScreenWidth()) {
+                enemy.pos.X = Raylib.GetScreenWidth() - player.rect.Width;
+            }
+            if (enemy.pos.Y < 0) {
+                enemy.pos.Y = 0;
+            }
+            if (enemy.pos.Y+player.rect.Height > Raylib.GetScreenHeight()) {
+                enemy.pos.Y = Raylib.GetScreenHeight() - player.rect.Height;
+            }
             if (Raylib.CheckCollisionRecs(player.hitbox, enemy.hitbox)) {
                 player.GetDamage(1);
             }

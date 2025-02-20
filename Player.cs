@@ -66,12 +66,21 @@ public class Player {
 
         rect.Position = pos;
         hitbox.Position = pos;
-        
+
+        if (spellCount < maxSpells) {
+            if (spellFrames % spellCooldown == 0) {
+                spellCount++;
+                spellFrames = 1;
+            }
+
+            spellFrames++; 
+        }
+ 
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
-            // cambiar el arraylist por un array fijo para performance?
-            SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle));
-//          spells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
-//          arrows.Add(new Arrow(rect.Position, spellSpeed, angle));
+            if (spellCount <= maxSpells && spellCount > 0) {
+                SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle));
+                spellCount--;
+            }
         }
 
         if (invencibility && invencibilityFramesCounter >= 0) {
@@ -83,12 +92,34 @@ public class Player {
    }
 
     public void Draw() {
-        Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.DarkPurple : Color.Red);
+        Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
         // pointer
         Raylib.DrawLineV(Util.GetRectCenter(rect), pointer, Color.Black);
         Raylib.DrawCircleV(pointer, 8, Color.Black);
-        Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
+
+        Vector2 spellAmmoRectSize = new Vector2(10, 10);
+        Raylib.DrawRectanglePro(new Rectangle((pos.X + rect.Width / 2) - (maxSpells * (spellAmmoRectSize.X)) / 2,
+                                        pos.Y - 20,
+                                        (spellCount * spellAmmoRectSize.X + (spellAmmoRectSize.X / spellCooldown) * spellFrames),
+                                        spellAmmoRectSize.Y),
+                                new Vector2(0, 0),
+                                0,
+                                Color.Magenta);
+
+        for (int i = 0; i < maxSpells; i++) {
+            Raylib.DrawRectangleLinesEx(new Rectangle((pos.X + rect.Width/2) - ((maxSpells * (spellAmmoRectSize.X)) / 2) + i * (spellAmmoRectSize.X), 
+                                        pos.Y - 20, 
+                                        spellAmmoRectSize.X, 
+                                        spellAmmoRectSize.Y),
+                                        1f,
+                                        Color.Black);
+        }
+
+            // cambiar el arraylist por un array fijo para performance?
+
+
+//      Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
 //      Raylib.DrawTexturePro(Textures.pointers,
 //                            new Rectangle((float)Textures.pointersInfo.GetTextureInfo(pointerID).x,
 //                                          (float)Textures.pointersInfo.GetTextureInfo(pointerID).y,
