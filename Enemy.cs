@@ -35,4 +35,8 @@ public class Enemy {
         Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, Color.Lime);
         Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
     }
+
+    public void GetDamage(float damage) {
+        hp -= damage;
+    }
 }

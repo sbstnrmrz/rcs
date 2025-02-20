@@ -30,13 +30,13 @@ public static class CollisionManager {
             foreach (Enemy enemy in EnemyManager.enemies) {
                 if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, enemy.hitbox)) {
                     if (spell is SpellFireball) {
-                        enemy.hp--;
+                        enemy.GetDamage(1);
                     }
                     if (spell is SpellWaterball) {
-                        enemy.hp -= 1 * spell.currentSprite < 4 ? (spell.currentSprite+1) : 5;
+                        enemy.GetDamage(1 * spell.currentSprite < 4 ? (spell.currentSprite+1) : 5);
                     }
                     if (spell is SpellIceshard) {
-                        enemy.hp--;
+                        enemy.GetDamage(1);
                     }
                     SpellManager.playerSpells.RemoveAt(i);
                 }
