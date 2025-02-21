@@ -6,8 +6,7 @@ public class Player {
     public Vector2 initialPos;
     public Rectangle rect;
     public Rectangle hitbox;
-    public Vector2 pointer;
-    public string pointerID = "cross";
+    public Vector2 pointerPos;
 
     public float hp = 100;
     public float speed;
@@ -36,7 +35,7 @@ public class Player {
     }
 
     public void Update(float deltaTime) {
-        pointer = Raylib.GetMousePosition();
+        pointerPos = Raylib.GetMousePosition();
         velocity = Vector2.Zero;
 
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
@@ -60,8 +59,8 @@ public class Player {
         } 
         pos += velocity;
 
-        float opposite = pointer.Y - Util.GetRectCenter(rect).Y;
-        float adjacent = pointer.X - Util.GetRectCenter(rect).X;
+        float opposite = pointerPos.Y - Util.GetRectCenter(rect).Y;
+        float adjacent = pointerPos.X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
 
         rect.Position = pos;
@@ -78,7 +77,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle));
+                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
                 spellCount--;
             }
         }
@@ -95,8 +94,8 @@ public class Player {
         Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
         // pointer
-        Raylib.DrawLineV(Util.GetRectCenter(rect), pointer, Color.Black);
-        Raylib.DrawCircleV(pointer, 8, Color.Black);
+//      Raylib.DrawLineV(Util.GetRectCenter(rect), pointerPos, Color.Black);
+        Raylib.DrawCircleV(pointerPos, 8, Color.Black);
 
         Vector2 spellAmmoRectSize = new Vector2(10, 10);
         Raylib.DrawRectanglePro(new Rectangle((pos.X + rect.Width / 2) - (maxSpells * (spellAmmoRectSize.X)) / 2,

@@ -32,11 +32,12 @@ public static class CollisionManager {
                     if (spell is SpellFireball) {
                         enemy.GetDamage(1);
                     }
-                    if (spell is SpellWaterball) {
-                        enemy.GetDamage(1 * spell.currentSprite < 4 ? (spell.currentSprite+1) : 5);
+
+                    if (spell is SpellFireball) {
+                        EffectManager.enemyEffects.Add(new EffectBurn(enemy));
                     }
-                    if (spell is SpellIceshard) {
-                        enemy.GetDamage(1);
+                    if (spell is SpellWaterball) {
+                        EffectManager.enemyEffects.Add(new EffectWater(enemy, 3));
                     }
                     SpellManager.playerSpells.RemoveAt(i);
                 }

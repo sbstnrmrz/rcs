@@ -13,9 +13,6 @@ class Program {
         Rectangle rect = new Rectangle(100, 100, 32, 32);
         Player player = new Player(new Vector2(100, 100));
 
-//      enemies.Add(new EnemyRanger(new Vector2(winWidth-32, 0)));
-//      enemies.Add(new EnemyRanger(new Vector2(0, winHeight-32)));
-//      enemies.Add(new EnemyRanger(new Vector2(winWidth-32, winHeight-32)));
         EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
         EnemyManager.enemies.Add(new EnemyMelee(new Vector2(500, 500)));
 
@@ -36,6 +33,7 @@ class Program {
             SpellManager.UpdatePlayerSpells();
             SpellManager.UpdateEnemySpells();
             CollisionManager.Update(player);
+            EffectManager.UpdateEnemyEffects();
 
             // DRAW
             player.Draw();
