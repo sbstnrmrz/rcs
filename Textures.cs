@@ -27,7 +27,6 @@ public class TextureJSON {
 }
 
 public class TextureAtlas {
-
     public TextureAtlas() {
 
     }

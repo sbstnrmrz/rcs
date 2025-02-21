@@ -6,7 +6,9 @@ public class Player {
     public Vector2 initialPos;
     public Rectangle rect;
     public Rectangle hitbox;
-    public Vector2 pointerPos;
+
+    public Vector2 pointerPos = Vector2.Zero;
+    public Vector2 pointerSize = new Vector2(16*2, 16*2);
 
     public float hp = 100;
     public float speed;
@@ -36,6 +38,20 @@ public class Player {
 
     public void Update(float deltaTime) {
         pointerPos = Raylib.GetMousePosition();
+        if (pointerPos.X < 0) {
+            pointerPos.X = 0;
+        }
+        if (pointerPos.X > Raylib.GetScreenWidth()) {
+            pointerPos.X = Raylib.GetScreenWidth();
+        }
+        if (pointerPos.Y < 0) {
+            pointerPos.Y = 0;
+        }
+        if (pointerPos.Y > Raylib.GetScreenHeight()) {
+            pointerPos.Y = Raylib.GetScreenHeight();
+        }
+        Raylib.SetMousePosition((int)pointerPos.X, (int)pointerPos.Y);
+
         velocity = Vector2.Zero;
 
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
@@ -95,7 +111,13 @@ public class Player {
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
         // pointer
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), pointerPos, Color.Black);
-        Raylib.DrawCircleV(pointerPos, 8, Color.Black);
+//      Raylib.DrawCircleV(pointerPos, 8, Color.Black);
+        Raylib.DrawTexturePro(Textures.pointers, 
+                              new Rectangle(0, 16, 16, 16),
+                              new Rectangle(pointerPos.X, pointerPos.Y, pointerSize.X, pointerSize.Y),
+                              new Vector2(pointerSize.X*0.5f, pointerSize.Y*0.5f),
+                              0,
+                              Color.White);
 
         Vector2 spellAmmoRectSize = new Vector2(10, 10);
         Raylib.DrawRectanglePro(new Rectangle((pos.X + rect.Width / 2) - (maxSpells * (spellAmmoRectSize.X)) / 2,
@@ -129,10 +151,13 @@ public class Player {
 //                            );
     }
 
-    public void GetDamage(float damage) {
+    public bool GetDamage(float damage) {
         if (!invencibility) {
             invencibility = true;
             hp -= damage;
+            return true;
         }
+
+        return false;
     }
 }

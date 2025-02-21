@@ -20,8 +20,9 @@ public static class CollisionManager {
         for (int i = SpellManager.enemySpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.enemySpells[i];
             if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, player.hitbox)) {
-                player.GetDamage(1);
-
+                if (player.GetDamage(1)) {
+                    State.StartCameraShake();
+                }
                 SpellManager.enemySpells.RemoveAt(i);
             }
         }
@@ -58,7 +59,9 @@ public static class CollisionManager {
                 enemy.pos.Y = Raylib.GetScreenHeight() - player.rect.Height;
             }
             if (Raylib.CheckCollisionRecs(player.hitbox, enemy.hitbox)) {
-                player.GetDamage(1);
+                if (player.GetDamage(1)) {
+                    State.StartCameraShake();
+                }
             }
         }
     }  
