@@ -24,9 +24,10 @@ public class Player {
     public int maxSpells = 5;
 
     public bool isDashing = false;
-    float dashSpeed = 10f; // Adjust as needed
-    float dashDuration = 0.15f; // Adjust as needed
-    float dashCooldown = 1.0f; // Adjust as needed
+    public bool canDash = true;
+    float dashPower = 10; // Adjust as needed
+    float dashDuration = 0.2f; // Adjust as needed
+    float dashCooldown = 2f; // Adjust as needed
     float dashTimer = 0.0f;
     float cooldownTimer = 0.0f;
 
@@ -62,41 +63,56 @@ public class Player {
         velocity = Vector2.Zero;
 
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
-            velocity.X -= speed;
+            velocity.X = -1;
         }
         if (Raylib.IsKeyDown(KeyboardKey.D)) {
-            velocity.X += speed;
+            velocity.X = 1;
         }
         if (Raylib.IsKeyDown(KeyboardKey.W)) {
-            velocity.Y -= speed;
+            velocity.Y = -1;
         }
         if (Raylib.IsKeyDown(KeyboardKey.S)) {
-            velocity.Y += speed;
+            velocity.Y = 1;
         }
-        if (Raylib.IsKeyPressed(KeyboardKey.Space)) {
+        if (Raylib.IsKeyPressed(KeyboardKey.Space) && canDash) {
             isDashing = true;
+            canDash = false;
+            dashTimer = dashDuration;
         }
 
-//      if (velocity.X != 0 && velocity.Y != 0) {
-//          float x = (float)Math.Floor((velocity.X*velocity.X) / velocity.Length()); 
-//          float y = (float)Math.Floor((velocity.Y*velocity.Y) / velocity.Length()); 
-//          velocity.X = velocity.X < 0 ? -x : x;
-//          velocity.Y = velocity.Y < 0 ? -y : y;
-//      } 
-
-//      velocity = Vector2.Normalize(velocity);
-        pos += velocity;
         if (isDashing) {
-            pos += velocity *= dashSpeed ;
+            if (velocity.X == 0 && velocity.Y == 0) {
+                velocity.X = 1;
+            }
+            velocity *= dashPower;
 
             dashTimer -= Raylib.GetFrameTime();
 
-            if (dashTimer <= 0.0f)
-            {
+            if (dashTimer <= 0.0f) {
                 isDashing = false;
                 cooldownTimer = dashCooldown;
             }
+        } else {
+            velocity *= speed;
         }
+
+        if (cooldownTimer > 0.0f) {
+            cooldownTimer -= Raylib.GetFrameTime();
+            canDash = false;
+        } else {
+            canDash = true;
+        }
+
+        if (velocity.X != 0 && velocity.Y != 0) {
+            float x = (float)Math.Floor((velocity.X*velocity.X) / velocity.Length()); 
+            float y = (float)Math.Floor((velocity.Y*velocity.Y) / velocity.Length()); 
+            velocity.X = velocity.X < 0 ? -x : x;
+            velocity.Y = velocity.Y < 0 ? -y : y;
+        } 
+        Console.WriteLine("bool: " + canDash + " " + dashTimer  + "cooldownTimer");
+
+
+        pos += velocity;
         rect.Position = pos;
         hitbox.Position = pos;
 
@@ -115,7 +131,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellWaterball(Util.GetRectCenter(rect), spellSpeed, angle));
+                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
                 spellCount--;
             }
         }
