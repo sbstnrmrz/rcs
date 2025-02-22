@@ -3,8 +3,8 @@ using System.Numerics;
 
 public class SpellFireball : Spell {
     public SpellFireball(Vector2 initialpos, float speed, float angle) : base(initialpos, speed, angle) {
-        this.texture = Textures.fireball;
-        this.spriteCount = 7; 
+        this.texture = Textures.fireExplosion;
+        this.spriteCount = 5; 
     }
 
     public override void Update(float deltaTime) {

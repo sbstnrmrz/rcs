@@ -28,7 +28,6 @@ class Program {
 //          Vector2 predictedPlayerPos = Util.GetRectCenter(player.rect) + player.velocity * timeToTarget;
 
             // UPDATE
-
             player.Update(0);
             EnemyManager.Update(player);
             SpellManager.UpdatePlayerSpells();
@@ -36,7 +35,6 @@ class Program {
             CollisionManager.Update(player);
             EffectManager.UpdateEnemyEffects();
             State.UpdateCamera();
-
 
             // DRAW
             Raylib.BeginDrawing();

@@ -33,9 +33,13 @@ public class EnemyMelee : Enemy {
             velocity.X = velocity.X < 0 ? -x : x;
             velocity.Y = velocity.Y < 0 ? -y : y;
         } 
-        pos += velocity;
-        rect.Position = pos;
-        hitbox = rect;
+
+        if (!isWaterEffect) {
+            pos += velocity;
+        }
+            rect.Position = pos;
+            hitbox = rect; 
+        
 
         base.Update(player, deltaTime);
     }

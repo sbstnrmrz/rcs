@@ -13,6 +13,8 @@ public class Enemy {
     public Vector2 velocity;
     public float angle = 0;
     public float rotation = 0;
+    public int effects = 0;
+    public bool isWaterEffect = false;
 
     public Texture2D texture;
 
@@ -38,5 +40,9 @@ public class Enemy {
 
     public void GetDamage(float damage) {
         hp -= damage;
+    }
+
+    public void changePos(Vector2 newPos){
+        rect = new Rectangle(newPos, rect.Width, rect.Height);
     }
 }

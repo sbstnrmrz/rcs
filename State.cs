@@ -27,7 +27,6 @@ public static class State {
                 cameraOffset = new Vector2(0.0f, 0.0f);
             }
         }
-        Console.WriteLine("timer " + shakeTimer);
 
         camera.Offset = cameraOffset;
         camera.Rotation = 0.0f;

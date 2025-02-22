@@ -20,9 +20,8 @@ public static class CollisionManager {
         for (int i = SpellManager.enemySpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.enemySpells[i];
             if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, player.hitbox)) {
-                if (player.GetDamage(1)) {
-                    State.StartCameraShake();
-                }
+                player.GetDamage(1);
+
                 SpellManager.enemySpells.RemoveAt(i);
             }
         }
@@ -30,15 +29,19 @@ public static class CollisionManager {
             Spell spell = SpellManager.playerSpells[i];
             foreach (Enemy enemy in EnemyManager.enemies) {
                 if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, enemy.hitbox)) {
-                    if (spell is SpellFireball) {
-                        enemy.GetDamage(1);
+                    if (spell is SpellFireball && enemy.effects < 2) {
+                        EffectManager.enemyEffects.Add(new EffectBurn(enemy));
+                        enemy.effects++;
                     }
 
-                    if (spell is SpellFireball) {
-                        EffectManager.enemyEffects.Add(new EffectBurn(enemy));
+                    if (spell is SpellWaterball && enemy.effects < 2) {
+                        EffectManager.enemyEffects.Add(new EffectWater(enemy, spell.currentSprite < 5 ? spell.currentSprite : 7, spell.dirVec));
+                        enemy.effects++;
                     }
-                    if (spell is SpellWaterball) {
-                        EffectManager.enemyEffects.Add(new EffectWater(enemy, 3));
+
+                    if (spell is SpellIceshard && enemy.effects < 2) {
+                        EffectManager.enemyEffects.Add(new EffectSlow(enemy));
+                        enemy.effects++;
                     }
                     SpellManager.playerSpells.RemoveAt(i);
                 }
@@ -59,9 +62,7 @@ public static class CollisionManager {
                 enemy.pos.Y = Raylib.GetScreenHeight() - player.rect.Height;
             }
             if (Raylib.CheckCollisionRecs(player.hitbox, enemy.hitbox)) {
-                if (player.GetDamage(1)) {
-                    State.StartCameraShake();
-                }
+                player.GetDamage(1);
             }
         }
     }  

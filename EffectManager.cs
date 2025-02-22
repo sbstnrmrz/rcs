@@ -9,7 +9,11 @@ public static class EffectManager {
         if (effect is EffectBurn && effect.ticks > 2) {
             return true;
         }
-        if (effect is EffectWater && effect.ticks > 0) {
+        if (effect is EffectWater && effect.ticks > 4) {
+            return true;
+        }
+        if (effect is EffectSlow && effect.ticks > 2) {
+            Console.WriteLine("SexooOooOOoo");
             return true;
         }
 
@@ -20,6 +24,7 @@ public static class EffectManager {
         for (int i = enemyEffects.Count-1; i >= 0; i--) {
             enemyEffects[i].UpdateEnemy(enemyEffects[i].enemy);
             if (asd(enemyEffects[i])) {
+                enemyEffects[i].enemy.effects--;
                 enemyEffects.RemoveAt(i);
                 continue;
             }
