@@ -27,7 +27,7 @@ public class Player {
     public bool canDash = true;
     float dashPower = 10; // Adjust as needed
     float dashDuration = 0.2f; // Adjust as needed
-    float dashCooldown = 2f; // Adjust as needed
+    float dashCooldown = 1f; // Adjust as needed
     float dashTimer = 0.0f;
     float cooldownTimer = 0.0f;
 
@@ -78,6 +78,7 @@ public class Player {
             isDashing = true;
             canDash = false;
             dashTimer = dashDuration;
+            cooldownTimer = dashCooldown;
         }
 
         if (isDashing) {
@@ -90,7 +91,7 @@ public class Player {
 
             if (dashTimer <= 0.0f) {
                 isDashing = false;
-                cooldownTimer = dashCooldown;
+
             }
         } else {
             velocity *= speed;
@@ -109,8 +110,6 @@ public class Player {
             velocity.X = velocity.X < 0 ? -x : x;
             velocity.Y = velocity.Y < 0 ? -y : y;
         } 
-        Console.WriteLine("bool: " + canDash + " " + dashTimer  + "cooldownTimer");
-
 
         pos += velocity;
         rect.Position = pos;
