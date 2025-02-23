@@ -32,20 +32,30 @@ public static class CollisionManager {
             foreach (Enemy enemy in EnemyManager.enemies) {
                 if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, enemy.hitbox)) {
                     if (spell is SpellFireball && enemy.effects < 2) {
-                        EffectManager.enemyEffects.Add(new EffectBurn(enemy));
+                        EffectManager.enemyEffects.Add(new EffectBurn(enemy, spell.pos, false));
                         enemy.effects++;
                     }
+                    else if (spell is SpellFireball && enemy.effects >= 2) {
+                        EffectManager.enemyEffects.Add(new EffectBurn(enemy, spell.pos, true));
+                    }
 
-                    if (spell is SpellWaterball && enemy.effects < 2) {
-                        EffectManager.enemyEffects.Add(new EffectWater(enemy, spell.currentSprite < 5 ? spell.currentSprite : 7, spell.dirVec));
-                        enemy.effects++;
+                    if (spell is SpellWaterball) {
+                        EffectManager.enemyEffects.Add(new EffectWater(enemy, spell.currentSprite < 5 ? spell.currentSprite : 7, spell.dirVec, spell.pos));
                     }
 
                     if (spell is SpellIceshard && enemy.effects < 2) {
-                        EffectManager.enemyEffects.Add(new EffectSlow(enemy));
+                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, false));
                         enemy.effects++;
+                    } 
+                    else if (spell is SpellIceshard && enemy.effects >= 2) {
+                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, true));
                     }
-                    SpellManager.playerSpells.RemoveAt(i);
+                    
+                    if (spell is SpellLighting) {
+                        EffectManager.enemyEffects.Add(new EffectLighting(enemy, spell.pos));
+                    }
+                    SpellManager.playerSpells.RemoveAt(i);;
+                    break;
                 }
             }
         }

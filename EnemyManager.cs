@@ -21,4 +21,8 @@ public static class EnemyManager {
             enemy.Draw(); 
         }
     }
+
+    public static void Add(Enemy enemy) {
+        enemies.Add(enemy);
+    }
 }

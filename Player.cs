@@ -23,6 +23,7 @@ public class Player {
     public int spellCount = 5;
     public int maxSpells = 5;
 
+    public bool canMove = true;
     public bool isDashing = false;
     public bool canDash = true;
     float dashPower = 10; // Adjust as needed
@@ -61,7 +62,6 @@ public class Player {
         Raylib.SetMousePosition((int)pointerPos.X, (int)pointerPos.Y);
 
         velocity = Vector2.Zero;
-
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
             velocity.X = -1;
         }
@@ -74,6 +74,7 @@ public class Player {
         if (Raylib.IsKeyDown(KeyboardKey.S)) {
             velocity.Y = 1;
         }
+
         if (Raylib.IsKeyPressed(KeyboardKey.Space) && canDash) {
             isDashing = true;
             canDash = false;
@@ -95,6 +96,7 @@ public class Player {
             }
         } else {
             velocity *= speed;
+            canMove = true;
         }
 
         if (cooldownTimer > 0.0f) {
@@ -130,7 +132,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle));
+                SpellManager.playerSpells.Add(new SpellWaterball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
             }
         }

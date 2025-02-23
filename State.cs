@@ -30,7 +30,7 @@ public static class State {
 
         camera.Offset = cameraOffset;
         camera.Rotation = 0.0f;
-        camera.Zoom = 1.0f;
+        camera.Zoom = 1f;
     }
 
     public static void StartCameraShake() {

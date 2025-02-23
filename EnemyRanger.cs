@@ -2,19 +2,21 @@ using Raylib_cs;
 using System.Numerics;
 
 public class EnemyRanger : Enemy {
-    public List<Spell> projectiles;
-    public int projectileSpeed = 5;
-    public int projectileFrames = 1;
-    public int projectileCooldown = 40;
+    public List<Spell> spells;
+    public int spellSpeed = 5;
+    public int spellFrames = 1;
+    public int spellCooldown = 60;
+    public Vector2 playerPos = Vector2.Zero;
     public Vector2 predictedPlayerPos; 
 
     public EnemyRanger(Vector2 initialPos) : base(initialPos) {
         this.hp = 100;
-        projectiles = [];
+        spells = [];
     }
 
     public override void Update(Player player, float deltaTime) {
         base.Update(player, deltaTime);
+        playerPos = Util.GetRectCenter(player.rect);
         targetPos = Util.GetRectCenter(player.rect);
         float distanceToPlayer = (float)Math.Floor(Vector2.Distance(targetPos, Util.GetRectCenter(rect)));
         float distanceToPlayerX = targetPos.Y - Util.GetRectCenter(rect).Y;
@@ -32,14 +34,14 @@ public class EnemyRanger : Enemy {
         Raylib.DrawText(String.Format("angle: {0}, predicted: {1}", angle, predictedAngle),
                 0, 130, 24, Color.Black);
 
-        if (projectileFrames % projectileCooldown == 0) {
-            SpellManager.enemySpells.Add(new SpellFireball(Util.GetRectCenter(rect), projectileSpeed, angle));
+        if (spellFrames % spellCooldown == 0) {
+            SpellManager.enemySpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.Magenta));
 
-            projectileFrames = 0;
+            spellFrames = 0;
         }
-        projectileFrames++;
+        spellFrames++;
 
-        foreach (Spell spell in projectiles) {
+        foreach (Spell spell in spells) {
             spell.Update(0);
         }
 
@@ -47,10 +49,10 @@ public class EnemyRanger : Enemy {
     }
     public override void Draw() {
         base.Draw();
-        Raylib.DrawCircleV(predictedPlayerPos, 8, Color.Magenta);
-        Raylib.DrawLineV(Util.GetRectCenter(rect), predictedPlayerPos, Color.Black);
+        Raylib.DrawCircleV(playerPos, 8, Color.Magenta);
+        Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
 
-        foreach (Spell spell in projectiles) {
+        foreach (Spell spell in spells) {
             spell.Draw();
         }
     }

@@ -2,7 +2,7 @@ using Raylib_cs;
 using System.Numerics;
 
 public class SpellWaterball : Spell {
-    public SpellWaterball(Vector2 initialpos, float speed, float angle) : base(initialpos, speed, angle) {
+    public SpellWaterball(Vector2 initialpos, float speed, float angle, Color color) : base(initialpos, speed, angle, color) {
         this.texture = Textures.waterball;
         this.spriteCount = 8; 
     }

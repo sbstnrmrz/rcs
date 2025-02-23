@@ -57,6 +57,10 @@ public static class Textures {
     public static Texture2D waterball = Raylib.LoadTexture("assets/waterball.png");
     public static Texture2D waterExplosion = Raylib.LoadTexture("assets/water_explosion.png");
     public static Texture2D iceshard = Raylib.LoadTexture("assets/iceshard.png");
+    public static Texture2D iceParticles = Raylib.LoadTexture("assets/ice_particles.png");
+    public static Texture2D iceshardExplosion = Raylib.LoadTexture("assets/ice_explosion.png");
+    public static Texture2D lighting = Raylib.LoadTexture("assets/lighting.png");
+    public static Texture2D lightingExplosion = Raylib.LoadTexture("assets/lighting_explosion.png");
     public static Texture2D pointers = Raylib.LoadTexture("assets/pointers.png");
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

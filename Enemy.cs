@@ -7,6 +7,7 @@ public class Enemy {
     public Rectangle rect;
     public Rectangle hitbox;
     public Vector2 targetPos;
+    public int hitRadius = 12;
 
     public float hp = 0;
     public float speed = 3;
@@ -35,6 +36,7 @@ public class Enemy {
 
     public virtual void Draw() {
         Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, Color.Lime);
+        Raylib.DrawCircleV(Util.GetRectCenter(rect), hitRadius, Color.Magenta);
         Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
     }
 

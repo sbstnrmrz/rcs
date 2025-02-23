@@ -7,13 +7,18 @@ public static class EffectManager {
 
     static bool asd(Effect effect) {
         if (effect is EffectBurn && effect.ticks > 2) {
+//          Console.WriteLine("qqqqqq");
             return true;
         }
         if (effect is EffectWater && effect.ticks > 4) {
             return true;
         }
-        if (effect is EffectSlow && effect.ticks > 2) {
-            Console.WriteLine("SexooOooOOoo");
+        if (effect is EffectSlow && effect.ticks > 5) {
+//          Console.WriteLine("SexooOooOOoo");
+            return true;
+        }
+        if (effect is EffectLighting && effect.ticks > 1) {
+//          Console.WriteLine("MiAU");
             return true;
         }
 

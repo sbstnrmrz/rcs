@@ -2,7 +2,7 @@ using Raylib_cs;
 using System.Numerics;
 
 public class SpellIceshard : Spell {
-    public SpellIceshard(Vector2 initialpos, float speed, float angle) : base(initialpos, speed, angle) {
+    public SpellIceshard(Vector2 initialpos, float speed, float angle, Color color) : base(initialpos, speed, angle, color) {
         this.texture = Textures.iceshard;
         this.spriteCount = 7; 
     }

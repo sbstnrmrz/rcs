@@ -3,28 +3,50 @@ using System.Numerics;
 
 public class EffectWater : Effect {
     Vector2 dirVec = Vector2.Zero;
-    public EffectWater (Enemy enemy, int damage, Vector2 dirVec){
+    public EffectWater (Enemy enemy, int damage, Vector2 dirVec, Vector2 explosionPos){
         rect = enemy.rect;
-        texture = Textures.waterball;
+        effectTexture = Textures.waterball;
+        effectExplosionTexture = Textures.waterExplosion;
         this.damage = damage;
         this.enemy = enemy;
         this.dirVec = dirVec;
         this.frames = 10;
+        this.explosionPos = explosionPos;
     }
 
     public override void UpdateEnemy(Enemy enemy) {
+        if (damage == 0) {
+            damage = 1;
+        }
         
         if (frames > 0 && frames % 10 == 0) {
-            if (ticks == 0) {
-                enemy.GetDamage(damage);
-                enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
-                enemy.isWaterEffect = true;
-            } 
-            if (ticks == 4) {
-                enemy.isWaterEffect = false;
-            }else {
-                enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
+            if (enemy.speed != 0){ 
+
+                if (ticks == 0) {
+                    enemy.GetDamage(damage);
+                    enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
+                    enemy.isWaterEffect = true;
+                } 
+                if (ticks == 4) {
+                    enemy.isWaterEffect = false;
+                }else {
+                    enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
+                }
+
+            } else {
+
+                if (ticks == 0) {
+                    enemy.GetDamage(damage);
+                    enemy.changePos(enemy.pos += (3*(dirVec)));
+                    enemy.isWaterEffect = true;
+                } 
+                if (ticks == 4) {
+                    enemy.isWaterEffect = false;
+                }else {
+                    enemy.changePos(enemy.pos += (3*(dirVec)));
+                }
             }
+
             Console.WriteLine(ticks);
             ticks++;
             frames = 0;

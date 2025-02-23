@@ -3,8 +3,8 @@ using System.Numerics;
 
 class Program {
     public static void Main() {
-        int winWidth = 800;
-        int winHeight = 600;
+        int winWidth = 1280;
+        int winHeight = 720;
         Raylib.InitWindow(winWidth, winHeight, "rcs");
         Raylib.SetTargetFPS(60);
         Raylib.DisableCursor();
@@ -15,6 +15,8 @@ class Program {
         Player player = new Player(new Vector2(100, 100));
         Random random = new Random();
         State.Init();
+        Room room = new Room();
+        room.Init();
 
         EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
         EnemyManager.enemies.Add(new EnemyMelee(new Vector2(500, 500)));
@@ -37,14 +39,17 @@ class Program {
             State.UpdateCamera();
 
             // DRAW
+
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.SkyBlue);
             Raylib.BeginMode2D(State.camera);
 
+            room.Draw();
             player.Draw();
             EnemyManager.Draw();
             SpellManager.DrawPlayerSpells();
             SpellManager.DrawEnemySpells();
+            EffectManager.DrawEnemyEffects();
 
             Raylib.DrawFPS(0, 0);
 //          Raylib.DrawText(String.Format("FRAME TIME: {0}", frameTime),

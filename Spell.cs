@@ -9,6 +9,7 @@ public class Spell {
     public int hitboxRadius = 8;
     public Rectangle hitbox;
     public Vector2 rectSize = new Vector2(16*2, 22*2);
+    public Color color = Color.White;
 
     public Vector2 dirVec = Vector2.Zero;
     public float angle;
@@ -18,7 +19,7 @@ public class Spell {
     public int currentSprite = 0;
     public int animationFrames = 0;
 
-    public Spell(Vector2 initialpos, float speed, float angle) {
+    public Spell(Vector2 initialpos, float speed, float angle, Color color) {
         this.initialPos = initialpos; 
         this.pos = initialpos; 
         this.velocity = new Vector2(speed);
@@ -26,6 +27,7 @@ public class Spell {
         dirVec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
         // offset from the center of the player
         pos += 25 * dirVec; 
+        this.color = color;
     }
 
     public virtual void Update(float deltaTime) {
@@ -42,7 +44,7 @@ public class Spell {
                               new Rectangle(pos.X, pos.Y, rectSize.X, rectSize.Y), 
                               new Vector2(rectSize.X*0.5f, rectSize.Y*0.8f), 
                               float.RadiansToDegrees(angle)-90, 
-                              Color.White); 
+                              color); 
 //      Raylib.DrawCircleV(pos, hitboxRadius, Color.Violet);
     }
 }
