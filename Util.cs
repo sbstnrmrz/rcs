@@ -20,7 +20,6 @@ public static class Util {
                 }
             }
         }
-
         Console.WriteLine("Room saved");
 
         return true;

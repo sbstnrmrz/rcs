@@ -14,6 +14,8 @@ public class Effect {
     public float angle;
     public bool onlyAnimation = false;
     public bool onlyHit = false;
+    public bool isPlayer;
+    public Color color;
     public Rectangle rect;
     public Vector2 explosionPos;
     public Vector2 pos;
@@ -52,17 +54,17 @@ public class Effect {
 
     public virtual void Draw() {
         if (!onlyAnimation && nextTarget == Vector2.Zero) {
-            Raylib.DrawTexturePro(effectTexture, new Rectangle(currentEffectSprite * 17, 0, 16, 22), enemy.rect , Vector2.Zero, 0, Color.White);
+            Raylib.DrawTexturePro(effectTexture, new Rectangle(currentEffectSprite * 17, 0, 16, 22), enemy.rect , Vector2.Zero, 0, color);
             
         } 
         if (currentExplosionSprite <= 5) {
-                Raylib.DrawTexturePro(effectExplosionTexture, new Rectangle(currentExplosionSprite * 17, 0, 16, 22), new Rectangle(explosionPos.X, explosionPos.Y, 40, 40) , new Vector2(17, 23), float.RadiansToDegrees(angle) - 90, Color.White);
+                Raylib.DrawTexturePro(effectExplosionTexture, new Rectangle(currentExplosionSprite * 17, 0, 16, 22), new Rectangle(explosionPos.X, explosionPos.Y, 40, 40) , new Vector2(17, 23), float.RadiansToDegrees(angle) - 90, color);
             }
 
         if (nextTarget != Vector2.Zero) {
 
             if (currentExplosionSprite <= 5) {
-                Raylib.DrawTexturePro(effectExplosionTexture, new Rectangle(currentExplosionSprite * 17, 0, 16, hypotenuse), new Rectangle(explosionPos.X, explosionPos.Y, 16, hypotenuse + 20) , Vector2.Zero, float.RadiansToDegrees(angle) - 90, Color.White);
+                Raylib.DrawTexturePro(effectExplosionTexture, new Rectangle(currentExplosionSprite * 17, 0, 16, hypotenuse), new Rectangle(explosionPos.X, explosionPos.Y, 16, hypotenuse + 20) , Vector2.Zero, float.RadiansToDegrees(angle) - 90, color);
             }
         }
     }

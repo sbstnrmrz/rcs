@@ -2,7 +2,7 @@ using Raylib_cs;
 using System.Numerics;
 
 public class EffectBurn : Effect {
-    public EffectBurn (Player player, Vector2 explosionPos, bool onlyAnimation, float angle) {
+    public EffectBurn (Player player, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         rect = player.rect;
         effectTexture = Textures.fireParticles;
         effectExplosionTexture = Textures.fireExplosion;
@@ -10,15 +10,17 @@ public class EffectBurn : Effect {
         this.player = player;
         this.onlyAnimation = true;
         this.angle = angle;
+        this.color = color;
     }
 
-    public EffectBurn (Enemy enemy, Vector2 explosionPos, bool onlyAnimation) {
+    public EffectBurn (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         rect = enemy.rect;
         effectTexture = Textures.fireParticles;
         effectExplosionTexture = Textures.fireExplosion;
         this.explosionPos = explosionPos;
         this.enemy = enemy;
         this.onlyAnimation = onlyAnimation;
+        this.color = color;
     }
 
     public override void UpdatePlayer(Player player) {

@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Runtime.Intrinsics;
 
 public class EffectSlow : Effect {
-    public EffectSlow (Player player, Vector2 explosionPos, bool onlyAnimation, float angle){
+    public EffectSlow (Player player, Vector2 explosionPos, float angle, Color color, bool onlyAnimation){
         rect = player.rect;
         effectTexture = Textures.iceParticles;
         effectExplosionTexture = Textures.iceshardExplosion;
@@ -12,9 +12,10 @@ public class EffectSlow : Effect {
         this.explosionPos = explosionPos;
         this.onlyAnimation = onlyAnimation;
         this.angle = angle;
+        this.color = color;
     }
 
-    public EffectSlow (Enemy enemy, Vector2 explosionPos, bool onlyAnimation, float angle){
+    public EffectSlow (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation){
         rect = enemy.rect;
         this.angle = angle;
         effectTexture = Textures.iceParticles;
@@ -23,6 +24,7 @@ public class EffectSlow : Effect {
         this.frames = 18;
         this.explosionPos = explosionPos;
         this.onlyAnimation = onlyAnimation;
+        this.color = color;
     }
 
     public override void UpdateEnemy(Enemy enemy) {

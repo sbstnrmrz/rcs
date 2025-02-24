@@ -6,16 +6,16 @@ public static class SpellManager {
     public static List<Spell> playerSpells = []; 
 
     static bool CheckSpellOutOfBounds(Spell spell) {
-        if (spell.pos.X - spell.hitboxRadius > Raylib.GetScreenWidth()) {
+        if (spell.pos.X - spell.hitboxRadius > RoomManager.roomMaxScreenPos.X - 32) {
             return true;
         }
-        if (spell.pos.X + spell.hitboxRadius < 0) {
+        if (spell.pos.X + spell.hitboxRadius < RoomManager.roomScreenPos.X + 32) {
             return true;
         }
-        if (spell.pos.Y - spell.hitboxRadius > Raylib.GetScreenHeight()) {
+        if (spell.pos.Y - spell.hitboxRadius > RoomManager.roomMaxScreenPos.Y - 32) {
             return true;
         }
-        if (spell.pos.Y + spell.hitboxRadius < 0) {
+        if (spell.pos.Y + spell.hitboxRadius < RoomManager.roomScreenPos.Y + 32) {
             return true;
         }
 

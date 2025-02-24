@@ -14,6 +14,7 @@ public static class RoomManager {
     public static List<Room> rooms = new List<Room>();
     public static Room currentRoom;
     public static Vector2 roomScreenPos = Vector2.Zero;
+    public static Vector2 roomMaxScreenPos = Vector2.Zero;
 
     public static int rows = 20;
     public static int cols = 34;
@@ -21,6 +22,8 @@ public static class RoomManager {
     public static void Init() {
         roomScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2;   
         roomScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2;    
+        roomMaxScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2 + 32 * cols;   
+        roomMaxScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2 + 32 * rows;    
     }
 
     public static void SetCurrentRoom(Room room) {
