@@ -25,6 +25,16 @@ public static class EffectManager {
         return false;
     }
 
+    public static void UpdatePlayerEffects() {
+        for (int i = playerEffects.Count-1; i >= 0; i--) {
+            playerEffects[i].UpdatePlayer(playerEffects[i].player);
+            if (asd(playerEffects[i])) {
+                playerEffects.RemoveAt(i);
+                continue;
+            }
+        }
+    }
+
     public static void UpdateEnemyEffects() {
         for (int i = enemyEffects.Count-1; i >= 0; i--) {
             enemyEffects[i].UpdateEnemy(enemyEffects[i].enemy);
@@ -33,6 +43,12 @@ public static class EffectManager {
                 enemyEffects.RemoveAt(i);
                 continue;
             }
+        }
+    }
+
+    public static void DrawPlayerEffects() {
+        foreach (Effect effect in playerEffects) {
+            effect.Draw();
         }
     }
 

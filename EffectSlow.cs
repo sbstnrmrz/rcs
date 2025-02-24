@@ -3,12 +3,24 @@ using System.Numerics;
 using System.Runtime.Intrinsics;
 
 public class EffectSlow : Effect {
-    public EffectSlow (Enemy enemy, Vector2 explosionPos, bool onlyAnimation){
+    public EffectSlow (Player player, Vector2 explosionPos, bool onlyAnimation, float angle){
+        rect = player.rect;
+        effectTexture = Textures.iceParticles;
+        effectExplosionTexture = Textures.iceshardExplosion;
+        this.player = player;
+        this.frames = 18;
+        this.explosionPos = explosionPos;
+        this.onlyAnimation = onlyAnimation;
+        this.angle = angle;
+    }
+
+    public EffectSlow (Enemy enemy, Vector2 explosionPos, bool onlyAnimation, float angle){
         rect = enemy.rect;
+        this.angle = angle;
         effectTexture = Textures.iceParticles;
         effectExplosionTexture = Textures.iceshardExplosion;
         this.enemy = enemy;
-        this.frames = 15;
+        this.frames = 18;
         this.explosionPos = explosionPos;
         this.onlyAnimation = onlyAnimation;
     }
@@ -22,7 +34,7 @@ public class EffectSlow : Effect {
             if (ticks == 0) {
                 enemy.GetDamage(damage);
                 enemy.speed = 2;
-            } if (ticks > 0 && ticks < 5) {
+            } if (ticks >= 0 && ticks < 5) {
                 enemy.speed = 2;
             } else {
                 enemy.speed = 3;

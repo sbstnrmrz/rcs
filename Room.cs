@@ -1,61 +1,46 @@
 using Raylib_cs;
 using System.Numerics;
 
+[Serializable]
 public class Room {
-    public enum GridID {
-        None,
-        Wall,
-        Door,
-        Rock,
-        EnemySpellcaster,
-        EnemyMelee,
-        EnemyBouncer,
-    }
-
     public Vector2 screenPos = Vector2.Zero;
-    public const int rows = 20;
-    public const int cols = 34;
-    public int[,] mat = new int[21, 31]; 
-    public int[,] test_mat = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                              {1, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-                              {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    };
+    public int rows = 20;
+    public int cols = 34;
+    public int enemyCount = 0;
+    public bool isRoomCleaned = false;
+    public int[,] mat = new int[20, 34]; 
 
     public Room() {
-        screenPos.X = ((Raylib.GetScreenWidth() - 32 * cols)/2);   
-        screenPos.Y = ((Raylib.GetScreenHeight() - 32 * rows)/2);    
+        for (int i = 0; i < rows; i++) {
+            mat[i, 0] = 1;
+            mat[i, cols-1] = 1;
+        }
+        for (int i = 0; i < cols; i++) {
+            mat[0, i] = 1;
+            mat[rows-1, i] = 1;
+        }
     }
 
     public void Init() {
-        for (int i = 0; i < test_mat.GetLength(0); i++) {
-            for (int j = 0; j < test_mat.GetLength(1); j++) {
-                if (test_mat[i, j] == (int)GridID.EnemySpellcaster) {
-                    EnemyManager.Add(new EnemyRanger(GetEnemyPosFromMat(i, j)));
-                    test_mat[i, j] = 0;
-                }
-                if (test_mat[i, j] == (int)GridID.EnemyMelee) {
-                    EnemyManager.Add(new EnemyMelee(GetEnemyPosFromMat(i, j)));
-                    test_mat[i, j] = 0;
-                }
-                if (test_mat[i, j] == (int)GridID.EnemyBouncer) {
-                    test_mat[i, j] = 0;
+        for (int i = 0; i < mat.GetLength(0); i++) {
+            for (int j = 0; j < mat.GetLength(1); j++) {
+                if (mat[i, j] > 3) {
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemySpellcaster) {
+                        EnemyManager.Add(new EnemyRanger(GetEnemyPosFromMat(i, j)));
+                        mat[i, j] = 0;
+                        enemyCount++;
+                    }
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemyMelee) {
+                        EnemyManager.Add(new EnemyMelee(GetEnemyPosFromMat(i, j)));
+                        mat[i, j] = 0;
+                        enemyCount++;
+                    }
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemyBouncer) {
+                        mat[i, j] = 0;
+                        enemyCount++;
+                    }
+                } else {
+                    continue;
                 }
             }
         }
@@ -67,18 +52,18 @@ public class Room {
     }
 
     public void Draw() {
-//      Console.WriteLine(String.Format("rows: {0}, cols: {1}", test_mat.GetLength(0), test_mat.GetLength(1)));
+//      Console.WriteLine(String.Format("rows: {0}, cols: {1}", mat.GetLength(0), mat.GetLength(1)));
         int counter = 0;
-        for (int i = 0; i < test_mat.GetLength(0); i++) {
-            for (int j = 0; j < test_mat.GetLength(1); j++) {
+        for (int i = 0; i < mat.GetLength(0); i++) {
+            for (int j = 0; j < mat.GetLength(1); j++) {
                 Color color = Color.Blue;
-                if (test_mat[i, j] == (int)GridID.Wall) {
+                if (mat[i, j] == (int)RoomManager.GridID.Wall) {
                     color = Color.Gold;
                 }
-                if (test_mat[i, j] == (int)GridID.Door) {
+                if (mat[i, j] == (int)RoomManager.GridID.Door) {
                     color = Color.Gray;
                 }
-                if (test_mat[i, j] == (int)GridID.Rock) {
+                if (mat[i, j] == (int)RoomManager.GridID.Rock) {
                     color = Color.Black;
                 }
                 Rectangle grid = new Rectangle(((Raylib.GetScreenWidth() - 32 * cols)/2) + j * 32,

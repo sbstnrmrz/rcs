@@ -1,15 +1,19 @@
 using Raylib_cs;
 using System.Numerics;
 
-public class SpellFireball : Spell {
-    public SpellFireball(Vector2 initialpos, float speed, float angle, Color color) : base(initialpos, speed, angle, color) {
+public class SpellBomb : Spell {
+    public bool isEnemy;
+    public SpellBomb(Vector2 initialpos, float speed, float angle, Color color) : base(initialpos, speed, angle, color) {
         this.texture = Textures.fireball;
         this.spriteCount = 7; 
+        this.speed = speed;
+        this.hitbox = new Rectangle(initialpos, rectSize);
     }
 
-    public override void Update(float deltaTime) {
-        base.Update(deltaTime);
 
+
+    public override void Update(float deltaTime) {
+        
         if (animationFrames > 0 && animationFrames % 8 == 0) {
             currentSprite++;
             if (currentSprite > spriteCount) {
@@ -18,6 +22,7 @@ public class SpellFireball : Spell {
             animationFrames = 0;
         }
         animationFrames++;
+        
     }
 
     public override void Draw() {

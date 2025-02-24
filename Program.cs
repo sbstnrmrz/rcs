@@ -14,9 +14,16 @@ class Program {
         Rectangle rect = new Rectangle(100, 100, 32, 32);
         Player player = new Player(new Vector2(100, 100));
         Random random = new Random();
+
         State.Init();
+
+        RoomManager.Init();
         Room room = new Room();
+        RoomManager.SetCurrentRoom(room);
         room.Init();
+        Util.SaveRoomFile(room);
+        Room loadedRoom = Util.LoadRoomFile("room.room");
+        Util.PrintMatrix(loadedRoom.mat);
 
         EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
         EnemyManager.enemies.Add(new EnemyMelee(new Vector2(500, 500)));
@@ -35,21 +42,23 @@ class Program {
             SpellManager.UpdatePlayerSpells();
             SpellManager.UpdateEnemySpells();
             CollisionManager.Update(player);
+            EffectManager.UpdatePlayerEffects();
             EffectManager.UpdateEnemyEffects();
             State.UpdateCamera();
 
             // DRAW
-
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.SkyBlue);
             Raylib.BeginMode2D(State.camera);
 
-            room.Draw();
+            RoomManager.DrawCurrentRoom();
             player.Draw();
             EnemyManager.Draw();
             SpellManager.DrawPlayerSpells();
             SpellManager.DrawEnemySpells();
+            EffectManager.DrawPlayerEffects();
             EffectManager.DrawEnemyEffects();
+
 
             Raylib.DrawFPS(0, 0);
 //          Raylib.DrawText(String.Format("FRAME TIME: {0}", frameTime),

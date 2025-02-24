@@ -20,7 +20,8 @@ public static class CollisionManager {
         for (int i = SpellManager.enemySpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.enemySpells[i];
             if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, player.hitbox)) {
-                if (player.GetDamage(1)) {
+                EffectManager.playerEffects.Add(new EffectSlow(player, spell.pos, true, spell.angle));
+                if (player.GetDamage(0)) {
                     State.StartCameraShake();
                 }
 
@@ -44,11 +45,11 @@ public static class CollisionManager {
                     }
 
                     if (spell is SpellIceshard && enemy.effects < 2) {
-                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, false));
+                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, false, spell.angle));
                         enemy.effects++;
                     } 
                     else if (spell is SpellIceshard && enemy.effects >= 2) {
-                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, true));
+                        EffectManager.enemyEffects.Add(new EffectSlow(enemy, spell.pos, true, spell.angle));
                     }
                     
                     if (spell is SpellLighting) {

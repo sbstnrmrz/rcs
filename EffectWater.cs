@@ -3,6 +3,18 @@ using System.Numerics;
 
 public class EffectWater : Effect {
     Vector2 dirVec = Vector2.Zero;
+    public EffectWater (Player player, int damage, Vector2 dirVec, Vector2 explosionPos){
+        rect = player.rect;
+        effectTexture = Textures.waterball;
+        effectExplosionTexture = Textures.waterExplosion;
+        this.damage = damage;
+        this.player = player;
+        this.dirVec = dirVec;
+        this.frames = 10;
+        this.explosionPos = explosionPos;
+        this.onlyAnimation = true;
+    }
+
     public EffectWater (Enemy enemy, int damage, Vector2 dirVec, Vector2 explosionPos){
         rect = enemy.rect;
         effectTexture = Textures.waterball;
@@ -12,6 +24,14 @@ public class EffectWater : Effect {
         this.dirVec = dirVec;
         this.frames = 10;
         this.explosionPos = explosionPos;
+    }
+
+    public override void UpdatePlayer(Player player) {
+        if (!onlyHit) {
+            player.GetDamage(damage);
+            onlyHit = true;
+        }
+        base.UpdatePlayer(player);
     }
 
     public override void UpdateEnemy(Enemy enemy) {
