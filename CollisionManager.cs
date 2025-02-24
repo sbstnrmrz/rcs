@@ -20,7 +20,6 @@ public static class CollisionManager {
         for (int i = SpellManager.enemySpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.enemySpells[i];
             if (Raylib.CheckCollisionCircleRec(spell.pos, spell.hitboxRadius, player.hitbox)) {
-
                 if (player.GetDamage(0)) {
                     State.StartCameraShake();
                 }
@@ -79,17 +78,17 @@ public static class CollisionManager {
             }
         }
         foreach (Enemy enemy in EnemyManager.enemies) {
-            if (enemy.pos.X < 0) {
-                enemy.pos.X = 0;
+            if (enemy.pos.X < RoomManager.roomScreenPos.X + 32) {
+                enemy.pos.X = RoomManager.roomScreenPos.X + 32;
             }
-            if (enemy.pos.X+player.rect.Width > Raylib.GetScreenWidth()) {
-                enemy.pos.X = Raylib.GetScreenWidth() - player.rect.Width;
+            if (enemy.pos.X+enemy.rect.Width > RoomManager.roomMaxScreenPos.X - 32) {
+                enemy.pos.X = RoomManager.roomMaxScreenPos.X - 32 - enemy.rect.Width;
             }
-            if (enemy.pos.Y < 0) {
-                enemy.pos.Y = 0;
+            if (enemy.pos.Y < RoomManager.roomScreenPos.Y + 32) {
+                enemy.pos.Y = RoomManager.roomScreenPos.Y + 32;
             }
-            if (enemy.pos.Y+player.rect.Height > Raylib.GetScreenHeight()) {
-                enemy.pos.Y = Raylib.GetScreenHeight() - player.rect.Height;
+            if (enemy.pos.Y+enemy.rect.Height > RoomManager.roomMaxScreenPos.Y - 32) {
+                enemy.pos.Y = RoomManager.roomMaxScreenPos.Y - 32 - enemy.rect.Height;
             }
             if (Raylib.CheckCollisionRecs(player.hitbox, enemy.hitbox)) {
                 if (player.GetDamage(1)) {

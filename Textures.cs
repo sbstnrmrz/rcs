@@ -61,6 +61,7 @@ public static class Textures {
     public static Texture2D iceshardExplosion = Raylib.LoadTexture("assets/ice_explosion.png");
     public static Texture2D lighting = Raylib.LoadTexture("assets/lighting.png");
     public static Texture2D lightingExplosion = Raylib.LoadTexture("assets/lighting_explosion.png");
+    public static Texture2D walls = Raylib.LoadTexture("assets/walls.png");
     public static Texture2D pointers = Raylib.LoadTexture("assets/pointers.png");
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

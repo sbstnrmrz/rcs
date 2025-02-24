@@ -25,7 +25,7 @@ public class Room {
         for (int i = 0; i < mat.GetLength(0); i++) {
             for (int j = 0; j < mat.GetLength(1); j++) {
                 if (mat[i, j] > 3) {
-                    if (mat[i, j] == (int)RoomManager.GridID.EnemySpellcaster) {
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemySpellCaster) {
                         EnemyManager.Add(new EnemyRanger(GetEnemyPosFromMat(i, j)));
                         mat[i, j] = 0;
                         enemyCount++;
@@ -49,44 +49,6 @@ public class Room {
 
     public void Update() {
 
-    }
-
-    public void Draw() {
-//      Console.WriteLine(String.Format("rows: {0}, cols: {1}", mat.GetLength(0), mat.GetLength(1)));
-        int counter = 0;
-        for (int i = 0; i < mat.GetLength(0); i++) {
-            for (int j = 0; j < mat.GetLength(1); j++) {
-                Color color = Color.Blue;
-                if (mat[i, j] == (int)RoomManager.GridID.Wall) {
-                    color = Color.Gold;
-                }
-                if (mat[i, j] == (int)RoomManager.GridID.Door) {
-                    color = Color.Gray;
-                }
-                if (mat[i, j] == (int)RoomManager.GridID.Rock) {
-                    color = Color.Black;
-                }
-                Rectangle grid = new Rectangle(((Raylib.GetScreenWidth() - 32 * cols)/2) + j * 32,
-                                               ((Raylib.GetScreenHeight() - 32 * rows)/2) + i * 32,
-                                               32, 32);
-                Raylib.DrawRectangleRec(grid, color);
-                Raylib.DrawRectangleLinesEx(grid, 1f, Color.Black);
-                Raylib.DrawText(String.Format("{0}", counter), 
-                                ((Raylib.GetScreenWidth() - 32 * cols)/2) + j * 32,
-                                ((Raylib.GetScreenHeight() - 32 * rows)/2) + i * 32,
-                                15,
-                                Color.Black);
-                counter++;
-            }
-        }
-//      for (int i = 0; i < 21; i++) {
-//          Raylib.DrawRectangleRec(new Rectangle(50, 50 + i * 32, 32, 32), Color.Gold);
-//          Raylib.DrawRectangleRec(new Rectangle(50 + 32 * 32, 50 + i * 32, 32, 32), Color.Gold);
-//      }
-//      for (int i = 0; i < 31; i++) {
-//          Raylib.DrawRectangleRec(new Rectangle(50 + 32 + i * 32, 50, 32, 32), Color.Gold);
-//          Raylib.DrawRectangleRec(new Rectangle(50 + 32 + i * 32, 50 + 32 * 20, 32, 32), Color.Gold);
-//      }
     }
 
     public Vector2 GetEnemyPosFromMat(int i, int j) {
