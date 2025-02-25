@@ -52,7 +52,7 @@ public class Effect {
         frames++;
     }
 
-    public virtual void UpdateWall() {
+    public virtual void UpdateWorld() {
         if (frames > 0 && frames % 10 == 0) {
             currentEffectSprite++;
         }

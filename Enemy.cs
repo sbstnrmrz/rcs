@@ -15,7 +15,7 @@ public class Enemy {
     public float angle = 0;
     public float rotation = 0;
     public int effects = 0;
-    public bool isWaterEffect = false;
+    public bool isPosEffect = false;
 
     public Texture2D texture;
 

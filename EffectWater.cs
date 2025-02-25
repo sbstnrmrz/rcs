@@ -54,10 +54,10 @@ public class EffectWater : Effect {
                 if (ticks == 0) {
                     enemy.GetDamage(damage);
                     enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
-                    enemy.isWaterEffect = true;
+                    enemy.isPosEffect = true;
                 } 
                 if (ticks == 4) {
-                    enemy.isWaterEffect = false;
+                    enemy.isPosEffect = false;
                 }else {
                     enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
                 }
@@ -67,10 +67,10 @@ public class EffectWater : Effect {
                 if (ticks == 0) {
                     enemy.GetDamage(damage);
                     enemy.changePos(enemy.pos += (3*(dirVec)));
-                    enemy.isWaterEffect = true;
+                    enemy.isPosEffect = true;
                 } 
                 if (ticks == 4) {
-                    enemy.isWaterEffect = false;
+                    enemy.isPosEffect = false;
                 }else {
                     enemy.changePos(enemy.pos += (3*(dirVec)));
                 }
@@ -83,7 +83,7 @@ public class EffectWater : Effect {
         base.UpdateEnemy(enemy);
     }
 
-    public override void UpdateWall() {
+    public override void UpdateWorld() {
         base.UpdatePlayer(player);
     }
 

@@ -74,8 +74,8 @@ public class EffectLighting : Effect {
         base.UpdateEnemy(enemy);
     }
 
-    public override void UpdateWall() {
-        base.UpdateWall();
+    public override void UpdateWorld() {
+        base.UpdateWorld();
     }
 
     public override void Draw() {

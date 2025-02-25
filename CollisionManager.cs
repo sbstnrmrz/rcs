@@ -39,6 +39,9 @@ public static class CollisionManager {
                     if (spell is SpellLighting) {
                         EffectManager.playerEffects.Add(new EffectLighting(player, spell.pos, spell.color, false, true));
                     }
+                    if (spell is SpellBomb) {
+                        EffectManager.playerEffects.Add(new EffectStun(player, spell.pos, spell.angle, spell.color, true));
+                    }
                     
                     SpellManager.enemySpells.RemoveAt(i);;
                     break;
@@ -72,6 +75,15 @@ public static class CollisionManager {
                     if (spell is SpellLighting) {
                         EffectManager.enemyEffects.Add(new EffectLighting(enemy, spell.pos, spell.color, false, false));
                     }
+                    if (spell is SpellBomb && enemy.effects < 2) {
+                        EffectManager.enemyEffects.Add(new EffectStun(enemy, spell.pos, spell.angle, spell.color, false));
+                        enemy.effects++;
+                    } 
+                    else if (spell is SpellBomb && enemy.effects >= 2) {
+                        EffectManager.enemyEffects.Add(new EffectStun(enemy, spell.pos, spell.angle, spell.color, true));
+                    }
+
+
                     SpellManager.playerSpells.RemoveAt(i);;
                     break;
                 }

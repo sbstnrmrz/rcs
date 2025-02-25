@@ -9,18 +9,20 @@ public static class EffectManager {
 
     static bool asd(Effect effect) {
         if (effect is EffectBurn && effect.ticks > 2) {
-//          Console.WriteLine("qqqqqq");
             return true;
         }
         if (effect is EffectWater && effect.ticks > 4) {
             return true;
         }
         if (effect is EffectSlow && effect.ticks > 5) {
-//          Console.WriteLine("SexooOooOOoo");
             return true;
         }
         if (effect is EffectLighting && effect.ticks > 1) {
-//          Console.WriteLine("MiAU");
+
+            return true;
+        }
+        if (effect is EffectStun && effect.ticks > 2) {
+          Console.WriteLine(effect.frames);
             return true;
         }
 
@@ -50,7 +52,7 @@ public static class EffectManager {
 
     public static void UpdateWorldEffects() {
         for (int i = worldEffects.Count-1; i >= 0; i--) {
-            worldEffects[i].UpdateWall();
+            worldEffects[i].UpdateWorld();
             if (asd(worldEffects[i])) {
                 worldEffects.RemoveAt(i);
                 continue;

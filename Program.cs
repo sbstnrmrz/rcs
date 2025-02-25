@@ -61,8 +61,6 @@ class Program {
             EffectManager.DrawEnemyEffects();
             EffectManager.DrawWorldEffects();
 
-
-
             Raylib.DrawFPS(0, 0);
 //          Raylib.DrawText(String.Format("FRAME TIME: {0}", frameTime),
 //                          0, 20, 24, Color.Black);

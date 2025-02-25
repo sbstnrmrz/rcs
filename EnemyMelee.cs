@@ -34,7 +34,7 @@ public class EnemyMelee : Enemy {
             velocity.Y = velocity.Y < 0 ? -y : y;
         } 
 
-        if (!isWaterEffect) {
+        if (!isPosEffect) {
             pos += velocity;
         }
             rect.Position = pos;

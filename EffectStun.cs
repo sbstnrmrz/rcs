@@ -1,8 +1,9 @@
 using Raylib_cs;
 using System.Numerics;
 
-public class EffectBurn : Effect {
-    public EffectBurn (Player player, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
+public class EffectStun : Effect {
+    float originalSpeed = 0;
+    public EffectStun (Player player, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         rect = player.rect;
         effectTexture = Textures.fireParticles;
         effectExplosionTexture = Textures.fireExplosion;
@@ -11,9 +12,10 @@ public class EffectBurn : Effect {
         this.onlyAnimation = true;
         this.angle = angle;
         this.color = color;
+        this.damage = 4;
     }
 
-    public EffectBurn (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
+    public EffectStun (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         rect = enemy.rect;
         this.enemy = enemy;
         effectTexture = Textures.fireParticles;
@@ -21,13 +23,17 @@ public class EffectBurn : Effect {
         this.explosionPos = explosionPos;
         this.color = color;
         this.onlyAnimation = onlyAnimation;
+        this.frames = 25;
+        this.damage = 4;
+        this.originalSpeed = enemy.speed;
     }
 
-    public EffectBurn (Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
+    public EffectStun (Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         effectExplosionTexture = Textures.fireExplosion;
         this.explosionPos = explosionPos;
         this.color = color;
         this.onlyAnimation = onlyAnimation;
+        this.damage = 4;
     }
 
     public override void UpdatePlayer(Player player) {
@@ -39,14 +45,20 @@ public class EffectBurn : Effect {
     }
 
     public override void UpdateEnemy(Enemy enemy) {
-        if (onlyAnimation && !onlyHit) {
+
+        if (ticks == 0 && !onlyHit) {
             enemy.GetDamage(damage);
+            enemy.isPosEffect = true;
             onlyHit = true;
-        } 
-        if (!onlyAnimation && frames > 0 && frames % 30 == 0) {
-                enemy.GetDamage(damage);
-                ticks++;
-                frames = 0;
+        }
+
+        if (!onlyAnimation && frames > 0 && frames % 25 == 0) {
+            ticks++;
+            frames = 0;
+        }
+        if (ticks == 3) {
+            ticks++;
+            enemy.isPosEffect = false;
         }   
         base.UpdateEnemy(enemy);
     }

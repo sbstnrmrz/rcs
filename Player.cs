@@ -40,7 +40,6 @@ public class Player {
     public bool isMoving = false;
     public bool isFacingRight = true;
     public bool isAttacking = false;
-    public bool isHurt = false;
 
     public int animationFrameCounter = 0; 
     public int currentSprite = 0;
@@ -138,14 +137,12 @@ public class Player {
         float opposite = pointerPos.Y - Util.GetRectCenter(rect).Y;
         float adjacent = pointerPos.X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
-        float angleInDeg = float.RadiansToDegrees(angle);
-
+        float angleInDeg = float.RadiansToDegrees(angle); 
         if (angleInDeg < 90 && angleInDeg > -90) {
             isFacingRight = true;
         } else {
             isFacingRight = false;
         }
-
 
         if (spellCount < maxSpells) {
             if (spellFrames % spellCooldown == 0) {
@@ -161,10 +158,9 @@ public class Player {
                 SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
-                animationFrameCounter = 0;
                 currentSprite = 0;
+                animationFrameCounter = 0;
             }
-
         }
 
         if (invencibility && invencibilityFramesCounter >= 0) {
@@ -202,6 +198,7 @@ public class Player {
     public void Draw() {
         Rectangle src = new Rectangle();
         Rectangle dst = new Rectangle();
+
         if (isAttacking) {
             src = new Rectangle(25*currentSprite, 27, 24, 32);
             dst = new Rectangle(rect.X, rect.Y, currentSprite == 1 ? 35*2 : 24*2, currentSprite == 1 ? 35*2 : 26*2);
@@ -217,11 +214,11 @@ public class Player {
             dst = new Rectangle(rect.X, rect.Y, 24*2, 26*2);
         }
         Raylib.DrawTexturePro(Textures.player, 
-                              src,
-                              dst,
-                              Vector2.Zero,
-                              0,
-                              Color.White);
+                src,
+                dst,
+                Vector2.Zero,
+                0,
+                Color.White);
 
 
 //      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
