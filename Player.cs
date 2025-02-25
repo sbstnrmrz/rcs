@@ -36,6 +36,15 @@ public class Player {
     public int invencibilityFrames = 40;
     public int invencibilityFramesCounter = 40;
 
+    public bool isIdle = false;
+    public bool isMoving = false;
+    public bool isFacingRight = true;
+    public bool isAttacking = false;
+
+    public int animationFrameCounter = 0; 
+    public int currentSprite = 0;
+    public int spriteCount = 3;
+
     public Player(Vector2 pos) {
         this.pos = pos;
         this.initialPos = pos; 
@@ -64,9 +73,11 @@ public class Player {
         velocity = Vector2.Zero;
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
             velocity.X = -1;
+            isFacingRight = false;
         }
         if (Raylib.IsKeyDown(KeyboardKey.D)) {
             velocity.X = 1;
+            isFacingRight = true;
         }
         if (Raylib.IsKeyDown(KeyboardKey.W)) {
             velocity.Y = -1;
@@ -113,6 +124,12 @@ public class Player {
             velocity.Y = velocity.Y < 0 ? -y : y;
         } 
 
+        if (velocity != Vector2.Zero) {
+            isMoving = true;
+        } else {
+            isMoving = false;
+        }
+
         pos += velocity;
         rect.Position = pos;
         hitbox.Position = pos;
@@ -134,6 +151,7 @@ public class Player {
             if (spellCount <= maxSpells && spellCount > 0) {
                 SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
+                isAttacking = true;
             }
         }
 
@@ -143,10 +161,60 @@ public class Player {
             invencibilityFramesCounter = invencibilityFrames;
             invencibility = false;
         }
+
+        if (isAttacking) {
+            if (animationFrameCounter > 0 && animationFrameCounter % 10 == 0) {
+                currentSprite++;
+            }
+
+            if (currentSprite > 1) {
+                isAttacking = false;
+            } else {
+                animationFrameCounter++;
+            }
+        } else if (isMoving) {
+            if (animationFrameCounter % 10 == 0) {
+                currentSprite++;
+                if (currentSprite > spriteCount-1) {
+                    currentSprite = 0;
+                    animationFrameCounter = 0;
+                }
+            }
+            animationFrameCounter++;
+        } else {
+            currentSprite = 0;
+            animationFrameCounter = 0;
+        }
    }
 
     public void Draw() {
-        Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
+        if (isAttacking) {
+            Rectangle src = new Rectangle(25*currentSprite, 27, 24, 32);
+            if (currentSprite == 1) {
+                src.Width = 35;
+                src.Height = 35;
+            }
+            if (!isFacingRight) {
+                src.Width *= -1;
+            } 
+
+            Raylib.DrawTexturePro(Textures.player, 
+                    src,
+                    new Rectangle(rect.X, rect.Y, currentSprite == 1 ? 35*2 : 24*2, currentSprite == 1 ? 35*2 : 26*2),
+                    Vector2.Zero,
+                    0,
+                    Color.White);
+        } else {
+            Raylib.DrawTexturePro(Textures.player, 
+                    new Rectangle(25 * currentSprite, 0, isFacingRight ? 24 : -24, 26),
+                    new Rectangle(rect.X, rect.Y, 24*2, 26*2),
+                    Vector2.Zero,
+                    0,
+                    Color.White);
+        }
+
+
+//      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
         // pointer
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), pointerPos, Color.Black);

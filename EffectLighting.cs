@@ -7,26 +7,37 @@ public class EffectLighting : Effect {
 
     public EffectLighting (Enemy enemy, Vector2 explosionPos, Color color, bool onlyAnimation, bool isPlayer){
         rect = enemy.rect;
-        effectExplosionTexture = Textures.lightingExplosion;
-        this.damage = 6;
         this.enemy = enemy;
-        this.frames = 1;
         this.explosionPos = explosionPos;
+        effectTexture = Textures.lighting;
+        effectExplosionTexture = Textures.lightingExplosion;
+        this.frames = 1;
         this.color = color;
         this.onlyAnimation = false;
         this.isPlayer = false;
+        this.damage = 6;
     }
 
     public EffectLighting (Player player, Vector2 explosionPos, Color color, bool onlyAnimation, bool isPlayer){
         rect = player.rect;
-        effectExplosionTexture = Textures.lightingExplosion;
-        this.damage = 6;
         this.player = player;
-        this.frames = 1;
         this.explosionPos = explosionPos;
+        effectTexture = Textures.lighting;
+        effectExplosionTexture = Textures.lightingExplosion;        
+        this.frames = 1;
         this.color = color;
         this.onlyAnimation = true;
         this.isPlayer = isPlayer;
+        this.damage = 6;
+    }
+
+    public EffectLighting (Vector2 explosionPos, float angle, Color color){
+        effectTexture = Textures.lighting;
+        effectExplosionTexture = Textures.lightingExplosion;
+        this.explosionPos = explosionPos;
+        this.angle = angle;
+        this.color = color;
+        this.onlyAnimation = true;
     }
 
     public override void UpdateEnemy(Enemy enemy) {
@@ -37,14 +48,12 @@ public class EffectLighting : Effect {
             player.GetDamage(damage);
             onlyHit = true;
         }
-        
         if (!isPlayer) {
             if (enemies.Count == 0 && !onlyHit) {
                 enemy.GetDamage(damage);
                 onlyHit = true;
                 nextTarget = Vector2.Zero;
             }
-
             if (enemies.Count > 1 && !onlyHit) {
                 while (enemies[nextHit] == enemy) {
                     nextHit = State.random.Next(enemies.Count);
@@ -58,12 +67,15 @@ public class EffectLighting : Effect {
                 angle = (float)Math.Atan2(opposite, adjacent);
                 onlyHit = true;
             }
-
             if (frames > 0 && frames % 35 == 0) {
                 ticks++;
             }
         }
         base.UpdateEnemy(enemy);
+    }
+
+    public override void UpdateWall() {
+        base.UpdateWall();
     }
 
     public override void Draw() {

@@ -44,6 +44,7 @@ class Program {
             CollisionManager.Update(player);
             EffectManager.UpdatePlayerEffects();
             EffectManager.UpdateEnemyEffects();
+            EffectManager.UpdateWorldEffects();
             State.UpdateCamera();
 
             // DRAW
@@ -58,6 +59,8 @@ class Program {
             SpellManager.DrawEnemySpells();
             EffectManager.DrawPlayerEffects();
             EffectManager.DrawEnemyEffects();
+            EffectManager.DrawWorldEffects();
+
 
 
             Raylib.DrawFPS(0, 0);

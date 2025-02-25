@@ -1,4 +1,5 @@
 using Raylib_cs;
+using System.Buffers;
 using System.Numerics;
 
 public static class SpellManager {
@@ -7,19 +8,38 @@ public static class SpellManager {
 
     static bool CheckSpellOutOfBounds(Spell spell) {
         if (spell.pos.X - spell.hitboxRadius > RoomManager.roomMaxScreenPos.X - 32) {
+            IsSpell(spell);
             return true;
         }
         if (spell.pos.X + spell.hitboxRadius < RoomManager.roomScreenPos.X + 32) {
+            IsSpell(spell);
             return true;
         }
         if (spell.pos.Y - spell.hitboxRadius > RoomManager.roomMaxScreenPos.Y - 32) {
+            IsSpell(spell);
             return true;
         }
         if (spell.pos.Y + spell.hitboxRadius < RoomManager.roomScreenPos.Y + 32) {
+            IsSpell(spell);
             return true;
         }
 
         return false;
+    }
+
+    static void IsSpell(Spell spell) {
+        if (spell is SpellFireball) {
+            EffectManager.worldEffects.Add(new EffectBurn(spell.pos, spell.angle, spell.color, true));
+        }
+        if (spell is SpellWaterball) {
+            EffectManager.worldEffects.Add(new EffectWater(spell.pos, spell.color));
+        }
+        if (spell is SpellIceshard) {
+            EffectManager.worldEffects.Add(new EffectSlow(spell.pos, spell.angle, spell.color, true));
+        }
+        if (spell is SpellLighting) {
+            EffectManager.worldEffects.Add(new EffectLighting(spell.pos, spell.angle, spell.color));
+        }
     }
 
     public static void UpdatePlayerSpells() {

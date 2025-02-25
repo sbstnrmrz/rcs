@@ -52,6 +52,19 @@ public class Effect {
         frames++;
     }
 
+    public virtual void UpdateWall() {
+        if (frames > 0 && frames % 10 == 0) {
+            currentEffectSprite++;
+        }
+        if (currentEffectSprite > 5) {
+                currentEffectSprite = 0;
+        }
+        if (frames > 0 && frames % 7 == 0) {
+            currentExplosionSprite++;
+        } 
+        frames++;
+    }
+
     public virtual void Draw() {
         if (!onlyAnimation && nextTarget == Vector2.Zero) {
             Raylib.DrawTexturePro(effectTexture, new Rectangle(currentEffectSprite * 17, 0, 16, 22), enemy.rect , Vector2.Zero, 0, color);

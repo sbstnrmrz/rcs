@@ -1,9 +1,11 @@
 using Raylib_cs;
+using System.Net;
 using System.Numerics;
 
 public static class EffectManager {
     public static List<Effect> enemyEffects = []; 
     public static List<Effect> playerEffects = []; 
+    public static List<Effect> worldEffects = [];
 
     static bool asd(Effect effect) {
         if (effect is EffectBurn && effect.ticks > 2) {
@@ -46,6 +48,18 @@ public static class EffectManager {
         }
     }
 
+    public static void UpdateWorldEffects() {
+        for (int i = worldEffects.Count-1; i >= 0; i--) {
+            worldEffects[i].UpdateWall();
+            if (asd(worldEffects[i])) {
+                worldEffects.RemoveAt(i);
+                continue;
+            }
+        }
+    }
+
+
+
     public static void DrawPlayerEffects() {
         foreach (Effect effect in playerEffects) {
             effect.Draw();
@@ -54,6 +68,12 @@ public static class EffectManager {
 
     public static void DrawEnemyEffects() {
         foreach (Effect effect in enemyEffects) {
+            effect.Draw();
+        }
+    }
+
+    public static void DrawWorldEffects() {
+        foreach (Effect effect in worldEffects) {
             effect.Draw();
         }
     }

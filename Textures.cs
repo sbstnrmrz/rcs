@@ -50,6 +50,7 @@ public class TextureInfo {
 }
 
 public static class Textures {
+    public static Texture2D player = Raylib.LoadTexture("assets/player.png");
     public static Texture2D arrow = Raylib.LoadTexture("arrow.png");
     public static Texture2D fireball = Raylib.LoadTexture("assets/fireball.png");
     public static Texture2D fireParticles = Raylib.LoadTexture("assets/fire_particles.png");
@@ -63,5 +64,6 @@ public static class Textures {
     public static Texture2D lightingExplosion = Raylib.LoadTexture("assets/lighting_explosion.png");
     public static Texture2D walls = Raylib.LoadTexture("assets/walls.png");
     public static Texture2D pointers = Raylib.LoadTexture("assets/pointers.png");
+
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

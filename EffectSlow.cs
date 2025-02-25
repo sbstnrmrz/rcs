@@ -5,26 +5,36 @@ using System.Runtime.Intrinsics;
 public class EffectSlow : Effect {
     public EffectSlow (Player player, Vector2 explosionPos, float angle, Color color, bool onlyAnimation){
         rect = player.rect;
+        this.player = player;
+        this.explosionPos = explosionPos;
+        this.angle = angle;
         effectTexture = Textures.iceParticles;
         effectExplosionTexture = Textures.iceshardExplosion;
-        this.player = player;
         this.frames = 18;
-        this.explosionPos = explosionPos;
-        this.onlyAnimation = onlyAnimation;
-        this.angle = angle;
         this.color = color;
+        this.onlyAnimation = onlyAnimation;
     }
 
     public EffectSlow (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation){
         rect = enemy.rect;
+        this.enemy = enemy;
+        this.explosionPos = explosionPos;
         this.angle = angle;
         effectTexture = Textures.iceParticles;
         effectExplosionTexture = Textures.iceshardExplosion;
-        this.enemy = enemy;
         this.frames = 18;
-        this.explosionPos = explosionPos;
-        this.onlyAnimation = onlyAnimation;
         this.color = color;
+        this.onlyAnimation = onlyAnimation;
+    }
+
+    public EffectSlow (Vector2 explosionPos, float angle, Color color, bool onlyAnimation){
+        effectTexture = Textures.iceParticles;
+        effectExplosionTexture = Textures.iceshardExplosion;
+        this.frames = 0;
+        this.explosionPos = explosionPos;
+        this.angle = angle;
+        this.color = color;
+        this.onlyAnimation = onlyAnimation;
     }
 
     public override void UpdateEnemy(Enemy enemy) {
@@ -45,6 +55,10 @@ public class EffectSlow : Effect {
             frames = 0;
         } 
         base.UpdateEnemy(enemy);
+    }
+
+    public override void UpdateWall() {
+        base.UpdateWall();
     }
 
     public override void Draw() {

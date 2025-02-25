@@ -15,12 +15,19 @@ public class EffectBurn : Effect {
 
     public EffectBurn (Enemy enemy, Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
         rect = enemy.rect;
+        this.enemy = enemy;
         effectTexture = Textures.fireParticles;
         effectExplosionTexture = Textures.fireExplosion;
         this.explosionPos = explosionPos;
-        this.enemy = enemy;
-        this.onlyAnimation = onlyAnimation;
         this.color = color;
+        this.onlyAnimation = onlyAnimation;
+    }
+
+    public EffectBurn (Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {
+        effectExplosionTexture = Textures.fireExplosion;
+        this.explosionPos = explosionPos;
+        this.color = color;
+        this.onlyAnimation = onlyAnimation;
     }
 
     public override void UpdatePlayer(Player player) {
@@ -41,12 +48,14 @@ public class EffectBurn : Effect {
                 ticks++;
                 frames = 0;
         }   
-        
         base.UpdateEnemy(enemy);
+    }
+    
+    public override void UpdateWall() {
+        base.UpdateWall();
     }
 
     public override void Draw() {
-
         base.Draw();
     }
 
