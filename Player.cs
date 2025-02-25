@@ -40,6 +40,7 @@ public class Player {
     public bool isMoving = false;
     public bool isFacingRight = true;
     public bool isAttacking = false;
+    public bool isHurt = false;
 
     public int animationFrameCounter = 0; 
     public int currentSprite = 0;
@@ -137,6 +138,14 @@ public class Player {
         float opposite = pointerPos.Y - Util.GetRectCenter(rect).Y;
         float adjacent = pointerPos.X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
+        float angleInDeg = float.RadiansToDegrees(angle);
+
+        if (angleInDeg < 90 && angleInDeg > -90) {
+            isFacingRight = true;
+        } else {
+            isFacingRight = false;
+        }
+
 
         if (spellCount < maxSpells) {
             if (spellFrames % spellCooldown == 0) {
@@ -152,7 +161,10 @@ public class Player {
                 SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
+                animationFrameCounter = 0;
+                currentSprite = 0;
             }
+
         }
 
         if (invencibility && invencibilityFramesCounter >= 0) {
@@ -188,8 +200,11 @@ public class Player {
    }
 
     public void Draw() {
+        Rectangle src = new Rectangle();
+        Rectangle dst = new Rectangle();
         if (isAttacking) {
-            Rectangle src = new Rectangle(25*currentSprite, 27, 24, 32);
+            src = new Rectangle(25*currentSprite, 27, 24, 32);
+            dst = new Rectangle(rect.X, rect.Y, currentSprite == 1 ? 35*2 : 24*2, currentSprite == 1 ? 35*2 : 26*2);
             if (currentSprite == 1) {
                 src.Width = 35;
                 src.Height = 35;
@@ -197,21 +212,16 @@ public class Player {
             if (!isFacingRight) {
                 src.Width *= -1;
             } 
-
-            Raylib.DrawTexturePro(Textures.player, 
-                    src,
-                    new Rectangle(rect.X, rect.Y, currentSprite == 1 ? 35*2 : 24*2, currentSprite == 1 ? 35*2 : 26*2),
-                    Vector2.Zero,
-                    0,
-                    Color.White);
         } else {
-            Raylib.DrawTexturePro(Textures.player, 
-                    new Rectangle(25 * currentSprite, 0, isFacingRight ? 24 : -24, 26),
-                    new Rectangle(rect.X, rect.Y, 24*2, 26*2),
-                    Vector2.Zero,
-                    0,
-                    Color.White);
+            src = new Rectangle(25 * currentSprite, 0, isFacingRight ? 24 : -24, 26);
+            dst = new Rectangle(rect.X, rect.Y, 24*2, 26*2);
         }
+        Raylib.DrawTexturePro(Textures.player, 
+                              src,
+                              dst,
+                              Vector2.Zero,
+                              0,
+                              Color.White);
 
 
 //      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
