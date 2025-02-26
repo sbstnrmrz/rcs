@@ -17,9 +17,9 @@ public static class RoomManager {
         Hazard5,
         EnemyMelee,
         EnemySpellCaster,
-        EnemySpellCaster1,
         EnemyTeleporter,
         EnemyBouncer,
+        EnemyCharge,
         MoreCharges,
         FasterDash,
         DoubleDash,
@@ -168,9 +168,6 @@ public static class RoomManager {
                 if (currentRoom.mat[i, j] == (int)GridID.EnemySpellCaster) {
                     color = Color.Gray;
                 }
-                if (currentRoom.mat[i, j] == (int)GridID.EnemySpellCaster1) {
-                    color = Color.Gray;
-                }
                 if (currentRoom.mat[i, j] == (int)GridID.EnemyTeleporter) {
                     color = Color.Gray;
                 }
@@ -203,6 +200,7 @@ public static class RoomManager {
                 counter++;
             }
         }
+//      Util.PrintMatrix(currentRoom.mat);
     }
 
     public static bool SaveRoomFile(Room room) {

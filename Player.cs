@@ -170,13 +170,6 @@ public class Player {
             isFacingUp = true;
         }
 
-//      Console.WriteLine("angle: " + angleInDeg);
-
-//      if (angleInDeg < 90 && angleInDeg > -90) {
-//          ResetFacing();
-
-//      }
-
         if (spellCount < maxSpells) {
             if (spellFrames % spellCooldown == 0) {
                 spellCount++;
@@ -188,7 +181,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
                 currentSprite = 3;
@@ -280,7 +273,7 @@ public class Player {
                 dst,
                 Vector2.Zero,
                 0,
-                Color.White);
+                invencibility ? Color.Violet : Color.White);
 
 //      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);

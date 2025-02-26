@@ -96,8 +96,8 @@ public static class CollisionManager {
                 if (enemy is EnemyBouncer) {
                     enemy.velocity.X *= -1;
                 }
-                if (enemy is EnemyCharge) {
-                    ((EnemyCharge)enemy).isCharging = false;
+                if (enemy is EnemyCharger) {
+                    ((EnemyCharger)enemy).isCharging = false;
                 }
             }
             if (enemy.pos.X+enemy.rect.Width > RoomManager.roomMaxScreenPos.X - 32) {
@@ -105,8 +105,8 @@ public static class CollisionManager {
                 if (enemy is EnemyBouncer) {
                     enemy.velocity.X *= -1;
                 }
-                if (enemy is EnemyCharge) {
-                    ((EnemyCharge)enemy).isCharging = false;
+                if (enemy is EnemyCharger) {
+                    ((EnemyCharger)enemy).isCharging = false;
                 }
             }
             if (enemy.pos.Y < RoomManager.roomScreenPos.Y + 32) {
@@ -114,8 +114,8 @@ public static class CollisionManager {
                 if (enemy is EnemyBouncer) {
                     enemy.velocity.Y *= -1;
                 }
-                if (enemy is EnemyCharge) {
-                    ((EnemyCharge)enemy).isCharging = false;
+                if (enemy is EnemyCharger) {
+                    ((EnemyCharger)enemy).isCharging = false;
                 }
             }
             if (enemy.pos.Y+enemy.rect.Height > RoomManager.roomMaxScreenPos.Y - 32) {
@@ -123,8 +123,8 @@ public static class CollisionManager {
                 if (enemy is EnemyBouncer) {
                     enemy.velocity.Y *= -1;
                 }
-                if (enemy is EnemyCharge) {
-                    ((EnemyCharge)enemy).isCharging = false;
+                if (enemy is EnemyCharger) {
+                    ((EnemyCharger)enemy).isCharging = false;
                 }
             }
 

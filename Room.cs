@@ -36,6 +36,17 @@ public class Room {
                         enemyCount++;
                     }
                     if (mat[i, j] == (int)RoomManager.GridID.EnemyBouncer) {
+                        EnemyManager.Add(new EnemyBouncer(GetEnemyPosFromMat(i, j)));
+                        mat[i, j] = 0;
+                        enemyCount++;
+                    }
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemyTeleporter) {
+                        EnemyManager.Add(new EnemyTeleporter(GetEnemyPosFromMat(i, j)));
+                        mat[i, j] = 0;
+                        enemyCount++;
+                    }
+                    if (mat[i, j] == (int)RoomManager.GridID.EnemyCharge) {
+                        EnemyManager.Add(new EnemyCharger(GetEnemyPosFromMat(i, j)));
                         mat[i, j] = 0;
                         enemyCount++;
                     }

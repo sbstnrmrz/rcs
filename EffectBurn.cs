@@ -21,6 +21,7 @@ public class EffectBurn : Effect {
         this.explosionPos = explosionPos;
         this.color = color;
         this.onlyAnimation = onlyAnimation;
+        this.frames = 30;
     }
 
     public EffectBurn (Vector2 explosionPos, float angle, Color color, bool onlyAnimation) {

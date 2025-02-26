@@ -76,7 +76,7 @@ public class EffectWater : Effect {
                 }
             }
 
-            Console.WriteLine(ticks);
+//          Console.WriteLine(ticks);
             ticks++;
             frames = 0;
         }

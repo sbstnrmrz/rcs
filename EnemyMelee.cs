@@ -5,7 +5,7 @@ public class EnemyMelee : Enemy {
     public Vector2 dirVec;
 
     public EnemyMelee(Vector2 initialPos) : base(initialPos) {
-        this.hp = 100;
+        this.hp = 25;
         this.speed = 3;
     }
 

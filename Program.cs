@@ -18,15 +18,10 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = new Room();
+        Room room = RoomManager.LoadRoomFile("room2.room");
         RoomManager.SetCurrentRoom(room);
         room.Init();
         Util.SaveRoomFile(room);
-        Room loadedRoom = Util.LoadRoomFile("room.room");
-        Util.PrintMatrix(loadedRoom.mat);
-
-        EnemyManager.enemies.Add(new EnemyRanger(new Vector2(0, 0)));
-        EnemyManager.enemies.Add(new EnemyMelee(new Vector2(500, 500)));
 
         while (!Raylib.WindowShouldClose()) {
             frameTime = Raylib.GetFrameTime();
