@@ -119,87 +119,146 @@ public static class RoomManager {
                 180,
                 Color.White);
 
+        for (int i = 0; i < currentRoom.mat.GetLength(1)-3; i++) {
+            Rectangle topGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
+                                           roomScreenPos.Y + 32,
+                                           32, 32);
+            Rectangle botGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
+                                           roomMaxScreenPos.Y - 64,
+                                           32, 32);
+            Raylib.DrawTexturePro(Textures.tiles,
+                    new Rectangle(0, 0, 32, 32),
+                    topGrid,
+                    Vector2.Zero,
+                    0,
+                    Color.White);
+            Raylib.DrawTexturePro(Textures.tiles,
+                    new Rectangle(0, 0, 32, 32),
+                    botGrid,
+                    new Vector2(32, 32),
+                    180,
+                    Color.White);
+        }
+
+        for (int i = 0; i < currentRoom.mat.GetLength(0)-2; i++) {
+            Rectangle leftGrid = new Rectangle(roomScreenPos.X + 48,
+                                           roomScreenPos.Y + 32 + i * 32,
+                                           32, 32);
+            Rectangle rightGrid = new Rectangle(roomMaxScreenPos.X - 48,
+                                           roomScreenPos.Y + 32 + i * 32,
+                                           32, 32);
+            Raylib.DrawTexturePro(Textures.tiles,
+                    new Rectangle(0, 0, 32, 32),
+                    leftGrid,
+                    new Vector2(32, 16),
+                    -90,
+                    Color.White);
+            Raylib.DrawTexturePro(Textures.tiles,
+                    new Rectangle(0, 0, 32, 32),
+                    rightGrid,
+                    new Vector2(0, 16),
+                    90,
+                    Color.White);
+        }
+
         for (int i = 0; i < currentRoom.mat.GetLength(0); i++) {
             for (int j = 0; j < currentRoom.mat.GetLength(1); j++) {
-                Rectangle grid = new Rectangle(roomScreenPos.X + j * 32,
-                                               roomScreenPos.Y + i * 32,
-                                               32, 32);
-                Color color = Color.Blue;
+                if (currentRoom.mat[i, j] == 0) {
 
-                if (currentRoom.mat[i, j] == (int)GridID.Limits) {
-                    color = Color.Yellow;
+//                  Vector2 pos = GetWorldPos(i, j);
+//                  int ran = 0; //State.random.Next(4);
+//                  Raylib.DrawTexturePro(Textures.tiles, 
+//                                        new Rectangle(32 * ran, 0, 32, 32),
+//                                        new Rectangle(pos.X, pos.Y, 32, 32),
+//                                        Vector2.Zero,
+//                                        0,
+//                                        Color.White);
                 }
-                if (currentRoom.mat[i, j] == (int)GridID.Empty) {
-                    color = Color.Blue;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Wall) {
-                    color = Color.Red;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Wall1) {
-                    color = Color.Red;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Wall2) {
-                    color = Color.Red;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Wall3) {
-                    color = Color.Red;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Door) {
-                    color = Color.Red;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Hazard1) {
-                    color = Color.Gold;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Hazard2) {
-                    color = Color.Gold;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Hazard3) {
-                    color = Color.Gold;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Hazard4) {
-                    color = Color.Gold;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.Hazard5) {
-                    color = Color.Gold;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.EnemyMelee) {
-                    color = Color.Gray;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.EnemySpellCaster) {
-                    color = Color.Gray;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.EnemyTeleporter) {
-                    color = Color.Gray;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.EnemyBouncer) {
-                    color = Color.Gray;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.MoreCharges) {
-                    color = Color.Pink;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.FasterDash) {
-                    color = Color.Pink;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.DoubleDash) {
-                    color = Color.Pink;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.HomingAttack) {
-                    color = Color.Pink;
-                }
-                if (currentRoom.mat[i, j] == (int)GridID.BiggerSpells) {
-                    color = Color.Pink;
-                }
-
-                Raylib.DrawRectangleRec(grid, color);
-                Raylib.DrawRectangleLinesEx(grid, 1f, Color.Black);
-                Raylib.DrawText(String.Format("{0}", counter), 
-                                (int)roomScreenPos.X + j * 32,
-                                (int)roomScreenPos.Y + i * 32,
-                                15,
-                                Color.Black);
-                counter++;
             }
         }
+  
+
+//      for (int i = 0; i < currentRoom.mat.GetLength(0); i++) {
+//          for (int j = 0; j < currentRoom.mat.GetLength(1); j++) {
+//              Rectangle grid = new Rectangle(roomScreenPos.X + j * 32,
+//                                             roomScreenPos.Y + i * 32,
+//                                             32, 32);
+//              Color color = Color.Blue;
+
+//              if (currentRoom.mat[i, j] == (int)GridID.Limits) {
+//                  color = Color.Yellow;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Empty) {
+//                  color = Color.Blue;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Wall) {
+//                  color = Color.Red;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Wall1) {
+//                  color = Color.Red;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Wall2) {
+//                  color = Color.Red;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Wall3) {
+//                  color = Color.Red;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Door) {
+//                  color = Color.Red;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Hazard1) {
+//                  color = Color.Gold;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Hazard2) {
+//                  color = Color.Gold;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Hazard3) {
+//                  color = Color.Gold;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Hazard4) {
+//                  color = Color.Gold;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.Hazard5) {
+//                  color = Color.Gold;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.EnemyMelee) {
+//                  color = Color.Gray;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.EnemySpellCaster) {
+//                  color = Color.Gray;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.EnemyTeleporter) {
+//                  color = Color.Gray;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.EnemyBouncer) {
+//                  color = Color.Gray;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.MoreCharges) {
+//                  color = Color.Pink;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.FasterDash) {
+//                  color = Color.Pink;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.DoubleDash) {
+//                  color = Color.Pink;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.HomingAttack) {
+//                  color = Color.Pink;
+//              }
+//              if (currentRoom.mat[i, j] == (int)GridID.BiggerSpells) {
+//                  color = Color.Pink;
+//              }
+
+//              Raylib.DrawRectangleRec(grid, color);
+//              Raylib.DrawRectangleLinesEx(grid, 1f, Color.Black);
+//              Raylib.DrawText(String.Format("{0}", counter), 
+//                              (int)roomScreenPos.X + j * 32,
+//                              (int)roomScreenPos.Y + i * 32,
+//                              15,
+//                              Color.Black);
+//              counter++;
+//          }
+//      }
 //      Util.PrintMatrix(currentRoom.mat);
     }
 
@@ -232,5 +291,9 @@ public static class RoomManager {
         Console.WriteLine(roomFile + " loaded");
 
         return room;
+    }
+
+    public static Vector2 GetWorldPos(int i, int j) {
+        return new Vector2(roomScreenPos.X + j * 32, roomScreenPos.Y + i * 32);  
     }
 }

@@ -7,7 +7,7 @@ public static class EffectManager {
     public static List<Effect> playerEffects = []; 
     public static List<Effect> worldEffects = [];
 
-    static bool asd(Effect effect) {
+    static bool asd(Effect effect, float hp) {
         if (effect is EffectBurn && effect.ticks > 2) {
             return true;
         }
@@ -26,13 +26,17 @@ public static class EffectManager {
             return true;
         }
 
+        if (hp < 0) {
+            return true;
+        }
+
         return false;
     }
 
     public static void UpdatePlayerEffects() {
         for (int i = playerEffects.Count-1; i >= 0; i--) {
             playerEffects[i].UpdatePlayer(playerEffects[i].player);
-            if (asd(playerEffects[i])) {
+            if (asd(playerEffects[i], 1)) {
                 playerEffects.RemoveAt(i);
                 continue;
             }
@@ -42,7 +46,7 @@ public static class EffectManager {
     public static void UpdateEnemyEffects() {
         for (int i = enemyEffects.Count-1; i >= 0; i--) {
             enemyEffects[i].UpdateEnemy(enemyEffects[i].enemy);
-            if (asd(enemyEffects[i])) {
+            if (asd(enemyEffects[i], enemyEffects[i].enemy.hp)) {
                 enemyEffects[i].enemy.effects--;
                 enemyEffects.RemoveAt(i);
                 continue;
@@ -53,7 +57,7 @@ public static class EffectManager {
     public static void UpdateWorldEffects() {
         for (int i = worldEffects.Count-1; i >= 0; i--) {
             worldEffects[i].UpdateWorld();
-            if (asd(worldEffects[i])) {
+            if (asd(worldEffects[i], 1)) {
                 worldEffects.RemoveAt(i);
                 continue;
             }

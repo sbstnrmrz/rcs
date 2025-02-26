@@ -19,6 +19,21 @@ public class Enemy {
 
     public Texture2D texture;
 
+    public bool isIdle = false;
+    public bool isMoving = false;
+    public bool isFacingRight = true;
+    public bool isFacingLeft = false;
+    public bool isFacingDown = false;
+    public bool isFacingUp = false;
+    public bool isAttacking = false;
+
+    public int animationFrameCounter = 0; 
+    public int currentSprite = 0;
+    public int sideSpriteCount = 0;
+    public int upSpriteCount = 0;
+    public int downSpriteCount = 0;
+    public int spriteCount = 0;
+
     public Enemy(Vector2 initialPos) {
         this.initialPos = initialPos;
         this.pos = initialPos;
@@ -46,5 +61,12 @@ public class Enemy {
 
     public void changePos(Vector2 newPos){
         rect = new Rectangle(newPos, rect.Width, rect.Height);
+    }
+
+    public void ResetFacing() {
+        isFacingRight = false;
+        isFacingLeft = false;
+        isFacingDown = false;
+        isFacingUp = false;
     }
 }

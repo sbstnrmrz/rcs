@@ -53,26 +53,26 @@ public class EffectWater : Effect {
 
                 if (ticks == 0) {
                     enemy.GetDamage(damage);
-                    enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
+                    enemy.changePos(enemy.pos += (2*enemy.velocity * dirVec));
                     enemy.isPosEffect = true;
                 } 
                 if (ticks == 4) {
                     enemy.isPosEffect = false;
                 }else {
-                    enemy.changePos(enemy.pos -= (2*(enemy.velocity)));
+                    enemy.changePos(enemy.pos += (2*enemy.velocity * dirVec));
                 }
 
             } else {
 
                 if (ticks == 0) {
                     enemy.GetDamage(damage);
-                    enemy.changePos(enemy.pos += (3*(dirVec)));
+                    enemy.changePos(enemy.pos += (2*enemy.velocity * dirVec));
                     enemy.isPosEffect = true;
                 } 
                 if (ticks == 4) {
                     enemy.isPosEffect = false;
                 }else {
-                    enemy.changePos(enemy.pos += (3*(dirVec)));
+                    enemy.changePos(enemy.pos += (2*enemy.velocity * dirVec));
                 }
             }
 

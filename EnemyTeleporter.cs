@@ -18,7 +18,6 @@ public class EnemyTeleporter : Enemy {
     }
 
     public override void Update(Player player, float deltaTime) {
-
         if (teleportationFrames > 220 && !isPosEffect){
             float nextPosX = RoomManager.roomScreenPos.X  + 32 + State.random.Next(0,32) * 32;
             float nextPosY = RoomManager.roomScreenPos.Y  + 32 + State.random.Next(0,18) * 32;

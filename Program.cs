@@ -18,8 +18,11 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = RoomManager.LoadRoomFile("room2.room");
+        Room room = RoomManager.LoadRoomFile("room1.room");
+        Util.PrintMatrix(room.mat);
         RoomManager.SetCurrentRoom(room);
+
+
         room.Init();
         Util.SaveRoomFile(room);
 

@@ -63,6 +63,7 @@ public class Room {
     }
 
     public Vector2 GetEnemyPosFromMat(int i, int j) {
-        return new Vector2(screenPos.X + j * 32, screenPos.Y + i * 32);
+        // not adding 32 because of taking it directly from matrix that already takes into account the existence of the walls
+        return new Vector2(RoomManager.roomScreenPos.X + j * 32, RoomManager.roomScreenPos.Y + i * 32);
     }
 }
