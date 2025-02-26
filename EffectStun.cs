@@ -45,7 +45,6 @@ public class EffectStun : Effect {
     }
 
     public override void UpdateEnemy(Enemy enemy) {
-
         if (ticks == 0 && !onlyHit) {
             enemy.GetDamage(damage);
             enemy.isPosEffect = true;

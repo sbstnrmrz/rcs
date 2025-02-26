@@ -39,11 +39,17 @@ public class Player {
     public bool isIdle = false;
     public bool isMoving = false;
     public bool isFacingRight = true;
+    public bool isFacingLeft = false;
+    public bool isFacingDown = false;
+    public bool isFacingUp = false;
     public bool isAttacking = false;
 
     public int animationFrameCounter = 0; 
     public int currentSprite = 0;
-    public int spriteCount = 3;
+    public int sideSpriteCount = 6;
+    public int upSpriteCount = 6;
+    public int downSpriteCount = 6;
+    public int spriteCount = 6;
 
     public Player(Vector2 pos) {
         this.pos = pos;
@@ -52,6 +58,13 @@ public class Player {
         this.hitbox = this.rect;
         this.spells = [];
         this.speed = 5;
+    }
+
+    public void ResetFacing() {
+        isFacingRight = false;
+        isFacingLeft = false;
+        isFacingDown = false;
+        isFacingUp = false;
     }
 
     public void Update(float deltaTime) {
@@ -73,11 +86,11 @@ public class Player {
         velocity = Vector2.Zero;
         if (Raylib.IsKeyDown(KeyboardKey.A)) {
             velocity.X = -1;
-            isFacingRight = false;
+//          isFacingLeft = true;
         }
         if (Raylib.IsKeyDown(KeyboardKey.D)) {
             velocity.X = 1;
-            isFacingRight = true;
+//          isFacingRight = true;
         }
         if (Raylib.IsKeyDown(KeyboardKey.W)) {
             velocity.Y = -1;
@@ -138,11 +151,31 @@ public class Player {
         float adjacent = pointerPos.X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
         float angleInDeg = float.RadiansToDegrees(angle); 
-        if (angleInDeg < 90 && angleInDeg > -90) {
+
+        if (angleInDeg < 45 && angleInDeg > -45) {
+            ResetFacing();
             isFacingRight = true;
-        } else {
-            isFacingRight = false;
+        }         
+        if ((angleInDeg > 135 && angleInDeg < 180) || (angleInDeg < -135 && angleInDeg > -180)) {
+            ResetFacing();
+            isFacingLeft = true;
         }
+        if (angleInDeg < 135 && angleInDeg > 45) {
+            ResetFacing();
+            isFacingDown = true;
+        }
+
+        if (angleInDeg > -135 && angleInDeg < -45) {
+            ResetFacing();
+            isFacingUp = true;
+        }
+
+//      Console.WriteLine("angle: " + angleInDeg);
+
+//      if (angleInDeg < 90 && angleInDeg > -90) {
+//          ResetFacing();
+
+//      }
 
         if (spellCount < maxSpells) {
             if (spellFrames % spellCooldown == 0) {
@@ -158,7 +191,7 @@ public class Player {
                 SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
-                currentSprite = 0;
+                currentSprite = 3;
                 animationFrameCounter = 0;
             }
         }
@@ -174,16 +207,16 @@ public class Player {
             if (animationFrameCounter > 0 && animationFrameCounter % 10 == 0) {
                 currentSprite++;
             }
-
-            if (currentSprite > 1) {
+            if (currentSprite > 5) {
                 isAttacking = false;
+                currentSprite = 0;
             } else {
                 animationFrameCounter++;
             }
         } else if (isMoving) {
             if (animationFrameCounter % 10 == 0) {
                 currentSprite++;
-                if (currentSprite > spriteCount-1) {
+                if (currentSprite > 2) {
                     currentSprite = 0;
                     animationFrameCounter = 0;
                 }
@@ -200,18 +233,63 @@ public class Player {
         Rectangle dst = new Rectangle();
 
         if (isAttacking) {
-            src = new Rectangle(25*currentSprite, 27, 24, 32);
-            dst = new Rectangle(rect.X, rect.Y, currentSprite == 1 ? 35*2 : 24*2, currentSprite == 1 ? 35*2 : 26*2);
-            if (currentSprite == 1) {
-                src.Width = 35;
-                src.Height = 35;
+//          src = new Rectangle(25*currentSprite, 0, 24, 35);
+            dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
+            if (isFacingUp) {
+                src = new Rectangle(25*currentSprite, 88, 24, 48);
+                dst.Width = 24 * 2;
+                dst.Height = 48 * 2;
             }
-            if (!isFacingRight) {
+            if (isFacingDown) {
+                src = new Rectangle(25*currentSprite, 36, 24, 51);
+                dst.Width = 24 * 2;
+                dst.Height = 48 * 2;
+            }
+            if (isFacingRight) {
+                src = new Rectangle(25*currentSprite, 0, 24, 35);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
+                if (currentSprite == 4) {
+                    src.Width = 35;
+                    dst.Width = 35*2;
+                }
+                if (currentSprite == 5) {
+                    src.X = 136; 
+                    src.Width = 29;
+                    dst.Width = 29*2;
+                }
+            }
+
+            if (isFacingLeft) {
+                src = new Rectangle(25*currentSprite, 0, 24, 35);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
+                if (currentSprite == 4) {
+                    src.Width = 35;
+                    dst.Width = 35*2;
+                }
+                if (currentSprite == 5) {
+                    src.X = 136; 
+                    src.Width = 29;
+                    dst.Width = 29*2;
+                }
                 src.Width *= -1;
             } 
         } else {
-            src = new Rectangle(25 * currentSprite, 0, isFacingRight ? 24 : -24, 26);
-            dst = new Rectangle(rect.X, rect.Y, 24*2, 26*2);
+            if (isFacingUp) {
+                src = new Rectangle(25 * currentSprite, 114, 24, 56);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+            }
+            if (isFacingDown) {
+                src = new Rectangle(25 * currentSprite, 57, 24, 56);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+            }
+            if (isFacingLeft) {
+                src = new Rectangle(25 * currentSprite, 0, -24, 56);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+            }
+            if (isFacingRight) {
+                src = new Rectangle(25 * currentSprite, 0, 24, 56);
+                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+            }
         }
         Raylib.DrawTexturePro(Textures.player, 
                 src,

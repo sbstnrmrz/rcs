@@ -90,18 +90,44 @@ public static class CollisionManager {
             }
         }
         foreach (Enemy enemy in EnemyManager.enemies) {
+
             if (enemy.pos.X < RoomManager.roomScreenPos.X + 32) {
                 enemy.pos.X = RoomManager.roomScreenPos.X + 32;
+                if (enemy is EnemyBouncer) {
+                    enemy.velocity.X *= -1;
+                }
+                if (enemy is EnemyCharge) {
+                    ((EnemyCharge)enemy).isCharging = false;
+                }
             }
             if (enemy.pos.X+enemy.rect.Width > RoomManager.roomMaxScreenPos.X - 32) {
                 enemy.pos.X = RoomManager.roomMaxScreenPos.X - 32 - enemy.rect.Width;
+                if (enemy is EnemyBouncer) {
+                    enemy.velocity.X *= -1;
+                }
+                if (enemy is EnemyCharge) {
+                    ((EnemyCharge)enemy).isCharging = false;
+                }
             }
             if (enemy.pos.Y < RoomManager.roomScreenPos.Y + 32) {
                 enemy.pos.Y = RoomManager.roomScreenPos.Y + 32;
+                if (enemy is EnemyBouncer) {
+                    enemy.velocity.Y *= -1;
+                }
+                if (enemy is EnemyCharge) {
+                    ((EnemyCharge)enemy).isCharging = false;
+                }
             }
             if (enemy.pos.Y+enemy.rect.Height > RoomManager.roomMaxScreenPos.Y - 32) {
                 enemy.pos.Y = RoomManager.roomMaxScreenPos.Y - 32 - enemy.rect.Height;
+                if (enemy is EnemyBouncer) {
+                    enemy.velocity.Y *= -1;
+                }
+                if (enemy is EnemyCharge) {
+                    ((EnemyCharge)enemy).isCharging = false;
+                }
             }
+
             if (Raylib.CheckCollisionRecs(player.hitbox, enemy.hitbox)) {
                 if (player.GetDamage(1)) {
                     State.StartCameraShake();

@@ -2,7 +2,7 @@ using Raylib_cs;
 using System.Numerics;
 
 public class EnemyMelee : Enemy {
-    public Vector2 predictedPlayerPos; 
+    public Vector2 dirVec;
 
     public EnemyMelee(Vector2 initialPos) : base(initialPos) {
         this.hp = 100;
@@ -10,39 +10,19 @@ public class EnemyMelee : Enemy {
     }
 
     public override void Update(Player player, float deltaTime) {
-        velocity = Vector2.Zero;
-        if (rect.X >= player.rect.X + player.rect.Width) {
-            velocity.X = -speed;
-        }
+        float opposite = player.pos.Y - Util.GetRectCenter(rect).Y;
+        float adjacent = player.pos.X - Util.GetRectCenter(rect).X;
+        angle = (float)Math.Atan2(opposite, adjacent);
+        dirVec =  new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 
-        if (rect.X + rect.Width <= player.rect.X) {
-            velocity.X = speed;
-        }
-
-        if (rect.Y >= player.rect.Y + player.rect.Height) {
-            velocity.Y = -speed;
-        }
-
-        if (rect.Y + rect.Height <= player.rect.Y) {
-            velocity.Y = speed;
-        }
-
-        if (velocity.X != 0 && velocity.Y != 0) {
-            float x = (float)Math.Floor((velocity.X*velocity.X) / velocity.Length()); 
-            float y = (float)Math.Floor((velocity.Y*velocity.Y) / velocity.Length()); 
-            velocity.X = velocity.X < 0 ? -x : x;
-            velocity.Y = velocity.Y < 0 ? -y : y;
-        } 
-
-        if (!isPosEffect) {
-            pos += velocity;
+        if (!isPosEffect && !Raylib.CheckCollisionRecs(hitbox, player.rect)) {
+            pos += dirVec * velocity;
         }
             rect.Position = pos;
             hitbox = rect; 
-        
 
-        base.Update(player, deltaTime);
     }
+    
     public override void Draw() {
         base.Draw();
 //      Raylib.DrawCircleV(predictedPlayerPos, 8, Color.Magenta);

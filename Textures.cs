@@ -50,7 +50,7 @@ public class TextureInfo {
 }
 
 public static class Textures {
-    public static Texture2D player = Raylib.LoadTexture("assets/player.png");
+    public static Texture2D player = Raylib.LoadTexture("assets/player1.png");
     public static Texture2D arrow = Raylib.LoadTexture("arrow.png");
     public static Texture2D fireball = Raylib.LoadTexture("assets/fireball.png");
     public static Texture2D fireParticles = Raylib.LoadTexture("assets/fire_particles.png");
