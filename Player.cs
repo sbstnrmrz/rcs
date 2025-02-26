@@ -229,25 +229,19 @@ public class Player {
    }
 
     public void Draw() {
-        Rectangle src = new Rectangle();
-        Rectangle dst = new Rectangle();
+        Rectangle src = new Rectangle(25*currentSprite, 0, 24, 56);
+        Rectangle dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+        dst.X = rect.X - (32)/4;
+        dst.Y = rect.Y - ((56*2-32))/2;
 
         if (isAttacking) {
-//          src = new Rectangle(25*currentSprite, 0, 24, 35);
-            dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
             if (isFacingUp) {
-                src = new Rectangle(25*currentSprite, 88, 24, 48);
-                dst.Width = 24 * 2;
-                dst.Height = 48 * 2;
+                src.Y = 114;
             }
             if (isFacingDown) {
-                src = new Rectangle(25*currentSprite, 36, 24, 51);
-                dst.Width = 24 * 2;
-                dst.Height = 48 * 2;
+                src.Y = 57;
             }
             if (isFacingRight) {
-                src = new Rectangle(25*currentSprite, 0, 24, 35);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
                 if (currentSprite == 4) {
                     src.Width = 35;
                     dst.Width = 35*2;
@@ -258,10 +252,7 @@ public class Player {
                     dst.Width = 29*2;
                 }
             }
-
             if (isFacingLeft) {
-                src = new Rectangle(25*currentSprite, 0, 24, 35);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 35*2);
                 if (currentSprite == 4) {
                     src.Width = 35;
                     dst.Width = 35*2;
@@ -275,20 +266,13 @@ public class Player {
             } 
         } else {
             if (isFacingUp) {
-                src = new Rectangle(25 * currentSprite, 114, 24, 56);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+                src.Y = 114;
             }
             if (isFacingDown) {
-                src = new Rectangle(25 * currentSprite, 57, 24, 56);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+                src.Y = 57;
             }
             if (isFacingLeft) {
-                src = new Rectangle(25 * currentSprite, 0, -24, 56);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
-            }
-            if (isFacingRight) {
-                src = new Rectangle(25 * currentSprite, 0, 24, 56);
-                dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
+                src.Width *= -1;
             }
         }
         Raylib.DrawTexturePro(Textures.player, 
@@ -297,7 +281,6 @@ public class Player {
                 Vector2.Zero,
                 0,
                 Color.White);
-
 
 //      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
         Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
@@ -328,6 +311,7 @@ public class Player {
                                         1f,
                                         Color.Black);
         }
+        Raylib.DrawRectangleLinesEx(dst, 1f, Color.Red);
 
             // cambiar el arraylist por un array fijo para performance?
 
