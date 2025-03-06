@@ -18,10 +18,10 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = RoomManager.LoadRoomFile("room1.room");
+        Room room = RoomManager.LoadRoomFile("test_room.room");
         Util.PrintMatrix(room.mat);
         RoomManager.SetCurrentRoom(room);
-
+        EnemyManager.Add(new EnemyMelee(new Vector2(300, 300)));
 
         room.Init();
         Util.SaveRoomFile(room);
@@ -35,6 +35,7 @@ class Program {
 //          Vector2 predictedPlayerPos = Util.GetRectCenter(player.rect) + player.velocity * timeToTarget;
 
             // UPDATE
+            RoomManager.Update(player);
             player.Update(0);
             EnemyManager.Update(player);
             SpellManager.UpdatePlayerSpells();

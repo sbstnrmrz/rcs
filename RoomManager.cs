@@ -30,9 +30,22 @@ public static class RoomManager {
     public static Room currentRoom;
     public static Vector2 roomScreenPos = Vector2.Zero;
     public static Vector2 roomMaxScreenPos = Vector2.Zero;
+    public static bool currentRoomHasEnemies = false;
+    public static int currentRoomEnemyCount = 0;
+    public static bool doorsOpened = false;
+    public static bool doorsLeft = false;
+    public static bool doorsRight = false;
+    public static bool doorsTop = false;
+    public static bool doorsBot = false;
 
     public static int rows = 20;
     public static int cols = 34;
+
+    public static Rectangle topDoor = new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y, 32*2, 32);
+    public static Rectangle botDoor = new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y + (rows-1) * 32, 32*2, 32);
+    public static Rectangle leftDoor = new Rectangle(roomScreenPos.X, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2);
+    public static Rectangle rightDoor = new Rectangle(roomScreenPos.X + (cols-1) * 32, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2);
+
 
     public static void Init() {
         roomScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2;   
@@ -41,32 +54,77 @@ public static class RoomManager {
         roomMaxScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2 + 32 * rows;    
     }
 
+    public static void OpenDoors() {
+        doorsOpened = true;
+        doorsLeft = true;
+        doorsRight = true;
+        doorsTop = true;
+        doorsBot = true;
+
+        for (int i = rows/2; i < rows/2+3; i++) {
+            if (doorsLeft) {
+               currentRoom.mat[i, 0] = (int)GridID.Door; 
+            }
+            if (doorsRight) {
+               currentRoom.mat[i, cols-1] = (int)GridID.Door; 
+            }
+        }
+
+        for (int i = cols/2; i < cols/2+3; i++) {
+            if (doorsTop) {
+               currentRoom.mat[0, i] = (int)GridID.Door; 
+            }
+            if (doorsBot) {
+               currentRoom.mat[rows-1, i] = (int)GridID.Door; 
+            }
+        }
+        
+    }
+
     public static void SetCurrentRoom(Room room) {
         currentRoom = room; 
+        currentRoom.Init();
+        currentRoomEnemyCount = room.enemyCount;
+        Console.WriteLine("current room info:");
+        Console.WriteLine("  enemy count: " + currentRoomEnemyCount);
+    }
+
+    public static void Update(Player player) {
+        if (currentRoomEnemyCount < 1 && !doorsOpened) {
+            Console.WriteLine("room cleaned`");
+            OpenDoors();
+        } 
+
     }
 
     public static void DrawCurrentRoom() {
         int counter = 0;
 
         for (int i = 0; i < currentRoom.mat.GetLength(1)-2; i++) {
+
             Rectangle topGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
                                            roomScreenPos.Y + 32 - 48,
                                            32, 48);
             Rectangle botGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
                                            roomMaxScreenPos.Y - 32,
                                            32, 48);
-            Raylib.DrawTexturePro(Textures.walls,
-                    new Rectangle(0, 0, 32, 48),
-                    topGrid,
-                    Vector2.Zero,
-                    0,
-                    Color.White);
-            Raylib.DrawTexturePro(Textures.walls,
-                    new Rectangle(0, 0, 32, 48),
-                    botGrid,
-                    new Vector2(32, 48),
-                    180,
-                    Color.White);
+            if (i < cols || i > cols+3 && !doorsTop) {
+                Raylib.DrawTexturePro(Textures.walls,
+                        new Rectangle(0, 0, 32, 48),
+                        topGrid,
+                        Vector2.Zero,
+                        0,
+                        Color.White);
+            }
+
+            if (i < cols || i > cols+3 && !doorsBot) {
+                Raylib.DrawTexturePro(Textures.walls,
+                        new Rectangle(0, 0, 32, 48),
+                        botGrid,
+                        new Vector2(32, 48),
+                        180,
+                        Color.White);
+            }
         }
 
         for (int i = 0; i < currentRoom.mat.GetLength(0)-2; i++) {
@@ -176,6 +234,22 @@ public static class RoomManager {
                 }
             }
         }
+
+        if (doorsTop) {
+            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y, 32*2, 32), Color.Yellow);
+        }
+        if (doorsBot) {
+            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y + (rows-1) * 32, 32*2, 32), Color.Yellow);
+        }
+        if (doorsLeft) {
+            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
+        }
+
+        if (doorsRight) {
+            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols-1) * 32, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
+
+        }
+
   
 
 //      for (int i = 0; i < currentRoom.mat.GetLength(0); i++) {
@@ -260,6 +334,7 @@ public static class RoomManager {
 //          }
 //      }
 //      Util.PrintMatrix(currentRoom.mat);
+        
     }
 
     public static bool SaveRoomFile(Room room) {

@@ -10,12 +10,11 @@ public class EnemyMelee : Enemy {
     }
 
     public override void Update(Player player, float deltaTime) {
-        float opposite = player.pos.Y - Util.GetRectCenter(rect).Y;
-        float adjacent = player.pos.X - Util.GetRectCenter(rect).X;
+        float opposite = Util.GetRectCenter(player.rect).Y - Util.GetRectCenter(rect).Y;
+        float adjacent = Util.GetRectCenter(player.rect).X - Util.GetRectCenter(rect).X;
         angle = (float)Math.Atan2(opposite, adjacent);
         float angleInDeg = float.RadiansToDegrees(angle);
         dirVec =  new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-        Console.WriteLine("ang " + angleInDeg);
 
         if (angleInDeg < 45 && angleInDeg > -45) {
             ResetFacing();
@@ -35,12 +34,29 @@ public class EnemyMelee : Enemy {
             isFacingUp = true;
         }
 
-        if (!isPosEffect && !Raylib.CheckCollisionRecs(hitbox, player.rect)) {
+        float distanceFromPlayer = (float)Math.Floor(Vector2.Distance(Util.GetRectCenter(rect), Util.GetRectCenter(player.rect)));
+
+        if (!isPosEffect && distanceFromPlayer > 70) {
             pos += dirVec * velocity;
         }
+
+        if (distanceFromPlayer <= 70 && canAttack) {
+            isAttacking = true;
+            canAttack = false;
+            attackAngle = angle;
+            attackDirVec = new Vector2((float)Math.Cos(attackAngle), 
+                                       (float)Math.Sin(attackAngle));
+        }
+
+        playerPos = player.GetPosition(); 
+
+        attackHurtboxPos = Util.GetRectCenter(rect) + 25 * attackDirVec;
+        attackHurtbox = Util.GetRectangleFromPoint(attackHurtboxPos, 32, 32); 
+
         rect.Position = pos;
         hitbox = rect; 
         isMoving = true;
+
 
         if (isMoving) {
             if (animationFrameCounter % 10 == 0) {
@@ -61,55 +77,19 @@ public class EnemyMelee : Enemy {
         Rectangle src = new Rectangle(50*currentSprite, 0, 49, 46);
         Rectangle dst = new Rectangle(rect.X, rect.Y, 49*2, 46*2);
         dst.X = rect.X - (49*2 - 32)/2;
-        dst.Y = rect.Y - ((46*2-32))/2;
+        dst.Y = rect.Y - ((46*2 - 32))/2 - 20;
 
-        if (isAttacking) {
-            if (isFacingUp) {
-                src.Y = 114;
-            }
-            if (isFacingDown) {
-                src.Y = 57;
-            }
-            if (isFacingRight) {
-                if (currentSprite == 4) {
-                    src.Width = 35;
-                    dst.Width = 35*2;
-                }
-                if (currentSprite == 5) {
-                    src.X = 136; 
-                    src.Width = 29;
-                    dst.Width = 29*2;
-                }
-            }
-            if (isFacingLeft) {
-                if (currentSprite == 4) {
-                    src.Width = 35;
-                    dst.Width = 35*2;
-                }
-                if (currentSprite == 5) {
-                    src.X = 136; 
-                    src.Width = 29;
-                    dst.Width = 29*2;
-                }
-                src.Width *= -1;
-            } 
-        } else {
-            if (isFacingUp) {
-                src.Y = 94;
-                Console.WriteLine("up");
-            }
-            if (isFacingDown) {
-                src.Y = 141;
-                Console.WriteLine("down");
-            }
-            if (isFacingLeft) {
-                src.Y = 0;
-                Console.WriteLine("left");
-            }
-            if (isFacingRight) {
-                src.Y = 47;
-                Console.WriteLine("right");
-            }
+        if (isFacingUp) {
+            src.Y = 94;
+        }
+        if (isFacingDown) {
+            src.Y = 141;
+        }
+        if (isFacingLeft) {
+            src.Y = 0;
+        }
+        if (isFacingRight) {
+            src.Y = 47;
         }
         Raylib.DrawTexturePro(Textures.enemyMelee, 
                 src,
@@ -120,8 +100,19 @@ public class EnemyMelee : Enemy {
 
         Raylib.DrawRectangleLinesEx(rect, 1f, Color.Magenta);
         Raylib.DrawRectangleLinesEx(dst, 1f, Color.White);
+
+
+
+        if (isAttacking) {
+            Raylib.DrawRectangleRec(attackHurtbox, Color.DarkBlue);
+
+        }
+        Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
+
 //      Raylib.DrawCircleV(predictedPlayerPos, 8, Color.Magenta);
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), predictedPlayerPos, Color.Black);
     }
+
+
 
 }

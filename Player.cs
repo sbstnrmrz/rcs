@@ -6,6 +6,8 @@ public class Player {
     public Vector2 initialPos;
     public Rectangle rect;
     public Rectangle hitbox;
+    public float hitRadius = 12;
+    public float hitOffset = 12;
 
     public Vector2 pointerPos = Vector2.Zero;
     public Vector2 pointerSize = new Vector2(16*2, 16*2);
@@ -305,6 +307,9 @@ public class Player {
                                         Color.Black);
         }
         Raylib.DrawRectangleLinesEx(dst, 1f, Color.Red);
+        Vector2 aux = Util.GetRectCenter(rect);
+        aux.Y += hitOffset;
+        Raylib.DrawCircleV(aux, hitRadius, Color.Lime);
 
             // cambiar el arraylist por un array fijo para performance?
 
@@ -328,5 +333,11 @@ public class Player {
         }
 
         return false;
+    }
+
+    public Vector2 GetPosition() {
+        Vector2 vec = Util.GetRectCenter(rect);
+        vec.Y += hitOffset;
+        return vec;
     }
 }

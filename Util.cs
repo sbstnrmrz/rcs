@@ -11,6 +11,10 @@ public static class Util {
         return new Vector2(rect.X + rect.Width/2, rect.Y + rect.Height/2); 
     }
 
+    public static Rectangle GetRectangleFromPoint(Vector2 point, float width, float height) {
+        return new Rectangle(point.X - width/2f, point.Y - height/2f, width, height); 
+    }
+
     public static bool SaveRoomFile(Room room) {
         using (var stream = File.Open("room.room", FileMode.Create))
         using (var writer = new BinaryWriter(stream)) {

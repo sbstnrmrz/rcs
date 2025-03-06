@@ -34,6 +34,16 @@ public class Enemy {
     public int downSpriteCount = 0;
     public int spriteCount = 0;
 
+    public Rectangle attackHurtbox = new Rectangle();
+    public Vector2 attackHurtboxPos = Vector2.Zero;
+    public float attackAngle = 0f;
+    public Vector2 attackDirVec = Vector2.Zero;
+    public bool canAttack = true;
+    public int attackCooldown = 70;
+    public int attackTimer = 0;
+    public int attackDuration = 60;
+    public Vector2 playerPos = Vector2.Zero;
+
     public Enemy(Vector2 initialPos) {
         this.initialPos = initialPos;
         this.pos = initialPos;
