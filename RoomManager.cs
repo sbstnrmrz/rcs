@@ -1,5 +1,6 @@
 using Raylib_cs;
 using System.Numerics;
+using System.Text.RegularExpressions;
 
 public static class RoomManager {
     public enum GridID {
@@ -30,13 +31,25 @@ public static class RoomManager {
     public static Room currentRoom;
     public static Vector2 roomScreenPos = Vector2.Zero;
     public static Vector2 roomMaxScreenPos = Vector2.Zero;
+    public static Vector2 roomScreenSize = Vector2.Zero;
     public static bool currentRoomHasEnemies = false;
     public static int currentRoomEnemyCount = 0;
+    public static bool roomCleaned;
     public static bool doorsOpened = false;
     public static bool doorsLeft = false;
     public static bool doorsRight = false;
     public static bool doorsTop = false;
     public static bool doorsBot = false;
+    public static Rectangle topWall1;
+    public static Rectangle topWall2;
+    public static Rectangle botWall1;
+    public static Rectangle botWall2;
+    public static Rectangle leftWall1;
+    public static Rectangle leftWall2;
+    public static Rectangle rightWall1;
+    public static Rectangle rightWall2;
+    public static float portalRadius = 50;
+    public static bool portalActive = false;
 
     public static int rows = 20;
     public static int cols = 34;
@@ -48,10 +61,23 @@ public static class RoomManager {
 
 
     public static void Init() {
+//      string pattern = @"[^/]+$";
+        string pattern = @"[^/]+\.room$";
+        string roomDirectory = "./";
+        string[] files = Directory.GetFiles(roomDirectory);
+
+        foreach (string file in files) {
+            if (Regex.IsMatch(file, pattern)) {
+                rooms.Add(LoadRoomFile(file));
+            }
+        }
+
         roomScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2;   
         roomScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2;    
         roomMaxScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2 + 32 * cols;   
         roomMaxScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2 + 32 * rows;    
+        roomScreenSize.X = 32 * (cols+2); 
+        roomScreenSize.Y = 32 * (rows+2); 
     }
 
     public static void OpenDoors() {
@@ -81,6 +107,18 @@ public static class RoomManager {
         
     }
 
+    public static void StartNewRoom(Player player, Room room) {
+        player.pos = GetWorldPos(rows/2, cols/2);
+        currentRoom = GetRandomRoom(); 
+        currentRoom.Init();
+        currentRoomEnemyCount = room.enemyCount;
+        Console.WriteLine("current room info:");
+        Console.WriteLine("  enemy count: " + currentRoomEnemyCount);
+
+        roomCleaned = false;
+        portalActive = false;
+    }
+
     public static void SetCurrentRoom(Room room) {
         currentRoom = room; 
         currentRoom.Init();
@@ -90,11 +128,12 @@ public static class RoomManager {
     }
 
     public static void Update(Player player) {
-        if (currentRoomEnemyCount < 1 && !doorsOpened) {
-            Console.WriteLine("room cleaned`");
-            OpenDoors();
+        currentRoomEnemyCount = EnemyManager.enemies.Count;
+        if (currentRoomEnemyCount < 1 && !roomCleaned) {
+            roomCleaned = true;
+            portalActive = true;
+            Console.WriteLine("room cleaned");
         } 
-
     }
 
     public static void DrawCurrentRoom() {
@@ -235,6 +274,11 @@ public static class RoomManager {
             }
         }
 
+        if (portalActive) {
+            Raylib.DrawCircleV(new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2), portalRadius, Color.Purple);
+        }
+
+
         if (doorsTop) {
             Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y, 32*2, 32), Color.Yellow);
         }
@@ -249,92 +293,6 @@ public static class RoomManager {
             Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols-1) * 32, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
 
         }
-
-  
-
-//      for (int i = 0; i < currentRoom.mat.GetLength(0); i++) {
-//          for (int j = 0; j < currentRoom.mat.GetLength(1); j++) {
-//              Rectangle grid = new Rectangle(roomScreenPos.X + j * 32,
-//                                             roomScreenPos.Y + i * 32,
-//                                             32, 32);
-//              Color color = Color.Blue;
-
-//              if (currentRoom.mat[i, j] == (int)GridID.Limits) {
-//                  color = Color.Yellow;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Empty) {
-//                  color = Color.Blue;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Wall) {
-//                  color = Color.Red;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Wall1) {
-//                  color = Color.Red;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Wall2) {
-//                  color = Color.Red;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Wall3) {
-//                  color = Color.Red;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Door) {
-//                  color = Color.Red;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Hazard1) {
-//                  color = Color.Gold;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Hazard2) {
-//                  color = Color.Gold;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Hazard3) {
-//                  color = Color.Gold;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Hazard4) {
-//                  color = Color.Gold;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.Hazard5) {
-//                  color = Color.Gold;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.EnemyMelee) {
-//                  color = Color.Gray;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.EnemySpellCaster) {
-//                  color = Color.Gray;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.EnemyTeleporter) {
-//                  color = Color.Gray;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.EnemyBouncer) {
-//                  color = Color.Gray;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.MoreCharges) {
-//                  color = Color.Pink;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.FasterDash) {
-//                  color = Color.Pink;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.DoubleDash) {
-//                  color = Color.Pink;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.HomingAttack) {
-//                  color = Color.Pink;
-//              }
-//              if (currentRoom.mat[i, j] == (int)GridID.BiggerSpells) {
-//                  color = Color.Pink;
-//              }
-
-//              Raylib.DrawRectangleRec(grid, color);
-//              Raylib.DrawRectangleLinesEx(grid, 1f, Color.Black);
-//              Raylib.DrawText(String.Format("{0}", counter), 
-//                              (int)roomScreenPos.X + j * 32,
-//                              (int)roomScreenPos.Y + i * 32,
-//                              15,
-//                              Color.Black);
-//              counter++;
-//          }
-//      }
-//      Util.PrintMatrix(currentRoom.mat);
-        
     }
 
     public static bool SaveRoomFile(Room room) {
@@ -368,7 +326,27 @@ public static class RoomManager {
         return room;
     }
 
+    public static Room GetRandomRoom() {
+        return rooms[State.random.Next(rooms.Count)];
+    }
+
     public static Vector2 GetWorldPos(int i, int j) {
         return new Vector2(roomScreenPos.X + j * 32, roomScreenPos.Y + i * 32);  
     }
+
+    public static Vector2 GetPortalPos() {
+        return new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2);
+    }
+
+    public static bool PlayerEnteredPortal(Player player) {
+        if (RoomManager.portalActive) {
+            if (Raylib.CheckCollisionCircles(player.GetPosition(), player.hitRadius, RoomManager.GetPortalPos(), RoomManager.portalRadius)) {
+                Console.WriteLine("player collision with portal");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

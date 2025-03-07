@@ -26,7 +26,7 @@ public class Room {
             for (int j = 0; j < mat.GetLength(1); j++) {
                 if (mat[i, j] > 3) {
                     if (mat[i, j] == (int)RoomManager.GridID.EnemySpellCaster) {
-                        EnemyManager.Add(new EnemyRanger(GetEnemyPosFromMat(i, j)));
+                        EnemyManager.Add(new EnemySpellcaster(GetEnemyPosFromMat(i, j)));
                         mat[i, j] = 0;
                         enemyCount++;
                     }
@@ -59,7 +59,7 @@ public class Room {
     }
 
     public void Update() {
-
+//      Console.WriteLine(EnemyManager.enemies.Count);
     }
 
     public Vector2 GetEnemyPosFromMat(int i, int j) {

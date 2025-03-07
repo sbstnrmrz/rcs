@@ -6,6 +6,7 @@ class Program {
         int winWidth = 1280;
         int winHeight = 720;
         Raylib.InitWindow(winWidth, winHeight, "rcs");
+        Raylib.InitAudioDevice();
         Raylib.SetTargetFPS(60);
         Raylib.DisableCursor();
 
@@ -18,15 +19,21 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = RoomManager.LoadRoomFile("test_room.room");
+        Room room = RoomManager.LoadRoomFile("room2.room");
         Util.PrintMatrix(room.mat);
         RoomManager.SetCurrentRoom(room);
-        EnemyManager.Add(new EnemyMelee(new Vector2(300, 300)));
+//      EnemyManager.Add(new EnemyMelee(new Vector2(300, 300)));
+        RoomManager.StartNewRoom(player, RoomManager.GetRandomRoom());
 
         room.Init();
         Util.SaveRoomFile(room);
 
+        Music music = Raylib.LoadMusicStream("assets/run_music.mp3");
+        Raylib.PlayMusicStream(music);
+        Raylib.SetMusicVolume(music, 0.3f);
+
         while (!Raylib.WindowShouldClose()) {
+            Raylib.UpdateMusicStream(music);
             frameTime = Raylib.GetFrameTime();
             Vector2 mousePos = Raylib.GetMousePosition();
 
@@ -35,6 +42,9 @@ class Program {
 //          Vector2 predictedPlayerPos = Util.GetRectCenter(player.rect) + player.velocity * timeToTarget;
 
             // UPDATE
+            if (RoomManager.PlayerEnteredPortal(player)) {
+                RoomManager.StartNewRoom(player, room);
+            }
             RoomManager.Update(player);
             player.Update(0);
             EnemyManager.Update(player);

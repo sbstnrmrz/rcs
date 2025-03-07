@@ -10,7 +10,7 @@ public class EnemyTeleporter : Enemy {
     public List<Spell> spells;
 
     public EnemyTeleporter(Vector2 initialPos) : base(initialPos) {
-        this.hp = 100;
+        this.hp = 25;
         this.speed = 2;
         this.teleportationFrames = 1;
         this.nextPos = new Rectangle(0,0, rect.Width, rect.Height);

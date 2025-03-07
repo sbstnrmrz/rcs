@@ -47,6 +47,13 @@ public static class CollisionManager {
                     break;
             }
         }
+        
+        if (RoomManager.portalActive) {
+            if (Raylib.CheckCollisionCircles(player.GetPosition(), player.hitRadius, RoomManager.GetPortalPos(), RoomManager.portalRadius)) {
+                Console.WriteLine("player collision with portal");
+            }
+        }
+
 
         for (int i = SpellManager.playerSpells.Count-1; i >= 0; i--) {
             Spell spell = SpellManager.playerSpells[i];
