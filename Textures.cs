@@ -68,6 +68,7 @@ public static class Textures {
     public static Texture2D enemyMelee = Raylib.LoadTexture("assets/enemy_melee.png");
     public static Texture2D enemySpellcaster = Raylib.LoadTexture("assets/enemy_spellcaster.png");
     public static Texture2D enemyBouncer = Raylib.LoadTexture("assets/enemy_bouncer.png");
+    public static Texture2D portal = Raylib.LoadTexture("assets/portal.png");
 
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

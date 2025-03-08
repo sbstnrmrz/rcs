@@ -21,14 +21,14 @@ public class Player {
     public List<Spell> spells;
     public int spellSpeed = 5;
     public int spellFrames = 1;
-    public int spellCooldown = 60;
+    public int spellCooldown = 40;
     public int spellCount = 5;
     public int maxSpells = 5;
 
     public bool canMove = true;
     public bool isDashing = false;
     public bool canDash = true;
-    float dashPower = 10; // Adjust as needed
+    float dashPower = 12; // Adjust as needed
     float dashDuration = 0.2f; // Adjust as needed
     float dashCooldown = 1f; // Adjust as needed
     float dashTimer = 0.0f;
@@ -101,7 +101,7 @@ public class Player {
             velocity.Y = 1;
         }
 
-        if (Raylib.IsKeyPressed(KeyboardKey.Space) && canDash) {
+        if (Raylib.IsKeyPressed(KeyboardKey.Space) && canDash && isMoving) {
             isDashing = true;
             canDash = false;
             dashTimer = dashDuration;

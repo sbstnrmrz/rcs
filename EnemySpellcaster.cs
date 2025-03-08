@@ -10,6 +10,7 @@ public class EnemySpellcaster : Enemy {
     public Vector2 predictedPlayerPos; 
 
     public EnemySpellcaster(Vector2 initialPos) : base(initialPos) {
+
         this.hp = 25;
         spells = [];
     }
@@ -46,15 +47,69 @@ public class EnemySpellcaster : Enemy {
         }
 
         hitbox = rect;
+
+
+        float opposite = Util.GetRectCenter(player.rect).Y - Util.GetRectCenter(rect).Y;
+        float adjacent = Util.GetRectCenter(player.rect).X - Util.GetRectCenter(rect).X;
+        angle = (float)Math.Atan2(opposite, adjacent);
+        float angleInDeg = float.RadiansToDegrees(angle);
+        dirVec =  new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+
+        if (angleInDeg < 45 && angleInDeg > -45) {
+            ResetFacing();
+            isFacingRight = true;
+        }         
+        if ((angleInDeg > 135 && angleInDeg < 180) || (angleInDeg < -135 && angleInDeg > -180)) {
+            ResetFacing();
+            isFacingLeft = true;
+        }
+        if (angleInDeg < 135 && angleInDeg > 45) {
+            ResetFacing();
+            isFacingDown = true;
+        }
+
+        if (angleInDeg > -135 && angleInDeg < -45) {
+            ResetFacing();
+            isFacingUp = true;
+        }
+
+        if (animationFrameCounter % 10 == 0) {
+            currentSprite++;
+            if (currentSprite > 4) {
+                currentSprite = 0;
+                animationFrameCounter = 0;
+            }
+        }
+        animationFrameCounter++;
     }
+
+
+
     public override void Draw() {
         base.Draw();
-        Rectangle src = new Rectangle();
-        Rectangle dst = new Rectangle(rect.X - 27/2, rect.Y - 27/2, 27*2, 27*2);
+        Rectangle src = new Rectangle(currentSprite * 28, 0, 27, 27);
+        if (isFacingUp) {
+            src.Y = 56;
+        }
+        if (isFacingDown) {
+            src.Y = 84;
+        }
+        if (isFacingLeft) {
+            src.Y = 0;
+        }
+        if (isFacingRight) {
+            src.Y = 28;
+        }
+
+        
+        Rectangle dst = new Rectangle(rect.X - 11, rect.Y - 11, 27*2, 27*2);
+
+
+
         Raylib.DrawCircleV(playerPos, 8, Color.Magenta);
         Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
         Raylib.DrawTexturePro(Textures.enemySpellcaster, 
-                              new Rectangle(0, 0, 27, 27),
+                              src,
                               dst,
                               Vector2.Zero,
                               0,

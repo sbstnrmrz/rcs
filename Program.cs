@@ -28,7 +28,7 @@ class Program {
         room.Init();
         Util.SaveRoomFile(room);
 
-        Music music = Raylib.LoadMusicStream("assets/run_music.mp3");
+        Music music = Raylib.LoadMusicStream("assets/run_music2.mp3");
         Raylib.PlayMusicStream(music);
         Raylib.SetMusicVolume(music, 0.3f);
 

@@ -17,11 +17,34 @@ public class EnemyBouncer : Enemy {
         if (!isPosEffect) {
             pos += velocity;
         }
-            rect.Position = pos;
-            hitbox = rect; 
+        rect.Position = pos;
+        hitbox = rect; 
+
+        if (animationFrameCounter > 0 && animationFrameCounter % 12 == 0) {
+            currentSprite++;
+            if (currentSprite > 3) {
+                currentSprite = 0;
+            }
+        }
+        animationFrameCounter++;
     }
     
     public override void Draw() {
         base.Draw();
+
+
+        Rectangle src = new Rectangle(currentSprite * 25, 0, 24, 24);
+        Rectangle dst = new Rectangle(rect.X, rect.Y, 24*2, 24*2);
+        if (velocity.X < 0) {
+            src.Y = 25;
+        }
+
+        Raylib.DrawTexturePro(Textures.enemyBouncer,
+                              src,
+                              dst,
+                              Vector2.Zero,
+                              0,
+                              Color.White);
+        Raylib.DrawRectangleLinesEx(dst, 1f, Color.Black);
     }
 }

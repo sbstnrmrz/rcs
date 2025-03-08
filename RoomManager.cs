@@ -50,6 +50,10 @@ public static class RoomManager {
     public static Rectangle rightWall2;
     public static float portalRadius = 50;
     public static bool portalActive = false;
+    public static int portalAnimationFrames = 0;
+    public static int portalCurrentSprite = 0;
+    public static Rectangle portalRect = new Rectangle(0, 0, 27*3, 40*2);
+    public static Vector2 portalRectSize = new Vector2(27*2, 40*2);
 
     public static int rows = 20;
     public static int cols = 34;
@@ -76,8 +80,8 @@ public static class RoomManager {
         roomScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2;    
         roomMaxScreenPos.X = (Raylib.GetScreenWidth() - 32 * cols)/2 + 32 * cols;   
         roomMaxScreenPos.Y = (Raylib.GetScreenHeight() - 32 * rows)/2 + 32 * rows;    
-        roomScreenSize.X = 32 * (cols+2); 
-        roomScreenSize.Y = 32 * (rows+2); 
+        roomScreenSize.X = 32 * cols; 
+        roomScreenSize.Y = 32 * rows; 
     }
 
     public static void OpenDoors() {
@@ -134,6 +138,29 @@ public static class RoomManager {
             portalActive = true;
             Console.WriteLine("room cleaned");
         } 
+
+        Console.WriteLine("portal: " + portalActive);
+        if (portalActive) {
+            if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
+                portalCurrentSprite++;
+            }
+
+            portalAnimationFrames++;
+            if (portalCurrentSprite > 7) {
+                portalCurrentSprite = 4;
+            }
+        }
+
+        if (roomCleaned && !portalActive) {
+            if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
+                portalCurrentSprite++;
+            }
+
+            portalAnimationFrames++;
+            if (portalCurrentSprite > 3) {
+                portalActive = true;
+            }
+        }
     }
 
     public static void DrawCurrentRoom() {
@@ -274,10 +301,18 @@ public static class RoomManager {
             }
         }
 
+        portalRect.X = GetPortalPos().X - portalRect.Width/2;
+        portalRect.Y = GetPortalPos().Y - portalRect.Height/2;
         if (portalActive) {
             Raylib.DrawCircleV(new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2), portalRadius, Color.Purple);
+            Raylib.DrawTexturePro(Textures.portal, 
+                                  new Rectangle(portalCurrentSprite * 28, 0, 27, 40),
+                                  portalRect,
+                                  Vector2.Zero,
+                                  0,
+                                  Color.White);
+            Raylib.DrawRectangleLinesEx(portalRect, 1f, Color.Black);
         }
-
 
         if (doorsTop) {
             Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y, 32*2, 32), Color.Yellow);
@@ -293,6 +328,9 @@ public static class RoomManager {
             Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols-1) * 32, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
 
         }
+
+        Raylib.DrawLineEx(new Vector2(0, GetPortalPos().Y), new Vector2(Raylib.GetScreenWidth(), GetPortalPos().Y), 1f, Color.Black);
+        Raylib.DrawLineEx(new Vector2(GetPortalPos().X, 0), new Vector2(GetPortalPos().X, Raylib.GetScreenHeight()), 1f, Color.Black);
     }
 
     public static bool SaveRoomFile(Room room) {
@@ -335,7 +373,7 @@ public static class RoomManager {
     }
 
     public static Vector2 GetPortalPos() {
-        return new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2);
+        return new Vector2(roomScreenPos.X + roomScreenSize.X/2, roomScreenPos.Y + roomScreenSize.Y/2);
     }
 
     public static bool PlayerEnteredPortal(Player player) {

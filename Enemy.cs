@@ -44,6 +44,8 @@ public class Enemy {
     public int attackDuration = 60;
     public Vector2 playerPos = Vector2.Zero;
 
+    public Vector2 dirVec = Vector2.Zero;
+
     public Enemy(Vector2 initialPos) {
         this.initialPos = initialPos;
         this.pos = initialPos;
