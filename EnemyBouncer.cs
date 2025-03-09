@@ -34,7 +34,7 @@ public class EnemyBouncer : Enemy {
 
 
         Rectangle src = new Rectangle(currentSprite * 25, 0, 24, 24);
-        Rectangle dst = new Rectangle(rect.X, rect.Y, 24*2, 24*2);
+        Rectangle dst = new Rectangle(rect.X - (24*2 - rect.Width)/2, rect.Y - (24*2 - rect.Height)/2, 24*2, 24*2);
         if (velocity.X < 0) {
             src.Y = 25;
         }

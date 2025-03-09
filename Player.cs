@@ -183,7 +183,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                SpellManager.playerSpells.Add(new SpellBomb(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
                 currentSprite = 3;

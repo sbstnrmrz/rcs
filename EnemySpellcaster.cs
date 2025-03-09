@@ -83,8 +83,6 @@ public class EnemySpellcaster : Enemy {
         animationFrameCounter++;
     }
 
-
-
     public override void Draw() {
         base.Draw();
         Rectangle src = new Rectangle(currentSprite * 28, 0, 27, 27);

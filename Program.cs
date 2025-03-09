@@ -19,31 +19,20 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = RoomManager.LoadRoomFile("room2.room");
-        Util.PrintMatrix(room.mat);
-        RoomManager.SetCurrentRoom(room);
-//      EnemyManager.Add(new EnemyMelee(new Vector2(300, 300)));
         RoomManager.StartNewRoom(player, RoomManager.GetRandomRoom());
-
-        room.Init();
-        Util.SaveRoomFile(room);
 
         Music music = Raylib.LoadMusicStream("assets/run_music2.mp3");
         Raylib.PlayMusicStream(music);
-        Raylib.SetMusicVolume(music, 0.3f);
+        Raylib.SetMusicVolume(music, 0.1f);
 
         while (!Raylib.WindowShouldClose()) {
             Raylib.UpdateMusicStream(music);
             frameTime = Raylib.GetFrameTime();
             Vector2 mousePos = Raylib.GetMousePosition();
 
-//          float distanceToPlayer = Vector2.Distance(Util.GetRectCenter(player.rect), Util.GetRectCenter(enemy));
-//          float timeToTarget = (float)Math.Floor(distanceToPlayer / 10f); 
-//          Vector2 predictedPlayerPos = Util.GetRectCenter(player.rect) + player.velocity * timeToTarget;
-
             // UPDATE
             if (RoomManager.PlayerEnteredPortal(player)) {
-                RoomManager.StartNewRoom(player, room);
+                RoomManager.StartNewRoom(player, RoomManager.GetRandomRoom());
             }
             RoomManager.Update(player);
             player.Update(0);

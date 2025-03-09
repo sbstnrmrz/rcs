@@ -121,6 +121,8 @@ public static class RoomManager {
 
         roomCleaned = false;
         portalActive = false;
+        portalCurrentSprite = 0;
+        portalAnimationFrames = 0;
     }
 
     public static void SetCurrentRoom(Room room) {
@@ -378,7 +380,8 @@ public static class RoomManager {
 
     public static bool PlayerEnteredPortal(Player player) {
         if (RoomManager.portalActive) {
-            if (Raylib.CheckCollisionCircles(player.GetPosition(), player.hitRadius, RoomManager.GetPortalPos(), RoomManager.portalRadius)) {
+            if (Raylib.CheckCollisionRecs(player.rect, portalRect)) {
+//          if (Raylib.CheckCollisionCircles(player.GetPosition(), player.hitRadius, RoomManager.GetPortalPos(), RoomManager.portalRadius)) {
                 Console.WriteLine("player collision with portal");
                 return true;
             }
