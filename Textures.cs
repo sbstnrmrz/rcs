@@ -73,6 +73,7 @@ public static class Textures {
     public static Texture2D enemyTeleporter = Raylib.LoadTexture("assets/enemy_teleporter.png");
     public static Texture2D portal = Raylib.LoadTexture("assets/portal.png");
     public static Texture2D tree = Raylib.LoadTexture("assets/tree.png");
+    public static Texture2D floor = Raylib.LoadTexture("assets/floor.png");
 
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

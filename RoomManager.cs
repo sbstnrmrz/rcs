@@ -168,140 +168,13 @@ public static class RoomManager {
     public static void DrawCurrentRoom() {
         int counter = 0;
 
-        for (int i = 0; i < currentRoom.mat.GetLength(1)-2; i++) {
 
-            Rectangle topGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
-                                           roomScreenPos.Y + 32 - 48,
-                                           32, 48);
-            Rectangle botGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
-                                           roomMaxScreenPos.Y - 32,
-                                           32, 48);
-            if (i < cols || i > cols+3 && !doorsTop) {
-                Raylib.DrawTexturePro(Textures.walls,
-                        new Rectangle(0, 0, 32, 48),
-                        topGrid,
-                        Vector2.Zero,
-                        0,
-                        Color.White);
-            }
-
-            if (i < cols || i > cols+3 && !doorsBot) {
-                Raylib.DrawTexturePro(Textures.walls,
-                        new Rectangle(0, 0, 32, 48),
-                        botGrid,
-                        new Vector2(32, 48),
-                        180,
-                        Color.White);
-            }
-        }
-
-        for (int i = 0; i < currentRoom.mat.GetLength(0)-2; i++) {
-            Rectangle leftGrid = new Rectangle(roomScreenPos.X,
-                                           roomScreenPos.Y + 32 + i * 32,
-                                           32, 48);
-            Rectangle rightGrid = new Rectangle(roomMaxScreenPos.X,
-                                           roomScreenPos.Y + 32 + i * 32,
-                                           32, 48);
-            Raylib.DrawTexturePro(Textures.walls,
-                    new Rectangle(0, 0, 32, 48),
-                    leftGrid,
-                    new Vector2(32, 16),
-                    -90,
-                    Color.White);
-            Raylib.DrawTexturePro(Textures.walls,
-                    new Rectangle(0, 0, 32, 48),
-                    rightGrid,
-                    new Vector2(0, 16),
-                    90,
-                    Color.White);
-        }
-        
-        // borders
-        Raylib.DrawTexturePro(Textures.walls,
-                new Rectangle(65, 0, 48, 48),
-                new Rectangle(roomScreenPos.X - 16, roomScreenPos.Y - 16, 48, 48),
-                new Vector2(0, 0),
-                0,
-                Color.White);
-
-        Raylib.DrawTexturePro(Textures.walls,
-                new Rectangle(65, 0, 48, 48),
-                new Rectangle(roomMaxScreenPos.X - 32, roomScreenPos.Y - 16, 48, 48),
-                new Vector2(0, 48),
-                90,
-                Color.White);
-        
-        Raylib.DrawTexturePro(Textures.walls,
-                new Rectangle(65, 0, 48, 48),
-                new Rectangle(roomScreenPos.X - 16, roomMaxScreenPos.Y - 32, 48, 48),
-                new Vector2(48, 0),
-                -90,
-                Color.White);
-
-        Raylib.DrawTexturePro(Textures.walls,
-                new Rectangle(65, 0, 48, 48),
-                new Rectangle(roomMaxScreenPos.X - 32, roomMaxScreenPos.Y - 32, 48, 48),
-                new Vector2(48, 48),
-                180,
-                Color.White);
-
-        for (int i = 0; i < currentRoom.mat.GetLength(1)-3; i++) {
-            Rectangle topGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
-                                           roomScreenPos.Y + 32,
-                                           32, 32);
-            Rectangle botGrid = new Rectangle(roomScreenPos.X + 32 + i * 32,
-                                           roomMaxScreenPos.Y - 64,
-                                           32, 32);
-            Raylib.DrawTexturePro(Textures.tiles,
-                    new Rectangle(0, 0, 32, 32),
-                    topGrid,
-                    Vector2.Zero,
-                    0,
-                    Color.White);
-            Raylib.DrawTexturePro(Textures.tiles,
-                    new Rectangle(0, 0, 32, 32),
-                    botGrid,
-                    new Vector2(32, 32),
-                    180,
-                    Color.White);
-        }
-
-        for (int i = 0; i < currentRoom.mat.GetLength(0)-2; i++) {
-            Rectangle leftGrid = new Rectangle(roomScreenPos.X + 48,
-                                           roomScreenPos.Y + 32 + i * 32,
-                                           32, 32);
-            Rectangle rightGrid = new Rectangle(roomMaxScreenPos.X - 48,
-                                           roomScreenPos.Y + 32 + i * 32,
-                                           32, 32);
-            Raylib.DrawTexturePro(Textures.tiles,
-                    new Rectangle(0, 0, 32, 32),
-                    leftGrid,
-                    new Vector2(32, 16),
-                    -90,
-                    Color.White);
-            Raylib.DrawTexturePro(Textures.tiles,
-                    new Rectangle(0, 0, 32, 32),
-                    rightGrid,
-                    new Vector2(0, 16),
-                    90,
-                    Color.White);
-        }
-
-        for (int i = 0; i < currentRoom.mat.GetLength(0); i++) {
-            for (int j = 0; j < currentRoom.mat.GetLength(1); j++) {
-                if (currentRoom.mat[i, j] == 0) {
-
-//                  Vector2 pos = GetWorldPos(i, j);
-//                  int ran = 0; //State.random.Next(4);
-//                  Raylib.DrawTexturePro(Textures.tiles, 
-//                                        new Rectangle(32 * ran, 0, 32, 32),
-//                                        new Rectangle(pos.X, pos.Y, 32, 32),
-//                                        Vector2.Zero,
-//                                        0,
-//                                        Color.White);
-                }
-            }
-        }
+        Raylib.DrawTexturePro(Textures.floor,
+                              new Rectangle(0, 0, 1280, 720),
+                              new Rectangle(0, 0, 1280, 720),
+                              Vector2.Zero,
+                              0,
+                              Color.White);
 
         portalRect.X = GetPortalPos().X - portalRect.Width/2;
         portalRect.Y = GetPortalPos().Y - portalRect.Height/2;
@@ -316,23 +189,42 @@ public static class RoomManager {
             Raylib.DrawRectangleLinesEx(portalRect, 1f, Color.Black);
         }
 
-        if (doorsTop) {
-            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y, 32*2, 32), Color.Yellow);
-        }
-        if (doorsBot) {
-            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols/2-1) * 32, roomScreenPos.Y + (rows-1) * 32, 32*2, 32), Color.Yellow);
-        }
-        if (doorsLeft) {
-            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
-        }
-
-        if (doorsRight) {
-            Raylib.DrawRectangleRec(new Rectangle(roomScreenPos.X + (cols-1) * 32, roomScreenPos.Y + (rows/2-1) * 32, 32, 32*2), Color.Yellow);
-
-        }
-
         Raylib.DrawLineEx(new Vector2(0, GetPortalPos().Y), new Vector2(Raylib.GetScreenWidth(), GetPortalPos().Y), 1f, Color.Black);
         Raylib.DrawLineEx(new Vector2(GetPortalPos().X, 0), new Vector2(GetPortalPos().X, Raylib.GetScreenHeight()), 1f, Color.Black);
+
+
+        for (int i = 0; i < 15; i++) {
+            Raylib.DrawTexturePro(Textures.tree,
+                                  new Rectangle(0, 0, 82, 97),
+                                  new Rectangle(i * 80, -90, 82*2, 97*2),
+                                  Vector2.Zero,
+                                  0,
+                                  Color.White);
+            Raylib.DrawTexturePro(Textures.tree,
+                                  new Rectangle(0, 0, 82, 97),
+                                  new Rectangle(i * 80, 50 + 5 * 120, 82*2, 97*2),
+                                  Vector2.Zero,
+                                  0,
+                                  Color.White);
+        }
+        for (int i = 0; i < 6; i++) {
+            Raylib.DrawTexturePro(Textures.tree,
+                                  new Rectangle(0, 0, 82, 97),
+                                  new Rectangle(-30, 30 + i * 120, 82*2, 97*2),
+                                  Vector2.Zero,
+                                  0,
+                                  Color.White);
+
+            Raylib.DrawTexturePro(Textures.tree,
+                                  new Rectangle(0, 0, 82, 97),
+                                  new Rectangle(20 + 14 * 80, 30 + i * 120, 82*2, 97*2),
+                                  Vector2.Zero,
+                                  0,
+                                  Color.White);
+        }
+
+
+
     }
 
     public static bool SaveRoomFile(Room room) {

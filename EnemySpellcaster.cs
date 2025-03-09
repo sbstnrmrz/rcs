@@ -73,14 +73,19 @@ public class EnemySpellcaster : Enemy {
             isFacingUp = true;
         }
 
-        if (animationFrameCounter % 10 == 0) {
-            currentSprite++;
-            if (currentSprite > 4) {
-                currentSprite = 0;
-                animationFrameCounter = 0;
+        if (spellFrames >= 10) {
+            if (animationFrameCounter % 10 == 0) {
+                currentSprite++;
+                if (currentSprite > 4) {
+                    currentSprite = 0;
+                    animationFrameCounter = 0;
+                }
             }
+            animationFrameCounter++;
+        } else {
+            currentSprite = 0;
         }
-        animationFrameCounter++;
+
     }
 
     public override void Draw() {

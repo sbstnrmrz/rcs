@@ -23,7 +23,7 @@ class Program {
 
         Music music = Raylib.LoadMusicStream("assets/run_music2.mp3");
         Raylib.PlayMusicStream(music);
-        Raylib.SetMusicVolume(music, 0.1f);
+        Raylib.SetMusicVolume(music, 0.0f);
 
         while (!Raylib.WindowShouldClose()) {
             Raylib.UpdateMusicStream(music);

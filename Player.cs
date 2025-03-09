@@ -109,9 +109,9 @@ public class Player {
         }
 
         if (isDashing) {
-            if (velocity.X == 0 && velocity.Y == 0) {
-                velocity.X = 1;
-            }
+//          if (velocity.X == 0 && velocity.Y == 0) {
+//              velocity.X = 1;
+//          }
             velocity *= dashPower;
 
             dashTimer -= Raylib.GetFrameTime();
@@ -209,7 +209,7 @@ public class Player {
                 animationFrameCounter++;
             }
         } else if (isMoving) {
-            if (animationFrameCounter % 10 == 0) {
+            if (animationFrameCounter % 7 == 0) {
                 currentSprite++;
                 if (currentSprite > 2) {
                     currentSprite = 0;
