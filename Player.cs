@@ -183,7 +183,7 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellBomb(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
                 spellCount--;
                 isAttacking = true;
                 currentSprite = 3;
@@ -228,14 +228,17 @@ public class Player {
         Rectangle dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
         dst.X = rect.X - (32)/4;
         dst.Y = rect.Y - ((56*2-32))/2;
+        if (isFacingUp) {
+            src.Y = 114;
+        }
+        if (isFacingDown) {
+            src.Y = 57;
+        }
+        if (isFacingLeft) {
+            src.Width *= -1;
+        }
 
         if (isAttacking) {
-            if (isFacingUp) {
-                src.Y = 114;
-            }
-            if (isFacingDown) {
-                src.Y = 57;
-            }
             if (isFacingRight) {
                 if (currentSprite == 4) {
                     src.Width = 35;
@@ -259,17 +262,26 @@ public class Player {
                 }
                 src.Width *= -1;
             } 
-        } else {
+        } else if (isDashing) {
+            Console.WriteLine("skibidi");
+            if (isFacingLeft) {
+                src.Width = -31;
+                src.X = 166;  
+            }
+            if (isFacingRight) {
+                src.Width = 31;
+                src.X = 166;  
+            }
             if (isFacingUp) {
-                src.Y = 114;
+                src.X = 150;
+                src.Width = 26;
             }
             if (isFacingDown) {
-                src.Y = 57;
-            }
-            if (isFacingLeft) {
-                src.Width *= -1;
+                src.X = 150;
+                src.Width = 26;
             }
         }
+
         Raylib.DrawTexturePro(Textures.player, 
                 src,
                 dst,
@@ -282,12 +294,12 @@ public class Player {
         // pointer
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), pointerPos, Color.Black);
 //      Raylib.DrawCircleV(pointerPos, 8, Color.Black);
-        Raylib.DrawTexturePro(Textures.pointers, 
-                              new Rectangle(0, 16, 16, 16),
-                              new Rectangle(pointerPos.X, pointerPos.Y, pointerSize.X, pointerSize.Y),
-                              new Vector2(pointerSize.X*0.5f, pointerSize.Y*0.5f),
-                              0,
-                              Color.White);
+//      Raylib.DrawTexturePro(Textures.pointers, 
+//                            new Rectangle(0, 16, 16, 16),
+//                            new Rectangle(pointerPos.X, pointerPos.Y, pointerSize.X, pointerSize.Y),
+//                            new Vector2(pointerSize.X*0.5f, pointerSize.Y*0.5f),
+//                            0,
+//                            Color.White);
 
         Vector2 spellAmmoRectSize = new Vector2(10, 10);
         Raylib.DrawRectanglePro(new Rectangle((pos.X + rect.Width / 2) - (maxSpells * (spellAmmoRectSize.X)) / 2,

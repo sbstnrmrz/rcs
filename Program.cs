@@ -58,6 +58,12 @@ class Program {
             EffectManager.DrawPlayerEffects();
             EffectManager.DrawEnemyEffects();
             EffectManager.DrawWorldEffects();
+            Raylib.DrawTexturePro(Textures.pointers, 
+                    new Rectangle(0, 16, 16, 16),
+                    new Rectangle(player.pointerPos.X, player.pointerPos.Y, player.pointerSize.X, player.pointerSize.Y),
+                    new Vector2(player.pointerSize.X*0.5f, player.pointerSize.Y*0.5f),
+                    0,
+                    Color.White);
 
             Raylib.DrawFPS(0, 0);
 //          Raylib.DrawText(String.Format("FRAME TIME: {0}", frameTime),

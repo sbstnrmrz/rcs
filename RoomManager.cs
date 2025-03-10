@@ -52,8 +52,9 @@ public static class RoomManager {
     public static bool portalActive = false;
     public static int portalAnimationFrames = 0;
     public static int portalCurrentSprite = 0;
-    public static Rectangle portalRect = new Rectangle(0, 0, 27*3, 40*2);
-    public static Vector2 portalRectSize = new Vector2(27*2, 40*2);
+    public static Rectangle portalRect = new Rectangle(0, 0, 61*3, 60*2);
+    public static Vector2 portalRectSize = new Vector2(61*2, 60*2);
+    public static int portalYOff = 0;
 
     public static int rows = 20;
     public static int cols = 34;
@@ -141,28 +142,43 @@ public static class RoomManager {
             Console.WriteLine("room cleaned");
         } 
 
-        Console.WriteLine("portal: " + portalActive);
+ //     Console.WriteLine("portal: " + portalActive);
+ //
         if (portalActive) {
-            if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
+            if (portalAnimationFrames > 0 && portalAnimationFrames % 5 == 0) {
                 portalCurrentSprite++;
             }
 
             portalAnimationFrames++;
-            if (portalCurrentSprite > 7) {
-                portalCurrentSprite = 4;
+            if (portalCurrentSprite > 4) {
+                portalCurrentSprite = 0;
+                portalYOff++;
+                if (portalYOff > 2) {
+                    portalYOff = 0;
+                }
             }
         }
+//      if (portalActive) {
+//          if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
+//              portalCurrentSprite++;
+//          }
 
-        if (roomCleaned && !portalActive) {
-            if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
-                portalCurrentSprite++;
-            }
+//          portalAnimationFrames++;
+//          if (portalCurrentSprite > 7) {
+//              portalCurrentSprite = 4;
+//          }
+//      }
 
-            portalAnimationFrames++;
-            if (portalCurrentSprite > 3) {
-                portalActive = true;
-            }
-        }
+//      if (roomCleaned && !portalActive) {
+//          if (portalAnimationFrames > 0 && portalAnimationFrames % 15 == 0) {
+//              portalCurrentSprite++;
+//          }
+
+//          portalAnimationFrames++;
+//          if (portalCurrentSprite > 3) {
+//              portalActive = true;
+//          }
+//      }
     }
 
     public static void DrawCurrentRoom() {
@@ -171,7 +187,7 @@ public static class RoomManager {
 
         Raylib.DrawTexturePro(Textures.floor,
                               new Rectangle(0, 0, 1280, 720),
-                              new Rectangle(0, 0, 1280, 720),
+                              new Rectangle(0, 0, 1280*2, 720*2),
                               Vector2.Zero,
                               0,
                               Color.White);
@@ -181,7 +197,7 @@ public static class RoomManager {
         if (portalActive) {
             Raylib.DrawCircleV(new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2), portalRadius, Color.Purple);
             Raylib.DrawTexturePro(Textures.portal, 
-                                  new Rectangle(portalCurrentSprite * 28, 0, 27, 40),
+                                  new Rectangle(portalCurrentSprite * 62, 61 * portalYOff, 61, 60),
                                   portalRect,
                                   Vector2.Zero,
                                   0,

@@ -10,7 +10,7 @@ public class EnemyCharger : Enemy {
     public Vector2 spriteSize = new Vector2(18, 20);
 
     public EnemyCharger(Vector2 initialPos) : base(initialPos) {
-        this.hp = 100;
+        this.hp = 30;
         this.speed = 12;
         this.chargingFrames = 1;
     }
@@ -92,10 +92,10 @@ public class EnemyCharger : Enemy {
             src.Y = 21;
         }
         
-        Rectangle dst = new Rectangle(rect.X - (spriteSize.X*2 - rect.Width)/2, 
-                                      rect.Y - (spriteSize.Y*2 - rect.Height)/2, 
-                                      spriteSize.X*2,
-                                      spriteSize.Y*2);
+        Rectangle dst = new Rectangle(rect.X - (spriteSize.X*3 - rect.Width)/2, 
+                                      rect.Y - (spriteSize.Y*3 - rect.Height)/2, 
+                                      spriteSize.X*3,
+                                      spriteSize.Y*3);
         Raylib.DrawTexturePro(Textures.enemyCharger, 
                               src,
                               dst,

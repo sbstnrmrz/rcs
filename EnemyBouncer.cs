@@ -6,7 +6,7 @@ public class EnemyBouncer : Enemy {
     public float initialSpeed;
 
     public EnemyBouncer(Vector2 initialPos) : base(initialPos) {
-        this.hp = 100;
+        this.hp = 30;
         this.speed = 2;
         initialSpeed = speed;
         velocity = new Vector2(this.speed);
