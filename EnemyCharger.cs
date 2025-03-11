@@ -38,7 +38,7 @@ public class EnemyCharger : Enemy {
         }
         rect.Position = pos;
         hitbox = rect;
-        Console.WriteLine(isCharging);
+//      Console.WriteLine(isCharging);
 
         float angleInDeg = float.RadiansToDegrees(angle);
 

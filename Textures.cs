@@ -75,5 +75,11 @@ public static class Textures {
     public static Texture2D tree = Raylib.LoadTexture("assets/tree.png");
     public static Texture2D floor = Raylib.LoadTexture("assets/floor.png");
 
+    public static Texture2D menuRectangles = Raylib.LoadTexture("assets/main_menu_rectangles.png");
+    public static Texture2D powerSelectRectangle = Raylib.LoadTexture("assets/menu_power_select.png");
+    public static Texture2D scrollbar = Raylib.LoadTexture("assets/scrollbars_sounds.png");
+    public static Texture2D scrollbarThumb = Raylib.LoadTexture("assets/scrollbars_thumb.png");
+
+
     public static TextureJSON pointersInfo = new TextureJSON("assets/pointers.json");
 }

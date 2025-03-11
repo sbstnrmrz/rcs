@@ -3,7 +3,7 @@ using System.Numerics;
 
 public class EnemySpellcaster : Enemy {
     public List<Spell> spells;
-    public int spellSpeed = 5;
+    public int spellSpeed = 6;
     public int spellFrames = 1;
     public int spellCooldown = 60;
     public Vector2 playerPos = Vector2.Zero;

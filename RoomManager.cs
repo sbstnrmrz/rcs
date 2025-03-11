@@ -116,7 +116,7 @@ public static class RoomManager {
         player.pos = GetWorldPos(rows/2, cols/2);
         currentRoom = GetRandomRoom(); 
         currentRoom.Init();
-        currentRoomEnemyCount = room.enemyCount;
+        currentRoomEnemyCount = currentRoom.enemyCount;
         Console.WriteLine("current room info:");
         Console.WriteLine("  enemy count: " + currentRoomEnemyCount);
 
@@ -195,14 +195,13 @@ public static class RoomManager {
         portalRect.X = GetPortalPos().X - portalRect.Width/2;
         portalRect.Y = GetPortalPos().Y - portalRect.Height/2;
         if (portalActive) {
-            Raylib.DrawCircleV(new Vector2((roomScreenPos.X + roomScreenSize.X)/2, (roomScreenPos.Y + roomScreenSize.Y)/2), portalRadius, Color.Purple);
             Raylib.DrawTexturePro(Textures.portal, 
                                   new Rectangle(portalCurrentSprite * 62, 61 * portalYOff, 61, 60),
                                   portalRect,
                                   Vector2.Zero,
                                   0,
-                                  Color.White);
-            Raylib.DrawRectangleLinesEx(portalRect, 1f, Color.Black);
+                                  Color.Violet);
+//          Raylib.DrawRectangleLinesEx(portalRect, 1f, Color.Black);
         }
 
         Raylib.DrawLineEx(new Vector2(0, GetPortalPos().Y), new Vector2(Raylib.GetScreenWidth(), GetPortalPos().Y), 1f, Color.Black);

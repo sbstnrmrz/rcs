@@ -19,7 +19,7 @@ public class Player {
     public float rotation;
 
     public List<Spell> spells;
-    public int spellSpeed = 5;
+    public int spellSpeed = 7;
     public int spellFrames = 1;
     public int spellCooldown = 40;
     public int spellCount = 5;
@@ -228,17 +228,14 @@ public class Player {
         Rectangle dst = new Rectangle(rect.X, rect.Y, 24*2, 56*2);
         dst.X = rect.X - (32)/4;
         dst.Y = rect.Y - ((56*2-32))/2;
-        if (isFacingUp) {
-            src.Y = 114;
-        }
-        if (isFacingDown) {
-            src.Y = 57;
-        }
-        if (isFacingLeft) {
-            src.Width *= -1;
-        }
 
         if (isAttacking) {
+            if (isFacingUp) {
+                src.Y = 114;
+            }
+            if (isFacingDown) {
+                src.Y = 57;
+            }
             if (isFacingRight) {
                 if (currentSprite == 4) {
                     src.Width = 35;
@@ -262,23 +259,15 @@ public class Player {
                 }
                 src.Width *= -1;
             } 
-        } else if (isDashing) {
-            Console.WriteLine("skibidi");
-            if (isFacingLeft) {
-                src.Width = -31;
-                src.X = 166;  
-            }
-            if (isFacingRight) {
-                src.Width = 31;
-                src.X = 166;  
-            }
+        } else {
             if (isFacingUp) {
-                src.X = 150;
-                src.Width = 26;
+                src.Y = 114;
             }
             if (isFacingDown) {
-                src.X = 150;
-                src.Width = 26;
+                src.Y = 57;
+            }
+            if (isFacingLeft) {
+                src.Width *= -1;
             }
         }
 
