@@ -53,6 +53,20 @@ public class Player {
     public int downSpriteCount = 6;
     public int spriteCount = 6;
 
+    float leftStickX = 0;
+    float leftStickY = 0;
+    float rightStickX = 0;
+    float rightStickY = 0;
+    float leftTrigger = 0;
+    float rightTrigger = 0;
+
+    const float leftStickDeadzoneX = 0.1f;
+    const float leftStickDeadzoneY = 0.1f;
+    const float rightStickDeadzoneX = 0.1f;
+    const float rightStickDeadzoneY = 0.1f;
+    const float leftTriggerDeadzone = -0.9f;
+    const float rightTriggerDeadzone = -0.9f;
+
     public Player(Vector2 pos) {
         this.pos = pos;
         this.initialPos = pos; 
@@ -70,6 +84,28 @@ public class Player {
     }
 
     public void Update(float deltaTime) {
+        if (Raylib.IsGamepadAvailable(0)) {
+            leftStickX = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.LeftX);
+            leftStickY = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.LeftY);
+            rightStickX = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.RightX);
+            rightStickY = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.RightY);
+            leftTrigger = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.LeftTrigger);
+            rightTrigger = Raylib.GetGamepadAxisMovement(State.gamepad, GamepadAxis.RightTrigger);
+
+            Console.WriteLine("left stick X: " + leftStickX);
+            Console.WriteLine("left stick Y: " + leftStickY);
+            Console.WriteLine("right stick X: " + rightStickX);
+            Console.WriteLine("right stick Y: " + rightStickY);
+
+            // Calculate deadzones
+            if (leftStickX > -leftStickDeadzoneX && leftStickX < leftStickDeadzoneX) leftStickX = 0.0f;
+            if (leftStickY > -leftStickDeadzoneY && leftStickY < leftStickDeadzoneY) leftStickY = 0.0f;
+            if (rightStickX > -rightStickDeadzoneX && rightStickX < rightStickDeadzoneX) rightStickX = 0.0f;
+            if (rightStickY > -rightStickDeadzoneY && rightStickY < rightStickDeadzoneY) rightStickY = 0.0f;
+            if (leftTrigger < leftTriggerDeadzone) leftTrigger = -1.0f;
+            if (rightTrigger < rightTriggerDeadzone) rightTrigger = -1.0f;
+        }
+
         pointerPos = Raylib.GetMousePosition();
         if (pointerPos.X < 0) {
             pointerPos.X = 0;
@@ -183,7 +219,21 @@ public class Player {
  
         if (Raylib.IsMouseButtonPressed(MouseButton.Left)) {
             if (spellCount <= maxSpells && spellCount > 0) {
-                SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                if (State.powerSelection1P == (int)State.SpellType.Fireball) {
+                    SpellManager.playerSpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                }
+                if (State.powerSelection1P == (int)State.SpellType.Waterball) {
+                    SpellManager.playerSpells.Add(new SpellWaterball(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                }
+                if (State.powerSelection1P == (int)State.SpellType.Iceshard) {
+                    SpellManager.playerSpells.Add(new SpellIceshard(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                }
+                if (State.powerSelection1P == (int)State.SpellType.Lightning) {
+                    SpellManager.playerSpells.Add(new SpellLighting(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                }
+                if (State.powerSelection1P == (int)State.SpellType.Bomb) {
+                    SpellManager.playerSpells.Add(new SpellBomb(Util.GetRectCenter(rect), spellSpeed, angle, Color.White));
+                }
                 spellCount--;
                 isAttacking = true;
                 currentSprite = 3;
@@ -279,7 +329,7 @@ public class Player {
                 invencibility ? Color.Violet : Color.White);
 
 //      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, invencibility ? Color.LightGray : Color.Red);
-        Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
+//      Raylib.DrawRectangleLinesEx(hitbox, 1f, Color.Red);
         // pointer
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), pointerPos, Color.Black);
 //      Raylib.DrawCircleV(pointerPos, 8, Color.Black);
@@ -307,10 +357,10 @@ public class Player {
                                         1f,
                                         Color.Black);
         }
-        Raylib.DrawRectangleLinesEx(dst, 1f, Color.Red);
+//      Raylib.DrawRectangleLinesEx(dst, 1f, Color.Red);
         Vector2 aux = Util.GetRectCenter(rect);
         aux.Y += hitOffset;
-        Raylib.DrawCircleV(aux, hitRadius, Color.Lime);
+//      Raylib.DrawCircleV(aux, hitRadius, Color.Lime);
 
             // cambiar el arraylist por un array fijo para performance?
 

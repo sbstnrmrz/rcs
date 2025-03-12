@@ -204,8 +204,8 @@ public static class RoomManager {
 //          Raylib.DrawRectangleLinesEx(portalRect, 1f, Color.Black);
         }
 
-        Raylib.DrawLineEx(new Vector2(0, GetPortalPos().Y), new Vector2(Raylib.GetScreenWidth(), GetPortalPos().Y), 1f, Color.Black);
-        Raylib.DrawLineEx(new Vector2(GetPortalPos().X, 0), new Vector2(GetPortalPos().X, Raylib.GetScreenHeight()), 1f, Color.Black);
+//      Raylib.DrawLineEx(new Vector2(0, GetPortalPos().Y), new Vector2(Raylib.GetScreenWidth(), GetPortalPos().Y), 1f, Color.Black);
+//      Raylib.DrawLineEx(new Vector2(GetPortalPos().X, 0), new Vector2(GetPortalPos().X, Raylib.GetScreenHeight()), 1f, Color.Black);
 
 
         for (int i = 0; i < 15; i++) {

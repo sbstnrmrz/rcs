@@ -13,6 +13,14 @@ public static class State {
         public KeyboardKey dash;
     }
 
+    public enum SpellType {
+        Fireball,
+        Waterball,
+        Iceshard,
+        Lightning,
+        Bomb,
+    }
+
     public static Keys keys1P;
     public static Keys keys2P;
     public static string[] keysInfo = {"Up", "Down", "Left", "Right", "Space"};
@@ -43,8 +51,10 @@ public static class State {
     public static float effectScrollbarValue = 0.0f; // Value between 0 and 1
     public static bool isEffectDragging = false;
     public static float effectVolume = 1; 
+    public static int gamepad = 0;
 
     public static void Init() {
+        Raylib.IsGamepadAvailable(gamepad);
         camera.Target = new Vector2(0, 0);
         camera.Offset = cameraOffset;
         camera.Rotation = 0.0f;

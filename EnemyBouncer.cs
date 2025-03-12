@@ -45,6 +45,6 @@ public class EnemyBouncer : Enemy {
                               Vector2.Zero,
                               0,
                               Color.White);
-        Raylib.DrawRectangleLinesEx(dst, 1f, Color.Black);
+ //     Raylib.DrawRectangleLinesEx(dst, 1f, Color.Black);
     }
 }

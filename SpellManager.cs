@@ -77,6 +77,6 @@ public static class SpellManager {
     }
 
     public static void DrawDebugInfo() {
-        Raylib.DrawText(String.Format("PlayerSpellCount: {0} | EnemySpellCount {1}", playerSpells.Count, enemySpells.Count), 20, 20, 24, Color.Black);
+//      Raylib.DrawText(String.Format("PlayerSpellCount: {0} | EnemySpellCount {1}", playerSpells.Count, enemySpells.Count), 20, 20, 24, Color.Black);
     }
 }

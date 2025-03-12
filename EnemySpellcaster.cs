@@ -30,10 +30,10 @@ public class EnemySpellcaster : Enemy {
         float predictedOpposite = predictedPlayerPos.Y - Util.GetRectCenter(rect).Y;
         float predictedAdjacent = predictedPlayerPos.X - Util.GetRectCenter(rect).X;
         float predictedAngle = (float)Math.Atan2(predictedOpposite, predictedAdjacent);
-        Raylib.DrawText(String.Format("targetPos: {0}", targetPos),
-                0, 100, 24, Color.Black);
-        Raylib.DrawText(String.Format("angle: {0}, predicted: {1}", angle, predictedAngle),
-                0, 130, 24, Color.Black);
+//      Raylib.DrawText(String.Format("targetPos: {0}", targetPos),
+//              0, 100, 24, Color.Black);
+//      Raylib.DrawText(String.Format("angle: {0}, predicted: {1}", angle, predictedAngle),
+//              0, 130, 24, Color.Black);
 
         if (spellFrames % spellCooldown == 0) {
             SpellManager.enemySpells.Add(new SpellFireball(Util.GetRectCenter(rect), spellSpeed, angle, Color.Magenta));
@@ -109,15 +109,15 @@ public class EnemySpellcaster : Enemy {
 
 
 
-        Raylib.DrawCircleV(playerPos, 8, Color.Magenta);
-        Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
+//      Raylib.DrawCircleV(playerPos, 8, Color.Magenta);
+//      Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
         Raylib.DrawTexturePro(Textures.enemySpellcaster, 
                               src,
                               dst,
                               Vector2.Zero,
                               0,
                               Color.White);
-        Raylib.DrawRectangleLinesEx(dst, 1f, Color.Black);
+//      Raylib.DrawRectangleLinesEx(dst, 1f, Color.Black);
 
         foreach (Spell spell in spells) {
             spell.Draw();

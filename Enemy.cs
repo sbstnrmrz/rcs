@@ -62,9 +62,9 @@ public class Enemy {
     }
 
     public virtual void Draw() {
-        Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, Color.Lime);
-        Raylib.DrawCircleV(Util.GetRectCenter(rect), hitRadius, Color.Magenta);
-        Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
+//      Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, Color.Lime);
+//      Raylib.DrawCircleV(Util.GetRectCenter(rect), hitRadius, Color.Magenta);
+//      Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X, (int)rect.Y-20, 24, Color.Black);
     }
 
     public void GetDamage(float damage) {

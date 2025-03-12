@@ -24,13 +24,7 @@ class Program {
         State.Init();
 
         RoomManager.Init();
-        Room room = RoomManager.LoadRoomFile("room2.room");
-        Util.PrintMatrix(room.mat);
-        RoomManager.SetCurrentRoom(room);
         RoomManager.StartNewRoom(player, RoomManager.GetRandomRoom());
-
-        room.Init();
-        Util.SaveRoomFile(room);
 
         Raylib.PlayMusicStream(Resources.menu);
 
@@ -43,12 +37,13 @@ class Program {
             Vector2 mousePos = Raylib.GetMousePosition();
 
 
-
             if (State.gameState == 2) {
+
             // UPDATE
-            if (RoomManager.PlayerEnteredPortal(player)) {
-                RoomManager.StartNewRoom(player, room);
-            }
+                if (RoomManager.PlayerEnteredPortal(player)) {
+                    RoomManager.StartNewRoom(player, RoomManager.GetRandomRoom());
+                    Raylib.DisableCursor();
+                }
 
                 if (!State.gamePause) {
                     RoomManager.Update(player);
@@ -61,17 +56,19 @@ class Program {
                     EffectManager.UpdateEnemyEffects();
                     EffectManager.UpdateWorldEffects();
                     State.UpdateCamera();
-
                 } else {
+                    
                     Raylib.DrawRectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight(), new Color(0, 0, 0, 188));
                 }
 
                 if (Raylib.IsKeyPressed(KeyboardKey.Enter) || Raylib.IsKeyPressed(KeyboardKey.KpEnter)) {
                     State.gamePause = !State.gamePause;
+                    if (State.gamePause) {
+                        Raylib.EnableCursor();
+                    } else {
+                        Raylib.DisableCursor();
+                    }
                 }
-
-
-
 
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(Color.SkyBlue);
@@ -85,18 +82,27 @@ class Program {
                 EffectManager.DrawEnemyEffects();
                 EffectManager.DrawWorldEffects();
 
-                Raylib.DrawFPS(0, 0);
+                Raylib.DrawTexturePro(Textures.pointers, 
+                        new Rectangle(0, 16, 16, 16),
+                        new Rectangle(player.pointerPos.X, player.pointerPos.Y, player.pointerSize.X, player.pointerSize.Y),
+                        new Vector2(player.pointerSize.X*0.5f, player.pointerSize.Y*0.5f),
+                        0,
+                        Color.White);
+
+
+//              Raylib.DrawFPS(0, 0);
                 SpellManager.DrawDebugInfo();
                 Raylib.EndMode2D();
                 Raylib.EndDrawing();
                 frames++; 
-
-
             
             } else {
                 manualEscape = MainMenu(mousePos);
             }
         }
+
+
+
 
         Raylib.CloseWindow();
     }
@@ -359,6 +365,7 @@ class Program {
                 }
             }
         }
+
 
 
         Raylib.EndDrawing();

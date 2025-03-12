@@ -98,15 +98,15 @@ public class EnemyMelee : Enemy {
                 0,
                 Color.White);
 
-        Raylib.DrawRectangleLinesEx(rect, 1f, Color.Magenta);
-        Raylib.DrawRectangleLinesEx(dst, 1f, Color.White);
+//      Raylib.DrawRectangleLinesEx(rect, 1f, Color.Magenta);
+//      Raylib.DrawRectangleLinesEx(dst, 1f, Color.White);
 
 //      if (isAttacking) {
 //          Raylib.DrawRectangleRec(attackHurtbox, Color.DarkBlue);
 
 //      }
-        Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
-        Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X - 20, (int)rect.Y - 20, 24, Color.Black);
+//      Raylib.DrawLineV(Util.GetRectCenter(rect), playerPos, Color.Black);
+//      Raylib.DrawText(String.Format("hp: {0}", hp), (int)rect.X - 20, (int)rect.Y - 20, 24, Color.Black);
 
 //      Raylib.DrawCircleV(predictedPlayerPos, 8, Color.Magenta);
 //      Raylib.DrawLineV(Util.GetRectCenter(rect), predictedPlayerPos, Color.Black);
