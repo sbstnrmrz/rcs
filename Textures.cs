@@ -75,8 +75,21 @@ public static class Textures {
     public static Texture2D tree = Raylib.LoadTexture("assets/tree.png");
     public static Texture2D floor = Raylib.LoadTexture("assets/floor.png");
 
+    public static Texture2D hearts = Raylib.LoadTexture("assets/player_hearts.png");
+    public static Texture2D habilities = Raylib.LoadTexture("assets/player_habilities.png");
+    public static Texture2D dash = Raylib.LoadTexture("assets/player_dash.png");
+    public static Texture2D logo = Raylib.LoadTexture("assets/Logo.png");
+    public static Texture2D menuBackground = Raylib.LoadTexture("assets/background.png");
     public static Texture2D menuRectangles = Raylib.LoadTexture("assets/main_menu_rectangles.png");
-    public static Texture2D powerSelectRectangle = Raylib.LoadTexture("assets/menu_power_select.png");
+    public static Texture2D powerSelectRectangle = Raylib.LoadTexture("assets/Select_Screen.png");
+    public static Texture2D arrows = Raylib.LoadTexture("assets/arrows.png");
+    public static Texture2D firePreview = Raylib.LoadTexture("assets/fire_selection.png");
+    public static Texture2D waterPreview = Raylib.LoadTexture("assets/water_selection.png");
+    public static Texture2D icePreview = Raylib.LoadTexture("assets/ice_selection.png");
+    public static Texture2D lightingPreview = Raylib.LoadTexture("assets/lighting_selection.png");
+    public static Texture2D bombPreview = Raylib.LoadTexture("assets/bomb_selection.png");
+    public static Texture2D player_info = Raylib.LoadTexture("assets/player_info.png");
+
     public static Texture2D scrollbar = Raylib.LoadTexture("assets/scrollbars_sounds.png");
     public static Texture2D scrollbarThumb = Raylib.LoadTexture("assets/scrollbars_thumb.png");
 

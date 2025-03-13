@@ -82,6 +82,11 @@ class Program {
                 EffectManager.DrawEnemyEffects();
                 EffectManager.DrawWorldEffects();
 
+                Raylib.DrawTexturePro(Textures.player_info, new Rectangle(0, 0, 238, 501), new Rectangle(15, 20, 80, 280), Vector2.Zero, 0, Color.White);
+                Raylib.DrawTexturePro(Textures.hearts, new Rectangle(12 * player.hp, 0, 11, 50), new Rectangle(40, 60, 28, 100), Vector2.Zero, 0, Color.White);
+                Raylib.DrawTexturePro(Textures.habilities, new Rectangle(19 * State.powerSelection1P, 0, 18, 23), new Rectangle(35, 175, 38, 36), Vector2.Zero, 0, Color.White);
+                Raylib.DrawTexturePro(Textures.dash, new Rectangle(19 * (player.canDash ? 1 : 0), 0, 18, 15), new Rectangle(35, 230, 38, 28), Vector2.Zero, 0, Color.White);
+
                 Raylib.DrawTexturePro(Textures.pointers, 
                         new Rectangle(0, 16, 16, 16),
                         new Rectangle(player.pointerPos.X, player.pointerPos.Y, player.pointerSize.X, player.pointerSize.Y),
@@ -97,7 +102,7 @@ class Program {
                 frames++; 
             
             } else {
-                manualEscape = MainMenu(mousePos);
+                manualEscape = MainMenu(mousePos, frames);
             }
         }
 
@@ -107,19 +112,20 @@ class Program {
         Raylib.CloseWindow();
     }
 
-    public static bool MainMenu(Vector2 mousePos) {
-
+    public static bool MainMenu(Vector2 mousePos, UInt64 frames) {
         Rectangle mouse = new Rectangle(mousePos, 1, 1);
         String[] info = {"Arriba", "Abajo", "Izquierda", "Derecha", "Dash"};
         Rectangle back = new Rectangle(10, 2, 140, 50);
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.White);
+        Raylib.DrawTexturePro(Textures.menuBackground, new Rectangle(frames, 0, 1280, 720), new Rectangle(0, 0, 1280, 720), Vector2.Zero, 0, Color.White);
 
         if (State.gameState == 0) {
             Rectangle newGame = new Rectangle(Raylib.GetScreenWidth()/2 - 110, Raylib.GetScreenHeight()/2 - 30, 220, 75);
             Rectangle options = new Rectangle(Raylib.GetScreenWidth()/2 - 110, Raylib.GetScreenHeight()/2 + 65, 220, 75);
             Rectangle exit = new Rectangle(Raylib.GetScreenWidth()/2 - 110, Raylib.GetScreenHeight()/2 + 157, 220, 75);
 
+            Raylib.DrawTexturePro(Textures.logo, new Rectangle(0, 0, 206, 120), new Rectangle(Raylib.GetScreenWidth()/2 - 190, Raylib.GetScreenHeight()/8 , 406, 220), Vector2.Zero, 0, Color.White);
             Raylib.DrawTexturePro(Textures.menuRectangles,new Rectangle(0, 0, 220, 62), newGame, Vector2.Zero, 0, Color.White);
             Raylib.DrawText("NUEVA PARTIDA",(int)newGame.X + 16, (int)newGame.Y + 38, 22, Color.Black);
             Raylib.DrawTexturePro(Textures.menuRectangles,new Rectangle(0, 0, 220, 62), options, Vector2.Zero, 0, Color.White);
@@ -146,10 +152,10 @@ class Program {
             int textWidth;
             int textX;
             Rectangle startGame = new Rectangle(Raylib.GetScreenWidth()/2.9f, Raylib.GetScreenHeight() - 80, 400, 50);
-            Rectangle leftChange1P = new Rectangle(Raylib.GetScreenWidth()/6.1f, 460, 40, 40);
-            Rectangle rightChange1P = new Rectangle(Raylib.GetScreenWidth()/2.75f, 460, 40, 40);
-            Rectangle leftChange2P = new Rectangle(Raylib.GetScreenWidth() - 506, 460, 40, 40);
-            Rectangle rightChange2P = new Rectangle(Raylib.GetScreenWidth() - 251, 460, 40, 40);
+            Rectangle leftChange1P = new Rectangle(Raylib.GetScreenWidth()/6.1f, 450, 40, 40);
+            Rectangle rightChange1P = new Rectangle(Raylib.GetScreenWidth()/2.75f, 450, 40, 40);
+            Rectangle leftChange2P = new Rectangle(Raylib.GetScreenWidth() - 506, 450, 40, 40);
+            Rectangle rightChange2P = new Rectangle(Raylib.GetScreenWidth() - 251, 450, 40, 40);
             Raylib.DrawTexturePro(Textures.menuRectangles,new Rectangle(0, 0, 220, 62), back, Vector2.Zero, 0, Color.White);
             Raylib.DrawText("ATRAS", 38, 25, 24, Color.Black);
 
@@ -158,44 +164,51 @@ class Program {
             textX = (Raylib.GetScreenWidth() - textWidth) / 2;
             Raylib.DrawText(text, textX, 75, 60, Color.Black);
 
-            Raylib.DrawTexturePro(Textures.powerSelectRectangle, new Rectangle(0, 0, 500, 430), new Rectangle(107, 150, 500, 430), Vector2.Zero, 0, Color.White);
+            Raylib.DrawTexturePro(Textures.powerSelectRectangle, new Rectangle(0, 0, 128, 126), new Rectangle(107, 150, 500, 430), Vector2.Zero, 0, Color.White);
             text = "JUGADOR 1";
             textWidth = Raylib.MeasureText(text, 30);
             textX = 107 + (500 - textWidth) / 2;
-            Raylib.DrawText(text, textX, 160, 30, Color.Black);
+            Raylib.DrawText(text, textX, 180, 30, Color.Black);
             text = "HABILIDAD";
             textWidth = Raylib.MeasureText(text, 24);
             textX = 107 + (500 - textWidth) / 2;
 
-            Raylib.DrawText(text, textX, 430, 24, Color.Black);
-            Raylib.DrawRectangleRec(leftChange1P, Color.Pink);
-            Raylib.DrawRectangle((int)(Raylib.GetScreenWidth()/4.82f), 460, 185, 60, Color.Orange);
+            Raylib.DrawText(text, textX, 400, 24, Color.Black);
+            Raylib.DrawTexturePro(Textures.arrows, new Rectangle(0, 0, 63, 39), leftChange1P, Vector2.Zero, 0f, Color.White);
+            if (State.powerSelection1P == 0) {Raylib.DrawTexturePro(Textures.firePreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth()/4.82f), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection1P == 1) {Raylib.DrawTexturePro(Textures.waterPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth()/4.82f), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection1P == 2) {Raylib.DrawTexturePro(Textures.icePreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth()/4.82f), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection1P == 3) {Raylib.DrawTexturePro(Textures.lightingPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth()/4.82f), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection1P == 4) {Raylib.DrawTexturePro(Textures.bombPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth()/4.82f), 430, 185, 80), Vector2.Zero, 0, Color.White);}
             text = State.spellSelected[State.powerSelection1P];
             textWidth = Raylib.MeasureText(text, 26);
             textX = (int)(Raylib.GetScreenWidth()/4.82f) + (185 - textWidth) / 2;
-            Raylib.DrawText(text, textX, 478, 26, Color.Black);
-            Raylib.DrawRectangleRec(rightChange1P, Color.Pink);
+            Raylib.DrawText(text, textX, 458, 26, Color.Black);
+            Raylib.DrawTexturePro(Textures.arrows, new Rectangle(67, 0, 63, 39), rightChange1P, Vector2.Zero, 0f, Color.White);
             
-            Raylib.DrawTexturePro(Textures.powerSelectRectangle, new Rectangle(0, 0, 500, 430), new Rectangle(670, 150, 500, 430), Vector2.Zero, 0, Color.White);
+            Raylib.DrawTexturePro(Textures.powerSelectRectangle, new Rectangle(0, 0, 128, 126), new Rectangle(670, 150, 500, 430), Vector2.Zero, 0, Color.White);
             text = "JUGADOR 2";
             textWidth = Raylib.MeasureText(text, 30);
             textX = 670 + (500 - textWidth) / 2;
-            Raylib.DrawText(text, textX, 160, 30, Color.Black);
+            Raylib.DrawText(text, textX, 180, 30, Color.Black);
             text = "HABILIDAD";
             textWidth = Raylib.MeasureText(text, 24);
             textX = 670 + (500 - textWidth) / 2;
-            Raylib.DrawText(text, textX, 430, 24, Color.Black);
-            Raylib.DrawRectangleRec(leftChange2P, Color.Pink);
-            Raylib.DrawRectangle((int)(Raylib.GetScreenWidth() - 451), 460, 185, 60, Color.Orange);
+            Raylib.DrawText(text, textX, 400, 24, Color.Black);
+            Raylib.DrawTexturePro(Textures.arrows, new Rectangle(0, 0, 63, 39), leftChange2P, Vector2.Zero, 0f, Color.White);
+            if (State.powerSelection2P == 0) {Raylib.DrawTexturePro(Textures.firePreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth() - 451), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection2P == 1) {Raylib.DrawTexturePro(Textures.waterPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth() - 451), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection2P == 2) {Raylib.DrawTexturePro(Textures.icePreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth() - 451), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection2P == 3) {Raylib.DrawTexturePro(Textures.lightingPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth() - 451), 430, 185, 80), Vector2.Zero, 0, Color.White);}
+            if (State.powerSelection2P == 4) {Raylib.DrawTexturePro(Textures.bombPreview, new Rectangle(0, 0, 185, 60), new Rectangle((int)(Raylib.GetScreenWidth() - 451), 430, 185, 80), Vector2.Zero, 0, Color.White);}
             text = State.spellSelected[State.powerSelection2P];
             textWidth = Raylib.MeasureText(text, 26);
             textX = (int)(Raylib.GetScreenWidth() - 451) + (185 - textWidth) / 2;
-            Raylib.DrawText(text, textX, 478, 26, Color.Black);
-            Raylib.DrawRectangleRec(rightChange2P, Color.Pink);
+            Raylib.DrawText(text, textX, 458, 26, Color.Black);
+            Raylib.DrawTexturePro(Textures.arrows, new Rectangle(67, 0, 63, 39), rightChange2P, Vector2.Zero, 0f, Color.White);
 
 
             Raylib.DrawRectangleRec(startGame, Color.Orange);
-            //Raylib.DrawTexturePro(Textures.menuRectangles, new Rectangle(0, 0, 220, 62), startGame, Vector2.Zero, 0, Color.White);
             text = "EMPEZAR EL JUEGO";
             textWidth = Raylib.MeasureText(text, 32);
             textX = (int)startGame.X + ((int)startGame.Width - textWidth) / 2;
@@ -367,9 +380,9 @@ class Program {
         }
 
 
-
         Raylib.EndDrawing();
         return false;
     }
+
 }
 
